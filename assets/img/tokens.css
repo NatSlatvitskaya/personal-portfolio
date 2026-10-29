@@ -1,0 +1,87 @@
+/* =============================================================
+   NNZ.STUDIO — DESIGN TOKENS
+   Y2K / Retro-futurism. Edit values here, everything else follows.
+   ============================================================= */
+
+:root {
+  /* ---------- COLOR ---------- */
+  --bg:            #040706;
+  --bg-elev:       #070D0B;
+  --panel:         #0A1110;
+  --panel-2:       #0D1614;
+  --ink:           #E9FFFA;
+  --ink-2:         #B9D6D0;
+  --ink-dim:       #7E9994;
+
+  --accent:        #0BDF95;
+  --accent-2:      #65F9E3;
+  --accent-ice:    #D8FEFE;
+  --accent-deep:   #0A8A5E;
+
+  --violet:        #8A5CFF;
+  --magenta:       #E83CC8;
+  --chrome-1:      #E8F6F2;
+  --chrome-2:      #9FB8B3;
+
+  --line:          rgba(180, 255, 240, 0.14);
+  --line-2:        rgba(180, 255, 240, 0.26);
+  --line-hot:      rgba(101, 249, 227, 0.55);
+
+  /* ---------- TYPE ---------- */
+  --font-display: "Unbounded", "Actay", "Trebuchet MS", system-ui, sans-serif;
+  --font-head:    "Inter Tight", "Inter", "Actay", system-ui, -apple-system, sans-serif;
+  --font-body:    "Inter", "Inter Tight", system-ui, -apple-system, sans-serif;
+  --font-mono:    "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+  --tracking-display: -0.055em;
+  --tracking-head:    -0.035em;
+  --tracking-mono:     0.08em;
+
+  /* fluid scale */
+  --fs-mega:  clamp(2.7rem, 9.4vw, 7.1rem);
+  --fs-h1:    clamp(2.2rem, 5.2vw, 4rem);
+  --fs-h2:    clamp(1.7rem, 3.4vw, 2.6rem);
+  --fs-h3:    clamp(1.15rem, 1.8vw, 1.45rem);
+  --fs-body:  clamp(0.95rem, 1.05vw, 1.05rem);
+  --fs-small: 0.8125rem;
+  --fs-mono:  clamp(0.68rem, 0.78vw, 0.75rem);
+
+  /* ---------- SPACE ---------- */
+  --gap:        clamp(14px, 1.6vw, 22px);
+  --pad-x:      clamp(18px, 4.2vw, 64px);
+  --section-y:  clamp(64px, 9vw, 140px);
+  --maxw:       1440px;
+
+  /* ---------- SHAPE ---------- */
+  --radius:      2px;      /* intentionally blunt */
+  --radius-card: 3px;
+  --bw:          1px;
+
+  /* ---------- HARD SHADOWS (Y2K offset, never blurred) ---------- */
+  --sh-sm:  2px 2px 0 0 rgba(11, 223, 149, 0.28);
+  --sh:     4px 4px 0 0 rgba(11, 223, 149, 0.45);
+  --sh-lg:  8px 8px 0 0 rgba(11, 223, 149, 0.55);
+  --sh-ink: 4px 4px 0 0 #000;
+
+  /* ---------- MOTION ---------- */
+  --ease:      cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ease-out:  cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-fast:  140ms;
+  --dur:       240ms;
+  --dur-slow:  420ms;
+
+  /* ---------- LAYERS ---------- */
+  --z-scan:   60;
+  --z-task:   80;
+  --z-mobile: 90;
+  --z-modal: 100;
+  --z-toast: 120;
+}
+
+/* Optional: drop Actay in here if you license it.
+@font-face {
+  font-family: "Actay";
+  src: url("../fonts/ActayWide-Bold.woff2") format("woff2");
+  font-weight: 700; font-display: swap;
+}
+*/
