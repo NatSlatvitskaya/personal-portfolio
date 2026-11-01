@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title data-i18n-title="meta.title">Наталья Слатвицкая — графический и бренд-дизайнер</title>
+<meta name="description" data-i18n-desc="meta.desc" content="Портфолио: брендинг, иллюстрация, веб-дизайн. 6 лет опыта.">
+<meta name="theme-color" content="#B98FEB">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Наталья Слатвицкая — графический и бренд-дизайнер">
+<meta property="og:description" content="Брендинг, иллюстрация, веб-дизайн. 6 лет опыта.">
+<meta property="og:image" content="assets/img/phone.png">
+<link rel="icon" href="assets/img/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="assets/img/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;700&family=Inter+Tight:wght@400;500;600&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/tokens.css">
+<link rel="stylesheet" href="assets/css/base.css">
+<link rel="stylesheet" href="assets/css/layout.css">
+<link rel="stylesheet" href="assets/css/components.css">
+</head>
+<body>
+
+<!-- фоновые слои -->
+<div class="fx" aria-hidden="true">
+  <div class="fx__grad"></div>
+  <div class="fx__halo"></div>
+  <div class="fx__edge"></div>
+  <div class="fx__grain"></div>
+</div>
+
+<div class="screen">
+
+  <!-- ============ ВЕРХНЯЯ СТРОКА ============ -->
+  <header class="topbar">
+    <div class="topbar__left">
+      <a class="topbar__link" href="archive.html" data-i18n="top.all">Все проекты</a>
+    </div>
+
+    <div class="topbar__center">
+      <h1 class="topbar__title" data-i18n="top.hello">Привет, Я — Наташа</h1>
+      <p class="topbar__sub" data-i18n="top.role">{графический и бренд-дизайнер}</p>
+    </div>
+
+    <div class="topbar__right">
+      <!-- «6 лет опыта» ведёт на страницу Обо мне (пока 404) -->
+      <a class="topbar__exp" href="about.html" data-i18n="top.exp">6 лет опыта</a>
+    </div>
+  </header>
+
+  <!-- ============ СЦЕНА ============ -->
+  <main class="stage">
+
+    <div class="stage__center">
+      <span class="ghost ghost--design" aria-hidden="true">design</span>
+      <span class="ghost ghost--on" aria-hidden="true">on</span>
+
+      <div class="phone">
+        <img class="phone__img" src="assets/img/phone.png" alt="Ретро-телефон в зелёных щупальцах" fetchpriority="high" decoding="async">
+        <!-- экран: HTML поверх картинки, координаты совпадают с PNG -->
+        <div class="phone__screen">
+          <span class="phone__text" id="phoneText">text me</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- карточки вставляются JS: 8 штук, кольцом вокруг телефона -->
+  </main>
+
+  <!-- ============ ru/en + тумблер темы ============ -->
+  <div class="dock">
+    <div class="switcher" role="group" data-i18n-attr="aria-label:foot.lang">
+      <button class="switcher__btn lang__btn is-active" type="button" data-lang="ru" aria-pressed="true">ru</button>
+      <button class="switcher__btn lang__btn" type="button" data-lang="en" aria-pressed="false">en</button>
+    </div>
+
+    <button class="themetoggle" type="button" data-theme-toggle aria-pressed="false" title="Сменить тему">
+      <span class="themetoggle__knob"></span>
+    </button>
+  </div>
+
+  <!-- ============ ФУТЕР ============ -->
+  <footer class="footbar">
+    <div class="footbar__main">
+      <div class="footbar__tags">
+        <button class="tag" type="button" data-tag-filter="branding" data-i18n="tag.branding">{брендинг}</button>
+        <button class="tag" type="button" data-tag-filter="web" data-i18n="tag.web">{вэб-дизайн}</button>
+      </div>
+
+      <div class="socials">
+        <a class="social" href="#" data-contact="cv" target="_blank" rel="noopener"
+           data-i18n-attr="aria-label:foot.cv" aria-label="CV">
+          <span class="pixel">CV</span>
+          <span class="social__tip" data-i18n="foot.cv">CV</span>
+        </a>
+        <a class="social" href="#" data-contact="dprofile" target="_blank" rel="noopener"
+           data-i18n-attr="aria-label:foot.dprofile" aria-label="Dprofile">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2.2"/>
+          </svg>
+          <span class="social__tip" data-i18n="foot.dprofile">Dprofile</span>
+        </a>
+        <a class="social" href="#" data-contact="behance" target="_blank" rel="noopener"
+           data-i18n-attr="aria-label:foot.behance" aria-label="Behance">
+          <span class="pixel" style="font-size:0.92em">Be</span>
+          <span class="social__tip" data-i18n="foot.behance">Behance</span>
+        </a>
+        <a class="social" href="#" data-contact="telegram" target="_blank" rel="noopener"
+           data-i18n-attr="aria-label:foot.telegram" aria-label="Telegram">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M21 4L2.5 11.2l5.1 1.7L19 6.4 9.4 14.2l-.4 4.6 3-3.2 4.2 3.1L21 4Z"
+                  fill="currentColor"/>
+          </svg>
+          <span class="social__tip" data-i18n="foot.telegram">Telegram</span>
+        </a>
+        <a class="social" href="#" data-contact="email"
+           data-i18n-attr="aria-label:foot.email" aria-label="E-mail">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <rect x="2.5" y="5.5" width="19" height="13" rx="1.8" stroke="currentColor" stroke-width="1.9"/>
+            <path d="M3.5 6.8L12 12.6l8.5-5.8" stroke="currentColor" stroke-width="1.9"/>
+          </svg>
+          <span class="social__tip" data-i18n="foot.email">E-mail</span>
+        </a>
+      </div>
+
+      <div class="footbar__tags footbar__tags--right">
+        <button class="tag" type="button" data-tag-filter="branding" data-i18n="tag.comm">{коммуникация}</button>
+        <button class="tag" type="button" data-tag-filter="illustration" data-i18n="tag.illu">{иллюстрация}</button>
+      </div>
+    </div>
+
+    <div class="footbar__legal">
+      <span data-i18n="foot.rights">© 2026 Наталья Слатвицкая</span>
+      <span data-i18n="foot.built">Собрано вручную · HTML / CSS / JS</span>
+      <button class="footbar__easter mono" type="button" data-open-terminal data-i18n="foot.console">v1.0 / console</button>
+    </div>
+  </footer>
+</div>
+
+<!-- ============ МОДАЛКА КЕЙСА ============ -->
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="modalTitle">
+  <div class="modal__scrim" id="modalScrim"></div>
+  <div class="modal__window">
+    <div class="modal__bar">
+      <span class="modal__bar-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+      <span class="modal__bar-title" id="modalBarTitle">case.case</span>
+      <span class="modal__bar-actions">
+        <button class="wbtn wbtn--close" type="button" data-close-modal
+                data-i18n-attr="aria-label:modal.close" aria-label="Закрыть">×</button>
+      </span>
+    </div>
+    <div class="modal__scroll" id="modalScroll"><div id="modalBody"></div></div>
+  </div>
+</div>
+
+<!-- ============ ТЕРМИНАЛ ============ -->
+<div class="terminal" id="terminal" role="dialog" aria-modal="true" aria-hidden="true" aria-label="Терминал">
+  <div class="terminal__box">
+    <div class="terminal__bar">
+      <span data-i18n="term.title">nnz://terminal</span>
+      <button class="wbtn wbtn--close" type="button" id="termClose" aria-label="Закрыть" style="margin-left:auto">×</button>
+    </div>
+    <div class="terminal__out" id="termOut"></div>
+    <div class="terminal__in">
+      <span class="terminal__prompt">nnz:~$</span>
+      <input class="terminal__field" id="termField" type="text" autocomplete="off" spellcheck="false" aria-label="Команда">
+    </div>
+  </div>
+</div>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/i18n.js"></script>
+<script src="assets/js/app.js"></script>
+</body>
+</html>

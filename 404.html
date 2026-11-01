@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Страница в разработке — Наталья Слатвицкая</title>
+<meta name="description" content="Раздел находится в разработке.">
+<meta name="theme-color" content="#B98FEB">
+<meta name="robots" content="noindex">
+<link rel="icon" href="assets/img/favicon.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;700&family=Inter+Tight:wght@400;500;600&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/tokens.css">
+<link rel="stylesheet" href="assets/css/base.css">
+<link rel="stylesheet" href="assets/css/layout.css">
+<link rel="stylesheet" href="assets/css/components.css">
+</head>
+<body class="is-scroll-body">
+
+<div class="fx" aria-hidden="true">
+  <div class="fx__grad"></div>
+  <div class="fx__halo"></div>
+  <div class="fx__edge"></div>
+  <div class="fx__grain"></div>
+</div>
+
+<div class="page">
+
+  <header class="page__bar">
+    <a class="page__brand" href="index.html">NNZ</a>
+    <nav class="page__nav" aria-label="Навигация">
+      <a href="index.html" data-i18n="archive.back">На главную</a>
+      <a href="archive.html">Архив</a>
+    </nav>
+    <div class="page__tools">
+      <div class="switcher" role="group">
+        <button class="switcher__btn lang__btn is-active" type="button" data-lang="ru" aria-pressed="true">ru</button>
+        <button class="switcher__btn lang__btn" type="button" data-lang="en" aria-pressed="false">en</button>
+      </div>
+      <button class="themetoggle" type="button" data-theme-toggle aria-pressed="false">
+        <span class="themetoggle__knob"></span>
+      </button>
+    </div>
+  </header>
+
+  <main class="stub">
+    <div>
+      <div class="stub__code" data-i18n="e404.code">404</div>
+      <h1 class="stub__title" data-i18n="e404.title">Страница в разработке</h1>
+      <p class="stub__text" data-i18n="e404.text">
+        Этого раздела пока нет. Дизайн страницы «Обо мне» ещё в работе — совсем скоро она появится здесь.
+      </p>
+      <div class="stub__actions">
+        <a class="pill pill--accent" href="index.html" data-i18n="archive.back">На главную</a>
+        <a class="pill pill--ghost" href="archive.html">Архив</a>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/i18n.js"></script>
+<script src="assets/js/app.js"></script>
+</body>
+</html>

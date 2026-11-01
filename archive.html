@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title data-i18n-title="archive.meta.title">Архив — Наталья Слатвицкая</title>
+<meta name="description" content="Сквозной архив проектов: брендинг, иллюстрация, вэб-дизайн.">
+<meta name="theme-color" content="#B98FEB">
+<link rel="icon" href="assets/img/favicon.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;700&family=Inter+Tight:wght@400;500;600&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/tokens.css">
+<link rel="stylesheet" href="assets/css/base.css">
+<link rel="stylesheet" href="assets/css/layout.css">
+<link rel="stylesheet" href="assets/css/components.css">
+</head>
+<body class="is-scroll-body">
+
+<div class="fx" aria-hidden="true">
+  <div class="fx__grad"></div>
+  <div class="fx__edge"></div>
+  <div class="fx__grain"></div>
+</div>
+
+<div class="page">
+
+  <header class="page__bar">
+    <a class="page__brand" href="index.html">NNZ</a>
+    <nav class="page__nav" aria-label="Навигация">
+      <a href="index.html" data-i18n="archive.back">На главную</a>
+      <a href="archive.html" class="is-active">Архив</a>
+      <a href="about.html" data-i18n="top.exp">6 лет опыта</a>
+    </nav>
+    <div class="page__tools">
+      <div class="switcher" role="group">
+        <button class="switcher__btn lang__btn is-active" type="button" data-lang="ru" aria-pressed="true">ru</button>
+        <button class="switcher__btn lang__btn" type="button" data-lang="en" aria-pressed="false">en</button>
+      </div>
+      <button class="themetoggle" type="button" data-theme-toggle aria-pressed="false">
+        <span class="themetoggle__knob"></span>
+      </button>
+    </div>
+  </header>
+
+  <main class="page__main">
+    <div class="page__head">
+      <p class="mono" data-i18n="archive.eyebrow">Архив</p>
+      <h1 class="page__title" data-i18n="archive.title">Все проекты</h1>
+      <p class="page__lede" data-i18n="archive.lede">Сквозной архив за всё время. Фильтр по направлению.</p>
+    </div>
+
+    <div class="filters" role="group">
+      <button class="filter is-active" type="button" data-filter="all" aria-pressed="true">
+        <span data-i18n="archive.all">Все</span><span class="filter__count"></span>
+      </button>
+      <button class="filter" type="button" data-filter="branding" aria-pressed="false">
+        <span data-i18n="archive.branding">Брендинг</span><span class="filter__count"></span>
+      </button>
+      <button class="filter" type="button" data-filter="illustration" aria-pressed="false">
+        <span data-i18n="archive.illustration">Иллюстрация</span><span class="filter__count"></span>
+      </button>
+      <button class="filter" type="button" data-filter="web" aria-pressed="false">
+        <span data-i18n="archive.web">Вэб-дизайн</span><span class="filter__count"></span>
+      </button>
+      <span class="filters__count" id="archiveCount"></span>
+    </div>
+
+    <div class="grid-archive" id="archiveGrid" aria-live="polite"></div>
+  </main>
+</div>
+
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="modalTitle">
+  <div class="modal__scrim" id="modalScrim"></div>
+  <div class="modal__window">
+    <div class="modal__bar">
+      <span class="modal__bar-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+      <span class="modal__bar-title" id="modalBarTitle">case.case</span>
+      <span class="modal__bar-actions">
+        <button class="wbtn wbtn--close" type="button" data-close-modal aria-label="Закрыть"
+                data-i18n-attr="aria-label:modal.close">×</button>
+      </span>
+    </div>
+    <div class="modal__scroll" id="modalScroll"><div id="modalBody"></div></div>
+  </div>
+</div>
+
+<div class="terminal" id="terminal" role="dialog" aria-modal="true" aria-hidden="true" aria-label="Терминал">
+  <div class="terminal__box">
+    <div class="terminal__bar">
+      <span data-i18n="term.title">nnz://terminal</span>
+      <button class="wbtn wbtn--close" type="button" id="termClose" aria-label="Закрыть" style="margin-left:auto">×</button>
+    </div>
+    <div class="terminal__out" id="termOut"></div>
+    <div class="terminal__in">
+      <span class="terminal__prompt">nnz:~$</span>
+      <input class="terminal__field" id="termField" type="text" autocomplete="off" spellcheck="false" aria-label="Команда">
+    </div>
+  </div>
+</div>
+
+<script src="assets/js/data.js"></script>
+<script src="assets/js/i18n.js"></script>
+<script src="assets/js/app.js"></script>
+</body>
+</html>
