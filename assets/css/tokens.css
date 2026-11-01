@@ -1,0 +1,152 @@
+/* =============================================================
+   NNZ.STUDIO — DESIGN TOKENS
+   Две темы через [data-theme]. Правь здесь — меняется весь сайт.
+   light = «цветной» (основная), dark = «ночь»
+   ============================================================= */
+
+:root {
+  /* ---------- ШРИФТЫ ---------- */
+  --font-display: "Unbounded", "Actay", system-ui, sans-serif;
+  --font-head:    "Inter Tight", "Inter", system-ui, sans-serif;
+  --font-body:    "Inter", system-ui, -apple-system, sans-serif;
+  --font-mono:    "JetBrains Mono", ui-monospace, Menlo, monospace;
+  --font-pixel:   "Silkscreen", "JetBrains Mono", monospace;
+
+  --tracking-display: -0.045em;
+  --tracking-head:    -0.025em;
+  --tracking-mono:     0.06em;
+
+  /* ---------- ТИПОГРАФИКА (fluid) ---------- */
+  --fs-nav:    clamp(0.86rem, 1.15vw, 1.15rem);
+  --fs-title:  clamp(0.95rem, 1.35vw, 1.4rem);
+  --fs-sub:    clamp(0.66rem, 0.85vw, 0.9rem);
+  --fs-label:  clamp(8px, 0.72vw, 12px);
+  --fs-body:   clamp(0.85rem, 1vw, 1rem);
+  --fs-mono:   clamp(0.6rem, 0.7vw, 0.72rem);
+
+  /* ---------- ГЕОМЕТРИЯ ---------- */
+  --pad-x:      clamp(14px, 2.4vw, 34px);
+  --topbar-h:   clamp(58px, 8vh, 92px);
+  --footbar-h:  clamp(74px, 16vh, 168px);
+  --gap:        clamp(8px, 1vw, 16px);
+  --maxw:       1920px;
+
+  /* ---------- РАЗМЕРЫ ---------- */
+  --card-w:  clamp(84px, 7.4vw, 142px);
+  --card-h:  clamp(92px, 8.1vw, 154px);
+  --radius:    2px;
+  --radius-pill: 100px;
+  --bw:        1px;
+
+  /* ---------- ДВИЖЕНИЕ ---------- */
+  --ease:      cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ease-out:  cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-fast:  130ms;
+  --dur:       240ms;
+  --dur-slow:  420ms;
+
+  /* ---------- СЛОИ ---------- */
+  --z-bg:      0;
+  --z-phone:   2;
+  --z-card:    4;
+  --z-ui:     20;
+  --z-modal: 100;
+  --z-term:  120;
+}
+
+/* =============================================================
+   ТЕМА 1 — «ЦВЕТНОЙ» (light, основная)
+   Глубокий сине-фиолетовый верх → лаванда → светло-розовый низ.
+   ============================================================= */
+:root,
+[data-theme="light"] {
+  color-scheme: light;
+
+  --bg-base:     #B98FEB;
+  --bg-glow-1:   #FBE8F8;
+  --bg-glow-2:   #E0C0F0;
+  --bg-deep:     #252557;
+
+  --ink:         #2B295D;
+  --ink-2:       #4A4680;
+  --ink-dim:     #6E68A8;
+  --ink-on-dark: #FFFFFF;
+
+  --accent:      #3CFEC1;
+  --accent-2:    #20F0B0;
+  --accent-deep: #0E9E77;
+  --violet:      #BA71FF;
+  --violet-deep: #7A3FD0;
+
+  --card-panel:  #242424;
+  --card-ink:    #FFFFFF;
+  --card-empty:  #FFFFFF;
+
+  --line:        rgba(43, 41, 93, 0.18);
+  --line-2:      rgba(43, 41, 93, 0.34);
+  --line-hot:    rgba(186, 113, 255, 0.75);
+
+  --panel-glass: rgba(255, 255, 255, 0.62);
+  --panel-solid: #F9F6F6;
+  --panel-line:  rgba(43, 41, 93, 0.10);
+
+  --social-bg:   #000000;
+  --social-ink:  #FFFFFF;
+
+  --screen-bg:   #3CFEC1;
+  --screen-ink:  #052B1E;
+
+  --halo:        rgba(255, 255, 255, 0.55);
+  --ghost-ink:   rgba(255, 255, 255, 0.72);
+
+  --sh:          4px 4px 0 0 rgba(43, 41, 93, 0.55);
+  --sh-sm:       2px 2px 0 0 rgba(43, 41, 93, 0.45);
+}
+
+/* =============================================================
+   ТЕМА 2 — «НОЧЬ» (dark)
+   Чёрный фон, тот же зелёный неон, фиолетовые акценты.
+   ============================================================= */
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  --bg-base:     #050505;
+  --bg-glow-1:   #1A1A1A;
+  --bg-glow-2:   #121212;
+  --bg-deep:     #000000;
+
+  --ink:         #E8E2FF;
+  --ink-2:       #B9B0DA;
+  --ink-dim:     #7C7498;
+  --ink-on-dark: #FFFFFF;
+
+  --accent:      #3CFEC1;
+  --accent-2:    #00E5A0;
+  --accent-deep: #0B7D5E;
+  --violet:      #BA71FF;
+  --violet-deep: #8A4BD8;
+
+  --card-panel:  #242424;
+  --card-ink:    #FFFFFF;
+  --card-empty:  #FFFFFF;
+
+  --line:        rgba(232, 226, 255, 0.14);
+  --line-2:      rgba(232, 226, 255, 0.28);
+  --line-hot:    rgba(186, 113, 255, 0.8);
+
+  --panel-glass: rgba(255, 255, 255, 0.06);
+  --panel-solid: #0E0E10;
+  --panel-line:  rgba(232, 226, 255, 0.10);
+
+  --social-bg:   #000000;
+  --social-ink:  #FFFFFF;
+
+  --screen-bg:   #3CFEC1;
+  --screen-ink:  #052B1E;
+
+  --halo:        rgba(255, 255, 255, 0.10);
+  --ghost-ink:   rgba(255, 255, 255, 0.16);
+
+  --sh:          4px 4px 0 0 rgba(186, 113, 255, 0.55);
+  --sh-sm:       2px 2px 0 0 rgba(186, 113, 255, 0.45);
+}
