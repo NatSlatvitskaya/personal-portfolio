@@ -169,6 +169,11 @@
 
   /* половина карточки + 8px, чтобы центр не уводил её за край */
   --edge-safe: calc(142px / 2 + 8px);
+
+  /* Ширина колонки, посчитанная от ЭКРАНА (не от контейнера).
+     (100vw − margin 32×2 − gutter 28×2) / 3
+     Нужна там, где процент внутри контейнера даёт не тот результат. */
+  --col-w-vp: calc((100vw - 120px) / 3);
 }
 
 /* сцена — контейнер для позиционирования */
@@ -312,8 +317,11 @@
    ============================================================ */
 
 .social {
-  width: clamp(44px, 3.23vw, 62px) !important;
-  height: clamp(44px, 3.23vw, 62px) !important;
+  /* 76px при колонке 600: 600 − 70×2 − 20×4 = 380, ÷5
+     пропорционально ширине колонки, но не меньше 40px */
+  width: max(40px, calc(var(--col-w-vp) * 0.1266667)) !important;
+  height: max(40px, calc(var(--col-w-vp) * 0.1266667)) !important;
+  flex: 0 0 auto !important;
   background-color: transparent !important;
   border: 0 !important;
   box-shadow: none !important;
@@ -466,8 +474,18 @@
   flex-wrap: nowrap !important;
 }
 
-/* колонка 2: иконки — фиксированные 62px, распределяются между краями */
-.footcol--2 { justify-content: space-between !important; }
+/* ---- КОЛОНКА 2: иконки, своё выравнивание ----
+   Контейнер = ширина колонки (600px при 1920).
+   Отступ от краёв 70px, зазор между иконками 20px.
+   600 − 70×2 − 20×4 = 380 → 380 / 5 = 76px на иконку. */
+.footcol--2 {
+  justify-content: center !important;
+  /* пропорции от ширины колонки, посчитанной от экрана:
+     20/600 = 3.333%  ·  70/600 = 11.667%  ·  76/600 = 12.667% */
+  gap: calc(var(--col-w-vp) * 0.0333333) !important;
+  padding-inline: calc(var(--col-w-vp) * 0.1166667) !important;
+  box-sizing: border-box !important;
+}
 
 /* старые обёртки, если где-то остались */
 .footbar__tags {
