@@ -507,25 +507,40 @@
   })();
 
   (function svgUI() {
-    // проверяем каждую пару отдельно: не загрузила одну — работает PNG
-    const pairs = [
-      { cls: 'lang-svg',  files: ['assets/img/icons/ui/lang-light.svg',
-                                  'assets/img/icons/ui/lang-dark.svg'] },
-      { cls: 'theme-svg', files: ['assets/img/icons/ui/theme-light.svg',
-                                  'assets/img/icons/ui/theme-dark.svg'] }
+    const UI = 'assets/img/icons/ui/';
+
+    // базовые пары — включают векторный вид
+    const base = [
+      { cls: 'lang-svg',  files: ['lang-light.svg', 'lang-dark.svg'] },
+      { cls: 'theme-svg', files: ['theme-light.svg', 'theme-dark.svg'] }
     ];
 
-    pairs.forEach(({ cls, files }) => {
+    // 4 состояния языка: активный 100%, неактивный 50%
+    const states = ['lang-light-ru.svg', 'lang-light-en.svg',
+                    'lang-dark-ru.svg',  'lang-dark-en.svg'];
+
+    base.forEach(({ cls, files }) => {
       let ok = 0;
-      files.forEach((src) => {
+      files.forEach((f) => {
         const probe = new Image();
         probe.onload = () => {
           ok += 1;
           if (ok === files.length) document.documentElement.classList.add(cls);
         };
         probe.onerror = () => {};
-        probe.src = src;
+        probe.src = UI + f;
       });
+    });
+
+    let sOk = 0;
+    states.forEach((f) => {
+      const probe = new Image();
+      probe.onload = () => {
+        sOk += 1;
+        if (sOk === states.length) document.documentElement.classList.add('lang-states');
+      };
+      probe.onerror = () => {};
+      probe.src = UI + f;
     });
   })();
 
