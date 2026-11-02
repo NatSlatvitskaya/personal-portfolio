@@ -67,7 +67,7 @@
 .topbar__exp {
   font-family: var(--font-display) !important;
   font-size: 36px !important;
-  font-weight: 600 !important;
+  font-weight: 500 !important;
   letter-spacing: -0.06em !important;
   line-height: 1.1 !important;
   color: var(--c-violet) !important;
@@ -76,7 +76,7 @@
 .topbar__title {
   font-family: var(--font-display) !important;
   font-size: 36px !important;
-  font-weight: 600 !important;
+  font-weight: 500 !important;
   letter-spacing: -0.06em !important;
   line-height: 1.1 !important;
   color: var(--c-green) !important;
@@ -124,9 +124,10 @@
   top: 23.09% !important;
   width: 40.17% !important;
   height: 19.59% !important;
-  background: #2FFCB9 !important;
+  background: transparent !important;   /* зелёный уже в PNG */
   box-shadow: none !important;
-  border-radius: 2px !important;
+  border: 0 !important;
+  border-radius: 0 !important;
 }
 
 
@@ -141,8 +142,16 @@
   font-size: 13cqw !important;
   letter-spacing: 0.01em !important;
   line-height: 1 !important;
-  color: #04311F !important;
+  color: #04311F !important;          /* тёмный на зелёном из PNG */
   padding: 0 4% !important;
+  text-shadow: none !important;
+}
+
+/* центр экрана: текст по центру */
+.phone__screen {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
 }
 
 
@@ -246,6 +255,8 @@
 .card:hover,
 .card:focus-visible {
   box-shadow: 6.4px 6.4px 0 0 #49FDC8 !important;
+  transform: translate(-50%, -50%) scale(1.045) !important;
+  z-index: 5 !important;
 }
 
 .card__cover { border-radius: 8px !important; }
@@ -253,7 +264,7 @@
 .card__label {
   font-family: var(--font-display) !important;
   font-size: 22px !important;
-  font-weight: 600 !important;
+  font-weight: 500 !important;
   letter-spacing: -0.04em !important;
   line-height: 1.05 !important;
   color: #FFFFFF !important;
@@ -279,15 +290,16 @@
   height: auto !important;
   pointer-events: none !important;
   user-select: none !important;
-  z-index: 1 !important;              /* под телефоном (у него z-index: 2) */
-  filter: blur(7px) !important;
-  opacity: 0.75 !important;
-  mix-blend-mode: screen !important;
+  z-index: 4 !important;              /* ПОВЕРХ телефона (у него z-index: 2) */
+  filter: blur(6px) !important;
+  opacity: 0.9 !important;
+  mix-blend-mode: plus-lighter !important;   /* как в макете */
 }
 
 [data-theme="dark"] .design-on {
-  opacity: 0.55 !important;
-  filter: blur(9px) !important;
+  opacity: 0.6 !important;
+  filter: blur(7px) !important;
+  mix-blend-mode: plus-lighter !important;
 }
 
 @media (max-width: 1199px) {
@@ -470,8 +482,8 @@
   /* 28px на 1920, пропорционально меньше на узких экранах,
      чтобы три элемента влезали в колонку без слипания */
   font-size: clamp(13px, 1.458vw, 28px) !important;
-  font-weight: 600 !important;
-  letter-spacing: -0.06em !important;
+  font-weight: 500 !important;
+  letter-spacing: -0.04em !important;
   line-height: 1.1 !important;
   color: var(--c-navy) !important;
   white-space: nowrap !important;
@@ -495,7 +507,7 @@
   padding-inline: var(--grid-margin) !important;
   font-family: var(--font-display) !important;
   font-size: 20px !important;
-  font-weight: 600 !important;
+  font-weight: 500 !important;
   letter-spacing: -0.04em !important;
   line-height: 1.2 !important;
   color: var(--c-navy) !important;
@@ -513,7 +525,7 @@
 .footbar__easter {
   font-family: var(--font-display) !important;
   font-size: 20px !important;
-  font-weight: 600 !important;
+  font-weight: 500 !important;
   letter-spacing: -0.04em !important;
   color: var(--c-navy) !important;
 }
@@ -540,7 +552,7 @@
   padding: 0 !important;
   margin: 0 !important;
   min-width: 0 !important;
-  background-image: url("../img/icons/ui/lang-light.svg") !important;
+  background-image: url("../img/icons/ui/lang-light-ru.svg") !important;
   background-size: contain !important;
   background-repeat: no-repeat !important;
   background-position: center !important;
@@ -593,11 +605,12 @@
    Если загружены 4 файла с состояниями (lang-light-ru и т.д.),
    JS ставит .lang-states на <html> и включаются они. */
 
+/* базовый вид — берём -ru, он гарантированно загружен */
 .lang-svg .switcher {
-  background-image: url("../img/icons/ui/lang-light.svg") !important;
+  background-image: url("../img/icons/ui/lang-light-ru.svg") !important;
 }
 .lang-svg[data-theme="dark"] .switcher {
-  background-image: url("../img/icons/ui/lang-dark.svg") !important;
+  background-image: url("../img/icons/ui/lang-dark-ru.svg") !important;
 }
 
 /* активный язык непрозрачный, неактивный приглушён — когда есть 4 состояния */
