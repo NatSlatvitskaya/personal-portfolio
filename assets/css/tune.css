@@ -1,0 +1,452 @@
+/* =============================================================
+   TUNE.CSS — правки визуала (v5)
+   ============================================================= */
+
+
+/* ============================================================
+   0. ОСНОВА
+   ============================================================ */
+
+:root {
+  --font-display: "Inter", system-ui, -apple-system, sans-serif;
+  --font-head:    "Inter", system-ui, -apple-system, sans-serif;
+  --font-body:    "Inter", system-ui, -apple-system, sans-serif;
+  --font-mono:    "Inter", system-ui, -apple-system, sans-serif;
+  --font-screen:  "Silkscreen", ui-monospace, monospace;
+
+  --c-violet: #BA71FF;
+  --c-green:  #11FFB0;
+  --c-navy:   #221D49;
+  --c-teal:   #49FDC8;
+}
+
+
+/* ============================================================
+   ФОН — её готовые файлы. Градиент и текстура УЖЕ внутри.
+   Никаких дополнительных слоёв: они перекрывали дизайн.
+   ============================================================ */
+
+.fx__grad,
+.fx__halo,
+.fx__edge,
+.fx__grain {
+  display: none !important;
+}
+
+.fx {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image: url("../img/bg-light.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  transition: background-image 400ms ease;
+}
+
+[data-theme="dark"] .fx {
+  background-image: url("../img/bg-dark.jpg");
+}
+
+/* текстура отдельным слоем больше не нужна */
+.fx__texture { display: none !important; }
+
+
+/* ============================================================
+   1-3. ВЕРХНЯЯ СТРОКА
+   ============================================================ */
+
+.topbar {
+  padding-top: 14px !important;
+  padding-inline: 40px !important;
+  align-items: start !important;
+}
+
+.topbar__link,
+.topbar__exp {
+  font-family: var(--font-display) !important;
+  font-size: 36px !important;
+  font-weight: 600 !important;
+  letter-spacing: -0.06em !important;
+  line-height: 1.1 !important;
+  color: var(--c-violet) !important;
+}
+
+.topbar__title {
+  font-family: var(--font-display) !important;
+  font-size: 36px !important;
+  font-weight: 600 !important;
+  letter-spacing: -0.06em !important;
+  line-height: 1.1 !important;
+  color: var(--c-green) !important;
+}
+
+.topbar__sub {
+  font-family: var(--font-display) !important;
+  font-size: 28px !important;
+  font-weight: 400 !important;
+  letter-spacing: -0.04em !important;
+  line-height: 1.2 !important;
+  color: var(--c-green) !important;
+  margin-top: 4px !important;
+}
+
+
+/* ============================================================
+   4. ТЕЛЕФОН
+   ============================================================ */
+
+.stage__center {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  align-self: stretch !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  padding-block: 12px !important;
+  position: relative !important;
+}
+
+.phone {
+  height: min(718px, 100%) !important;
+  width: auto !important;
+  max-height: 100% !important;
+  max-width: 100% !important;
+  aspect-ratio: 914 / 1200 !important;
+  flex: 0 0 auto !important;
+  position: relative !important;
+  z-index: 2 !important;
+}
+
+.phone__screen {
+  left: 24.29% !important;
+  top: 23.00% !important;
+  width: 40.26% !important;
+  height: 19.67% !important;
+  background: #2EE59D !important;
+  box-shadow: none !important;
+  border-radius: 2px !important;
+}
+
+
+/* ============================================================
+   5. ТЕКСТ НА ЭКРАНЕ
+   ============================================================ */
+
+.phone__screen { container-type: size; }
+
+.phone__text {
+  font-family: var(--font-screen) !important;
+  font-size: 13cqw !important;
+  letter-spacing: 0.01em !important;
+  line-height: 1 !important;
+  color: #04311F !important;
+  padding: 0 4% !important;
+}
+
+
+/* ============================================================
+   6. КАРТОЧКИ
+   ============================================================ */
+
+.card {
+  padding: 8px !important;
+  gap: 8px !important;
+  box-shadow: none !important;
+  border: 0 !important;
+}
+
+.card:hover,
+.card:focus-visible {
+  box-shadow: 6.4px 6.4px 0 0 #49FDC8 !important;
+}
+
+.card__cover { border-radius: 8px !important; }
+
+.card__label {
+  font-family: var(--font-display) !important;
+  font-size: 22px !important;
+  font-weight: 600 !important;
+  letter-spacing: -0.04em !important;
+  line-height: 1.05 !important;
+  color: #FFFFFF !important;
+}
+
+.card:hover .card__label,
+.card:focus-visible .card__label {
+  font-size: 23px !important;
+}
+
+
+/* ============================================================
+   7. «design on» — картинка поверх телефона
+   ============================================================ */
+
+.design-on {
+  position: absolute !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  width: 148% !important;
+  max-width: none !important;
+  height: auto !important;
+  pointer-events: none !important;
+  user-select: none !important;
+  z-index: 3 !important;
+  filter: blur(10px) !important;
+  opacity: 0.85 !important;
+  mix-blend-mode: screen !important;
+}
+
+[data-theme="dark"] .design-on {
+  opacity: 0.5 !important;
+  filter: blur(12px) !important;
+}
+
+@media (max-width: 1199px) {
+  .design-on { display: none !important; }
+}
+
+
+/* ============================================================
+   8. СОЦКНОПКИ
+   ============================================================ */
+
+.social {
+  width: 62px !important;
+  height: 62px !important;
+  background-color: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  background-size: contain !important;
+  background-repeat: no-repeat !important;
+  background-position: center !important;
+  transition: transform 200ms cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.social:hover { transform: translateY(-3px) scale(1.06) !important; }
+
+.social svg, .social span:not(.social__tip) { display: none !important; }
+
+/* SVG-иконки: вектор, чёткие на любом экране */
+.social[data-contact="cv"]       { background-image: url("../img/icons/ui/cv.svg") !important; }
+.social[data-contact="dprofile"] { background-image: url("../img/icons/ui/dprofile.svg") !important; }
+.social[data-contact="behance"]  { background-image: url("../img/icons/ui/behance.svg") !important; }
+.social[data-contact="telegram"] { background-image: url("../img/icons/ui/telegram.svg") !important; }
+.social[data-contact="email"]    { background-image: url("../img/icons/ui/mail.svg") !important; }
+
+.social__tip {
+  font-family: var(--font-display) !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  letter-spacing: -0.02em !important;
+}
+
+
+/* ============================================================
+   9. ФУТЕР
+   ============================================================ */
+
+:root {
+  --foot-pad-y-top: 20px;
+  --foot-pad-y-bot: 24px;
+  --foot-gap: 35px;
+  --foot-pad-x: 41px;
+}
+
+.screen {
+  grid-template-rows: var(--topbar-h) minmax(0, 1fr) auto !important;
+}
+
+.footbar {
+  height: auto !important;
+  min-height: 0 !important;
+  padding:
+    var(--foot-pad-y-top)
+    var(--foot-pad-x)
+    var(--foot-pad-y-bot) !important;
+  gap: var(--foot-gap) !important;
+  border-radius: 20px 20px 0 0 !important;
+  background: rgba(253, 249, 246, 0.82) !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.55) !important;
+  backdrop-filter: blur(22px) saturate(1.5) !important;
+  -webkit-backdrop-filter: blur(22px) saturate(1.5) !important;
+}
+
+[data-theme="dark"] .footbar {
+  background: rgba(20, 20, 24, 0.72) !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.10) !important;
+}
+
+.footbar__main {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 0 !important;
+  width: 100% !important;
+  min-height: 62px !important;
+  grid-template-columns: none !important;
+}
+
+.footbar__tags,
+.socials { display: contents !important; }
+
+.tag {
+  font-family: var(--font-display) !important;
+  font-size: 28px !important;
+  font-weight: 600 !important;
+  letter-spacing: -0.06em !important;
+  line-height: 1.1 !important;
+  color: var(--c-navy) !important;
+  white-space: nowrap !important;
+  transition: color 160ms ease !important;
+}
+
+.tag:hover,
+.tag.is-active { color: var(--c-violet) !important; }
+
+[data-theme="dark"] .tag { color: #FFFFFF !important; }
+[data-theme="dark"] .tag:hover,
+[data-theme="dark"] .tag.is-active { color: var(--c-teal) !important; }
+
+.socials { gap: 0 !important; }
+
+.footbar__legal {
+  font-family: var(--font-display) !important;
+  font-size: 20px !important;
+  font-weight: 600 !important;
+  letter-spacing: -0.04em !important;
+  line-height: 1.2 !important;
+  color: var(--c-navy) !important;
+  gap: 10px !important;
+}
+
+[data-theme="dark"] .footbar__legal { color: #FFFFFF !important; }
+
+.footbar__easter {
+  font-family: var(--font-display) !important;
+  font-size: 20px !important;
+  font-weight: 600 !important;
+  letter-spacing: -0.04em !important;
+  color: var(--c-navy) !important;
+}
+
+[data-theme="dark"] .footbar__easter { color: #FFFFFF !important; }
+[data-theme="dark"] .footbar__easter:hover { color: var(--c-teal) !important; }
+
+
+/* ============================================================
+   11-12. ПЕРЕКЛЮЧАТЕЛИ
+   ============================================================ */
+
+.switcher {
+  background: none !important;
+  border: 0 !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  overflow: visible !important;
+  width: 101px !important;
+  height: 56px !important;
+  background-image: url("../img/icons/ui/lang-light.svg") !important;
+  background-size: contain !important;
+  background-repeat: no-repeat !important;
+  background-position: center !important;
+  cursor: pointer !important;
+  position: relative !important;
+}
+
+[data-theme="dark"] .switcher {
+  background-image: url("../img/icons/ui/lang-dark.svg") !important;
+}
+
+.switcher__btn { display: none !important; }
+
+.themetoggle {
+  width: 101px !important;
+  height: 56px !important;
+  background-image: url("../img/icons/ui/theme-light.svg") !important;
+  background-size: contain !important;
+  background-repeat: no-repeat !important;
+  background-position: center !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  position: relative !important;
+}
+
+[data-theme="dark"] .themetoggle {
+  background-image: url("../img/icons/ui/theme-dark.svg") !important;
+}
+
+.themetoggle__knob { display: none !important; }
+
+/* ---- SVG-версии ---------------------------------------------------
+   Включаются автоматически, если файлы найдены.
+   Классы ставит app.js: .lang-svg / .theme-svg на <html>.
+   PNG остаётся запасным вариантом.
+   ------------------------------------------------------------------ */
+
+/* переключатель языка */
+.lang-svg .switcher {
+  background-image: url("../img/icons/ui/lang-light.svg") !important;
+}
+.lang-svg[data-theme="dark"] .switcher {
+  background-image: url("../img/icons/ui/lang-dark.svg") !important;
+}
+
+/* тумблер темы */
+.theme-svg .themetoggle {
+  background-image: url("../img/icons/ui/theme-light.svg") !important;
+}
+.theme-svg[data-theme="dark"] .themetoggle {
+  background-image: url("../img/icons/ui/theme-dark.svg") !important;
+}
+
+
+/* ============================================================
+   АДАПТИВ
+   ============================================================ */
+
+@media (max-width: 1600px) {
+  .topbar__link, .topbar__exp, .topbar__title { font-size: 30px !important; }
+  .topbar__sub { font-size: 23px !important; }
+  .tag { font-size: 24px !important; }
+  .footbar__legal, .footbar__easter { font-size: 17px !important; }
+  .card__label { font-size: 18px !important; }
+  .card:hover .card__label { font-size: 19px !important; }
+  :root { --foot-pad-x: 34px; --foot-gap: 28px; }
+}
+
+@media (max-width: 1280px) {
+  .topbar__link, .topbar__exp, .topbar__title { font-size: 25px !important; }
+  .topbar__sub { font-size: 19px !important; }
+  .tag { font-size: 19px !important; }
+  .footbar__legal, .footbar__easter { font-size: 15px !important; }
+  .card__label { font-size: 15px !important; }
+  .card:hover .card__label { font-size: 15.5px !important; }
+  .social { width: 48px !important; height: 48px !important; }
+  .switcher, .themetoggle { width: 86px !important; height: 48px !important; }
+  :root { --foot-pad-x: 28px; --foot-gap: 20px; --foot-pad-y-top: 16px; --foot-pad-y-bot: 18px; }
+}
+
+@media (max-width: 1000px) {
+  .topbar__link, .topbar__exp, .topbar__title { font-size: 21px !important; }
+  .topbar__sub { font-size: 16px !important; }
+  .tag { font-size: 15px !important; }
+  .footbar__legal, .footbar__easter { font-size: 13px !important; }
+  .card__label { font-size: 12px !important; }
+}
+
+@media (max-width: 860px) {
+  .footbar { padding: 14px 20px 14px !important; gap: 12px !important; }
+  .footbar__main { justify-content: center !important; gap: 14px !important; }
+  .footbar__tags { display: none !important; }
+  .socials { display: flex !important; }
+  .phone { height: clamp(240px, 40dvh, 340px) !important; }
+  .topbar__link, .topbar__exp, .topbar__title { font-size: 19px !important; }
+  .topbar__sub { font-size: 15px !important; }
+  .card__label { font-size: 12px !important; }
+  .footbar__legal { font-size: 12px !important; flex-direction: column !important; align-items: center !important; gap: 4px !important; }
+}
