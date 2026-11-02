@@ -147,6 +147,82 @@
 
 
 /* ============================================================
+   5.5 СЕТКА — 3 колонки: margin 32, gutter 28, stretch
+   Карточки позиционируются от этих колонок.
+   ============================================================ */
+
+:root {
+  --col-gap: var(--grid-gutter);            /* 28px */
+  --col-w: calc((100% - (var(--grid-margin) * 2) - (var(--col-gap) * 2)) / 3);
+  --col-1: var(--grid-margin);
+  --col-2: calc(var(--grid-margin) + var(--col-w) + var(--col-gap));
+  --col-3: calc(var(--grid-margin) + (var(--col-w) + var(--col-gap)) * 2);
+
+  /* половина карточки + 8px, чтобы центр не уводил её за край */
+  --edge-safe: calc(142px / 2 + 8px);
+}
+
+/* сцена — контейнер для позиционирования */
+.stage {
+  position: relative !important;
+  display: block !important;
+  grid-template-columns: none !important;
+  grid-template-rows: none !important;
+  padding: 0 !important;
+  gap: 0 !important;
+}
+
+/* телефон — по центру второй колонки, на всю высоту сцены */
+.stage__center {
+  position: absolute !important;
+  top: 0 !important;
+  bottom: 0 !important;
+  left: var(--col-2) !important;
+  width: var(--col-w) !important;
+  grid-column: auto !important;
+  grid-row: auto !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  z-index: 3 !important;
+}
+
+/* ---- карточки: позиции из макета ---- */
+.card {
+  position: absolute !important;
+  z-index: 2 !important;
+  grid-column: auto !important;
+  grid-row: auto !important;
+}
+
+/* ---- позиции внутри колонок (центр карточки) ----
+   Координаты сняты с макета: доля ширины колонки + доля высоты сцены */
+
+/* КОЛОНКА 1 — левая
+   max() не даёт карточке выйти за край экрана (полширины + отступ) */
+.card:nth-of-type(1) { left: max(var(--edge-safe), calc(var(--col-1) + var(--col-w) * 0.482)) !important; top: 19.0% !important; }
+.card:nth-of-type(3) { left: max(var(--edge-safe), calc(var(--col-1) + var(--col-w) * 0.052)) !important; top: 48.2% !important; }
+.card:nth-of-type(4) { left: calc(var(--col-1) + var(--col-w) * 0.816) !important; top: 48.2% !important; }
+.card:nth-of-type(7) { left: calc(var(--col-1) + var(--col-w) * 0.491) !important; top: 81.0% !important; }
+
+/* КОЛОНКА 3 — правая */
+.card:nth-of-type(2) { left: calc(var(--col-3) + var(--col-w) * 0.518) !important; top: 19.0% !important; }
+.card:nth-of-type(5) { left: calc(var(--col-3) + var(--col-w) * 0.058) !important; top: 48.2% !important; }
+.card:nth-of-type(8) { left: min(calc(100% - var(--edge-safe)), calc(var(--col-3) + var(--col-w) * 0.890)) !important; top: 48.2% !important; }
+.card:nth-of-type(6) { left: calc(var(--col-3) + var(--col-w) * 0.518) !important; top: 81.0% !important; }
+
+.card {
+  transform: translate(-50%, -50%) !important;
+}
+
+/* «design on» — над телефоном, по центру */
+.design-on {
+  top: 50% !important;
+  left: 50% !important;
+}
+
+
+/* ============================================================
    6. КАРТОЧКИ
    ============================================================ */
 
@@ -245,20 +321,19 @@
 
 
 /* ============================================================
-   9. ФУТЕР
+   9. ФУТЕР — одна строка: язык · теги · иконки · теги · тумблер
+   Колонки сетки: margin 32, gutter 28
    ============================================================ */
 
 :root {
-  --foot-pad-y-top: 20px;
-  --foot-pad-y-bot: 24px;
-  --foot-gap: 35px;
-  --foot-pad-x: 41px;
+  --grid-margin: 32px;
+  --grid-gutter: 28px;
+  --foot-pad-y-top: 18px;
+  --foot-pad-y-bot: 14px;
+  --foot-gap: 18px;
 }
 
 .screen {
-  /* flex-колонка: topbar / сцена / dock / футер.
-     dock физически стоит между сценой и футером —
-     наезжать не может ни при какой высоте экрана. */
   display: flex !important;
   flex-direction: column !important;
   grid-template-rows: none !important;
@@ -266,42 +341,16 @@
   overflow: hidden !important;
 }
 
-.topbar {
-  flex: 0 0 auto !important;
-}
-
-.stage {
-  flex: 1 1 auto !important;
-  min-height: 0 !important;
-  overflow: visible !important;
-}
-
-.dock {
-  position: static !important;
-  flex: 0 0 auto !important;
-  bottom: auto !important;
-  left: auto !important;
-  right: auto !important;
-  z-index: 5 !important;
-  padding-bottom: 10px !important;
-  margin-top: -8px !important;
-  pointer-events: none !important;
-}
-
-.dock > * { pointer-events: auto !important; }
-
-.footbar {
-  flex: 0 0 auto !important;
-}
-
-
+.topbar  { flex: 0 0 auto !important; }
+.stage   { flex: 1 1 auto !important; min-height: 0 !important; }
+.footbar { flex: 0 0 auto !important; }
 
 .footbar {
   height: auto !important;
   min-height: 0 !important;
   padding:
     var(--foot-pad-y-top)
-    var(--foot-pad-x)
+    0
     var(--foot-pad-y-bot) !important;
   gap: var(--foot-gap) !important;
   border-radius: 20px 20px 0 0 !important;
@@ -316,18 +365,68 @@
   border-top: 1px solid rgba(255, 255, 255, 0.10) !important;
 }
 
+/* ---- главная строка: ТА ЖЕ сетка 3 колонки, что у сцены ----
+   7 дорожек: 32 | col | 28 | col | 28 | col | 32
+   Сумма = 100% родителя, поэтому колонки встают точно на места. */
 .footbar__main {
-  display: flex !important;
+  display: grid !important;
+  grid-template-columns:
+    var(--grid-margin)
+    var(--col-w)
+    var(--grid-gutter)
+    var(--col-w)
+    var(--grid-gutter)
+    var(--col-w)
+    var(--grid-margin) !important;
+  column-gap: 0 !important;
   align-items: center !important;
-  justify-content: space-between !important;
-  gap: 0 !important;
   width: 100% !important;
-  min-height: 62px !important;
-  grid-template-columns: none !important;
+  min-height: 56px !important;
 }
 
-.footbar__tags,
-.socials { display: contents !important; }
+.footcol--1 { grid-column: 2 !important; }
+.footcol--2 { grid-column: 4 !important; }
+.footcol--3 { grid-column: 6 !important; }
+
+/* ---- колонки футера ---- */
+.footcol {
+  display: flex !important;
+  align-items: center !important;
+  min-width: 0 !important;
+  gap: var(--grid-gutter) !important;
+}
+
+/* колонка 1: язык слева, теги прижаты вправо */
+.footcol--1 {
+  justify-content: space-between !important;
+}
+
+/* колонка 2: иконки по центру колонки */
+.footcol--2 {
+  justify-content: center !important;
+}
+
+/* колонка 3: теги слева, тумблер прижат вправо */
+.footcol--3 {
+  justify-content: space-between !important;
+}
+
+/* группы тегов внутри колонок */
+.footcol__group {
+  display: flex !important;
+  align-items: center !important;
+  gap: var(--grid-gutter) !important;
+  flex-wrap: nowrap !important;
+  min-width: 0 !important;
+}
+
+/* старые обёртки, если где-то остались */
+.footbar__tags {
+  display: flex !important;
+  align-items: center !important;
+  gap: var(--grid-gutter) !important;
+  flex-wrap: nowrap !important;
+}
 
 .tag {
   font-family: var(--font-display) !important;
@@ -347,17 +446,32 @@
 [data-theme="dark"] .tag:hover,
 [data-theme="dark"] .tag.is-active { color: var(--c-teal) !important; }
 
-.socials { gap: 0 !important; }
+/* ---- соцкнопки: центр, не растягиваются ---- */
+.socials {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 14px !important;
+  flex: 0 0 auto !important;
+}
 
+/* ---- подпись ---- */
 .footbar__legal {
+  padding-inline: var(--grid-margin) !important;
   font-family: var(--font-display) !important;
   font-size: 20px !important;
   font-weight: 600 !important;
   letter-spacing: -0.04em !important;
   line-height: 1.2 !important;
   color: var(--c-navy) !important;
+  display: grid !important;
+  grid-template-columns: 1fr auto 1fr !important;
+  align-items: center !important;
   gap: 10px !important;
 }
+
+.footbar__legal > :last-child  { justify-self: end !important; }
+.footbar__legal > :nth-child(2){ justify-self: center !important; }
 
 [data-theme="dark"] .footbar__legal { color: #FFFFFF !important; }
 
@@ -439,12 +553,21 @@
    PNG остаётся запасным вариантом.
    ------------------------------------------------------------------ */
 
-/* переключатель языка */
-.lang-svg .switcher {
-  background-image: url("../img/icons/ui/lang-light.svg") !important;
+/* переключатель языка: активный язык 100%, неактивный 50% */
+.lang-svg[data-theme="light"] .switcher,
+.lang-svg:not([data-theme="dark"]) .switcher {
+  background-image: url("../img/icons/ui/lang-light-ru.svg") !important;
 }
+.lang-svg[data-theme="light"][data-lang="en"] .switcher,
+.lang-svg:not([data-theme="dark"])[data-lang="en"] .switcher {
+  background-image: url("../img/icons/ui/lang-light-en.svg") !important;
+}
+
 .lang-svg[data-theme="dark"] .switcher {
-  background-image: url("../img/icons/ui/lang-dark.svg") !important;
+  background-image: url("../img/icons/ui/lang-dark-ru.svg") !important;
+}
+.lang-svg[data-theme="dark"][data-lang="en"] .switcher {
+  background-image: url("../img/icons/ui/lang-dark-en.svg") !important;
 }
 
 /* тумблер темы */
