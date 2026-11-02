@@ -483,6 +483,47 @@
     else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
   }
 
+
+  /* ============================================================
+     SVG-ИНТЕРФЕЙС — переключаемся на вектор, если файлы есть.
+     Проверяем все четыре; если хотя бы один не найден —
+     остаёмся на PNG, чтобы ничего не пропало.
+     ============================================================ */
+  (function svgUI() {
+    // проверяем каждую пару отдельно: не загрузила одну — работает PNG
+    const pairs = [
+      { cls: 'lang-svg',  files: ['assets/img/icons/ui/lang-light.svg',
+                                  'assets/img/icons/ui/lang-dark.svg'] },
+      { cls: 'theme-svg', files: ['assets/img/icons/ui/theme-light.svg',
+                                  'assets/img/icons/ui/theme-dark.svg'] }
+    ];
+
+    pairs.forEach(({ cls, files }) => {
+      let ok = 0;
+      files.forEach((src) => {
+        const probe = new Image();
+        probe.onload = () => {
+          ok += 1;
+          if (ok === files.length) document.documentElement.classList.add(cls);
+        };
+        probe.onerror = () => {};
+        probe.src = src;
+      });
+    });
+  })();
+
+  /* ============================================================
+     ТЕКСТУРА ФОНА — включается, только если файл есть
+     ============================================================ */
+  (function texture() {
+    const layer = document.querySelector('.fx__texture');
+    if (!layer) return;
+    const probe = new Image();
+    probe.onload = () => layer.classList.add('is-ready');
+    probe.onerror = () => { layer.style.backgroundImage = 'none'; };
+    probe.src = 'assets/img/texture-light.png';
+  })();
+
   /* ============================================================
      INIT
      ============================================================ */
