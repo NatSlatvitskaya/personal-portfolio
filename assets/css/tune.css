@@ -300,8 +300,8 @@
    ============================================================ */
 
 .social {
-  width: 62px !important;
-  height: 62px !important;
+  width: clamp(44px, 3.23vw, 62px) !important;
+  height: clamp(44px, 3.23vw, 62px) !important;
   background-color: transparent !important;
   border: 0 !important;
   box-shadow: none !important;
@@ -440,37 +440,22 @@
 .footcol--2 { grid-column: 4 !important; }
 .footcol--3 { grid-column: 6 !important; }
 
-/* ---- колонки футера ---- */
+/* ---- колонки футера ----
+   Каждая колонка = ширина колонки сетки (600px при 1920).
+   Внутри — space-between: первый элемент по левому краю,
+   последний по правому, промежутки равные. */
 .footcol {
   display: flex !important;
   align-items: center !important;
+  justify-content: space-between !important;
+  gap: 0 !important;
   min-width: 0 !important;
-  gap: var(--grid-gutter) !important;
-}
-
-/* колонка 1: язык слева, теги прижаты вправо */
-.footcol--1 {
-  justify-content: space-between !important;
-}
-
-/* колонка 2: иконки распределены по всей ширине колонки */
-.footcol--2 {
-  justify-content: stretch !important;
-}
-
-/* колонка 3: теги слева, тумблер прижат вправо */
-.footcol--3 {
-  justify-content: space-between !important;
-}
-
-/* группы тегов внутри колонок */
-.footcol__group {
-  display: flex !important;
-  align-items: center !important;
-  gap: var(--grid-gutter) !important;
+  width: 100% !important;
   flex-wrap: nowrap !important;
-  min-width: 0 !important;
 }
+
+/* колонка 2: иконки — фиксированные 62px, распределяются между краями */
+.footcol--2 { justify-content: space-between !important; }
 
 /* старые обёртки, если где-то остались */
 .footbar__tags {
@@ -482,13 +467,16 @@
 
 .tag {
   font-family: var(--font-display) !important;
-  font-size: 28px !important;
+  /* 28px на 1920, пропорционально меньше на узких экранах,
+     чтобы три элемента влезали в колонку без слипания */
+  font-size: clamp(13px, 1.458vw, 28px) !important;
   font-weight: 600 !important;
   letter-spacing: -0.06em !important;
   line-height: 1.1 !important;
   color: var(--c-navy) !important;
   white-space: nowrap !important;
   transition: color 160ms ease !important;
+  min-width: 0 !important;
 }
 
 .tag:hover,
@@ -499,15 +487,8 @@
 [data-theme="dark"] .tag.is-active { color: var(--c-teal) !important; }
 
 /* ---- соцкнопки: центр, не растягиваются ---- */
-.socials {
-  display: grid !important;
-  grid-template-columns: repeat(5, 62px) !important;
-  justify-content: space-between !important;   /* точно равные промежутки */
-  align-items: center !important;
-  gap: 0 !important;
-  width: 100% !important;
-  flex: 1 1 100% !important;
-}
+/* соцкнопки — прямые дети колонки 2, обёртки нет */
+.socials { display: contents !important; }   /* страховка, если останется */
 
 /* ---- подпись ---- */
 .footbar__legal {
@@ -574,8 +555,8 @@
 .switcher__btn { display: none !important; }
 
 .themetoggle {
-  width: 101px !important;
-  height: 56px !important;
+  width: clamp(74px, 5.26vw, 101px) !important;
+  height: clamp(41px, 2.92vw, 56px) !important;
   background-color: transparent !important;   /* убираем светлую плашку */
   border: 0 !important;
   border-radius: 0 !important;
@@ -650,7 +631,6 @@
 @media (max-width: 1600px) {
   .topbar__link, .topbar__exp, .topbar__title { font-size: 30px !important; }
   .topbar__sub { font-size: 23px !important; }
-  .tag { font-size: 24px !important; }
   .footbar__legal, .footbar__easter { font-size: 17px !important; }
   .card__label { font-size: 18px !important; }
   .card:hover .card__label { font-size: 19px !important; }
@@ -660,19 +640,15 @@
 @media (max-width: 1280px) {
   .topbar__link, .topbar__exp, .topbar__title { font-size: 25px !important; }
   .topbar__sub { font-size: 19px !important; }
-  .tag { font-size: 19px !important; }
   .footbar__legal, .footbar__easter { font-size: 15px !important; }
   .card__label { font-size: 15px !important; }
   .card:hover .card__label { font-size: 15.5px !important; }
-  .social { width: 48px !important; height: 48px !important; }
-  .switcher, .themetoggle { width: 86px !important; height: 48px !important; }
   :root { --foot-pad-x: 28px; --foot-gap: 20px; --foot-pad-y-top: 16px; --foot-pad-y-bot: 18px; }
 }
 
 @media (max-width: 1000px) {
   .topbar__link, .topbar__exp, .topbar__title { font-size: 21px !important; }
   .topbar__sub { font-size: 16px !important; }
-  .tag { font-size: 15px !important; }
   .footbar__legal, .footbar__easter { font-size: 13px !important; }
   .card__label { font-size: 12px !important; }
 }
