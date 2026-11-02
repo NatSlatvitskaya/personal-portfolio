@@ -59,7 +59,7 @@
 
 .topbar {
   padding-top: 14px !important;
-  padding-inline: 40px !important;
+  padding-inline: var(--grid-margin) !important;   /* 32px — как у сетки */
   align-items: start !important;
 }
 
@@ -195,20 +195,30 @@
   grid-row: auto !important;
 }
 
-/* ---- позиции внутри колонок (центр карточки) ----
-   Координаты сняты с макета: доля ширины колонки + доля высоты сцены */
+/* ---- позиции карточек ----
+   left = ЦЕНТР карточки (transform: translate(-50%, -50%)).
+   Половина карточки: --card-half. Внутри колонки — доли её ширины. */
 
-/* КОЛОНКА 1 — левая
-   max() не даёт карточке выйти за край экрана (полширины + отступ) */
-.card:nth-of-type(1) { left: max(var(--edge-safe), calc(var(--col-1) + var(--col-w) * 0.482)) !important; top: 19.0% !important; }
-.card:nth-of-type(3) { left: max(var(--edge-safe), calc(var(--col-1) + var(--col-w) * 0.052)) !important; top: 48.2% !important; }
+:root { --card-half: 71px; }
+
+/* КОЛОНКА 1 — левая */
+/* 1 NOCTURNE — сдвинута к середине колонки */
+.card:nth-of-type(1) { left: calc(var(--col-1) + var(--col-w) * 0.482) !important; top: 19.0% !important; }
+/* 3 NAME 1 — ЛЕВЫЙ КРАЙ карточки = левый край колонки (32px) */
+.card:nth-of-type(3) { left: calc(var(--col-1) + var(--card-half)) !important; top: 48.2% !important; }
+/* 4 MEMORIA */
 .card:nth-of-type(4) { left: calc(var(--col-1) + var(--col-w) * 0.816) !important; top: 48.2% !important; }
+/* 7 NAME 4 — по центру колонки */
 .card:nth-of-type(7) { left: calc(var(--col-1) + var(--col-w) * 0.491) !important; top: 81.0% !important; }
 
 /* КОЛОНКА 3 — правая */
+/* 2 NAME 8 */
 .card:nth-of-type(2) { left: calc(var(--col-3) + var(--col-w) * 0.518) !important; top: 19.0% !important; }
-.card:nth-of-type(5) { left: calc(var(--col-3) + var(--col-w) * 0.058) !important; top: 48.2% !important; }
-.card:nth-of-type(8) { left: min(calc(100% - var(--edge-safe)), calc(var(--col-3) + var(--col-w) * 0.890)) !important; top: 48.2% !important; }
+/* 5 SMARTY — левый край = левый край колонки 3 */
+.card:nth-of-type(5) { left: calc(var(--col-3) + var(--card-half)) !important; top: 48.2% !important; }
+/* 8 NAME 7 — ПРАВЫЙ край = правый край колонки 3 */
+.card:nth-of-type(8) { left: calc(var(--col-3) + var(--col-w) - var(--card-half)) !important; top: 48.2% !important; }
+/* 6 СЛЕТ — по центру колонки */
 .card:nth-of-type(6) { left: calc(var(--col-3) + var(--col-w) * 0.518) !important; top: 81.0% !important; }
 
 .card {
@@ -345,6 +355,13 @@
 .stage   { flex: 1 1 auto !important; min-height: 0 !important; }
 .footbar { flex: 0 0 auto !important; }
 
+/* ============================================================
+   ЭФФЕКТ СТЕКЛА — параметры из Figma
+   Light: угол −45°, интенсивность 80%
+   Refraction 80 · Depth 35.22 · Dispersion 50 · Frost 7.04 · Splay 0
+   Заливка: #F1E4DA, 20%
+   ============================================================ */
+
 .footbar {
   height: auto !important;
   min-height: 0 !important;
@@ -354,15 +371,50 @@
     var(--foot-pad-y-bot) !important;
   gap: var(--foot-gap) !important;
   border-radius: 20px 20px 0 0 !important;
-  background: rgba(253, 249, 246, 0.82) !important;
-  border-top: 1px solid rgba(255, 255, 255, 0.55) !important;
-  backdrop-filter: blur(22px) saturate(1.5) !important;
-  -webkit-backdrop-filter: blur(22px) saturate(1.5) !important;
+
+  /* заливка #F1E4DA 20% */
+  background-color: rgba(241, 228, 218, 0.20) !important;
+
+  /* Light −45°: блик идёт из левого-верхнего угла */
+  background-image: linear-gradient(
+    -45deg,
+    rgba(255, 255, 255, 0.26) 0%,
+    rgba(255, 255, 255, 0.10) 34%,
+    rgba(255, 255, 255, 0.00) 68%,
+    rgba(241, 228, 218, 0.10) 100%
+  ) !important;
+
+  /* Frost 7.04 → размытие; Refraction 80 → лёгкое усиление насыщенности */
+  backdrop-filter: blur(7px) saturate(1.25) brightness(1.04) !important;
+  -webkit-backdrop-filter: blur(7px) saturate(1.25) brightness(1.04) !important;
+
+  /* Depth 35.22 → внутренняя тень; Dispersion 50 → тонкая цветная кромка */
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.55),
+    inset 0 -32px 48px -34px rgba(60, 40, 30, 0.22),
+    inset 1px 0 0 rgba(255, 240, 250, 0.30),
+    inset -1px 0 0 rgba(210, 255, 245, 0.30) !important;
+
+  border-top: 1px solid rgba(255, 255, 255, 0.60) !important;
 }
 
 [data-theme="dark"] .footbar {
-  background: rgba(20, 20, 24, 0.72) !important;
-  border-top: 1px solid rgba(255, 255, 255, 0.10) !important;
+  background-color: rgba(18, 18, 22, 0.38) !important;
+  background-image: linear-gradient(
+    -45deg,
+    rgba(255, 255, 255, 0.10) 0%,
+    rgba(255, 255, 255, 0.03) 38%,
+    rgba(255, 255, 255, 0.00) 70%,
+    rgba(120, 255, 220, 0.06) 100%
+  ) !important;
+  backdrop-filter: blur(7px) saturate(1.2) brightness(0.95) !important;
+  -webkit-backdrop-filter: blur(7px) saturate(1.2) brightness(0.95) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.14),
+    inset 0 -32px 48px -34px rgba(0, 0, 0, 0.55),
+    inset 1px 0 0 rgba(255, 255, 255, 0.06),
+    inset -1px 0 0 rgba(73, 253, 200, 0.10) !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.12) !important;
 }
 
 /* ---- главная строка: ТА ЖЕ сетка 3 колонки, что у сцены ----
@@ -401,9 +453,9 @@
   justify-content: space-between !important;
 }
 
-/* колонка 2: иконки по центру колонки */
+/* колонка 2: иконки распределены по всей ширине колонки */
 .footcol--2 {
-  justify-content: center !important;
+  justify-content: stretch !important;
 }
 
 /* колонка 3: теги слева, тумблер прижат вправо */
@@ -448,11 +500,13 @@
 
 /* ---- соцкнопки: центр, не растягиваются ---- */
 .socials {
-  display: flex !important;
+  display: grid !important;
+  grid-template-columns: repeat(5, 62px) !important;
+  justify-content: space-between !important;   /* точно равные промежутки */
   align-items: center !important;
-  justify-content: center !important;
-  gap: 14px !important;
-  flex: 0 0 auto !important;
+  gap: 0 !important;
+  width: 100% !important;
+  flex: 1 1 100% !important;
 }
 
 /* ---- подпись ---- */
@@ -553,20 +607,30 @@
    PNG остаётся запасным вариантом.
    ------------------------------------------------------------------ */
 
-/* переключатель языка: активный язык 100%, неактивный 50% */
-.lang-svg[data-theme="light"] .switcher,
-.lang-svg:not([data-theme="dark"]) .switcher {
+/* ---- переключатель языка ----
+   Базовые 2 файла (lang-light / lang-dark) — всегда работают.
+   Если загружены 4 файла с состояниями (lang-light-ru и т.д.),
+   JS ставит .lang-states на <html> и включаются они. */
+
+.lang-svg .switcher {
+  background-image: url("../img/icons/ui/lang-light.svg") !important;
+}
+.lang-svg[data-theme="dark"] .switcher {
+  background-image: url("../img/icons/ui/lang-dark.svg") !important;
+}
+
+/* активный язык непрозрачный, неактивный приглушён — когда есть 4 состояния */
+.lang-states.lang-svg .switcher {
   background-image: url("../img/icons/ui/lang-light-ru.svg") !important;
 }
-.lang-svg[data-theme="light"][data-lang="en"] .switcher,
-.lang-svg:not([data-theme="dark"])[data-lang="en"] .switcher {
+.lang-states.lang-svg[data-lang="en"] .switcher {
   background-image: url("../img/icons/ui/lang-light-en.svg") !important;
 }
 
-.lang-svg[data-theme="dark"] .switcher {
+.lang-states.lang-svg[data-theme="dark"] .switcher {
   background-image: url("../img/icons/ui/lang-dark-ru.svg") !important;
 }
-.lang-svg[data-theme="dark"][data-lang="en"] .switcher {
+.lang-states.lang-svg[data-theme="dark"][data-lang="en"] .switcher {
   background-image: url("../img/icons/ui/lang-dark-en.svg") !important;
 }
 
