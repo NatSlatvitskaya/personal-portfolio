@@ -345,6 +345,7 @@
     lang = I18N[next] ? next : 'ru';
     if (persist) localStorage.setItem(LS.lang, lang);
     document.documentElement.lang = lang;
+    document.documentElement.setAttribute('data-lang', lang);   // для CSS: неактивный язык 50%
 
     $$('[data-i18n]').forEach((el) => {
       const val = t(el.dataset.i18n);
@@ -362,7 +363,7 @@
     $$('[data-i18n-title]').forEach((el) => { document.title = t(el.dataset.i18nTitle); });
     $$('[data-i18n-desc]').forEach((el) => { el.setAttribute('content', t(el.dataset.i18nDesc)); });
 
-    $$('.lang__btn, [data-lang]').forEach((b) => {
+    $$('.lang__btn, button[data-lang]').forEach((b) => {
       if (!b.dataset.lang) return;
       const on = b.dataset.lang === lang;
       b.classList.toggle('is-active', on);
@@ -376,7 +377,9 @@
     restartMessages();
   }
 
-  $$('.lang__btn, [data-lang]').forEach((btn) => {
+  document.documentElement.setAttribute('data-lang', lang);
+
+  $$('.lang__btn, button[data-lang]').forEach((btn) => {
     if (!btn.dataset.lang) return;
     btn.addEventListener('click', () => applyLang(btn.dataset.lang));
   });
@@ -489,6 +492,20 @@
      Проверяем все четыре; если хотя бы один не найден —
      остаёмся на PNG, чтобы ничего не пропало.
      ============================================================ */
+  /* ============================================================
+     «design on» — если рядом с PNG появился SVG, берём его.
+     Вектор чётче при любом размере.
+     ============================================================ */
+  (function designOnSVG() {
+    const img = document.querySelector('.design-on');
+    if (!img) return;
+    const svg = 'assets/img/design-on.svg';
+    const probe = new Image();
+    probe.onload = () => { img.src = svg; };
+    probe.onerror = () => {};
+    probe.src = svg;
+  })();
+
   (function svgUI() {
     // проверяем каждую пару отдельно: не загрузила одну — работает PNG
     const pairs = [
