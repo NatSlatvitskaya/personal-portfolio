@@ -70,7 +70,21 @@
   font-weight: 500 !important;
   letter-spacing: -0.06em !important;
   line-height: 1.1 !important;
-  color: var(--c-violet) !important;
+  color: #9D35FF !important;                 /* неоновый фиолетовый */
+  border: 2px solid transparent !important;   /* рамка зарезервирована */
+  border-radius: 10px !important;
+  padding: 2px 10px !important;
+  margin: -2px -10px !important;
+  transition: color 200ms ease, border-color 200ms ease !important;
+}
+
+.topbar__link:hover,
+.topbar__link:focus-visible,
+.topbar__exp:hover,
+.topbar__exp:focus-visible {
+  color: #11FFB0 !important;                 /* неоновый зелёный */
+  border-color: #11FFB0 !important;          /* обводка */
+  outline: none !important;
 }
 
 .topbar__title {
@@ -88,7 +102,7 @@
   font-weight: 400 !important;
   letter-spacing: -0.04em !important;
   line-height: 1.2 !important;
-  color: var(--c-green) !important;
+  color: #FFFFFF !important;                 /* белый */
   margin-top: 4px !important;
 }
 
@@ -290,20 +304,23 @@
   top: 50% !important;
   left: 50% !important;
   transform: translate(-50%, -50%) !important;
-  width: 132% !important;
+  /* ширина считается от колонки (600px), а не от телефона.
+     Телефон 547px → 1,5× от 132% = 198% от телефона = 1083px = 1.805 колонки */
+  width: calc(var(--col-w-vp) * 1.805) !important;
   max-width: none !important;
   height: auto !important;
   pointer-events: none !important;
   user-select: none !important;
-  z-index: 4 !important;              /* ПОВЕРХ телефона (у него z-index: 2) */
-  filter: blur(6px) !important;
-  opacity: 0.9 !important;
-  mix-blend-mode: plus-lighter !important;   /* как в макете */
+  z-index: 4 !important;               /* поверх телефона (z-index: 2) */
+  /* blur меньше, яркость выше — plus-lighter светит сильнее */
+  filter: blur(3px) brightness(1.55) contrast(1.15) !important;
+  opacity: 1 !important;
+  mix-blend-mode: plus-lighter !important;
 }
 
 [data-theme="dark"] .design-on {
-  opacity: 0.6 !important;
-  filter: blur(7px) !important;
+  opacity: 0.85 !important;
+  filter: blur(4px) brightness(1.35) contrast(1.1) !important;
   mix-blend-mode: plus-lighter !important;
 }
 
@@ -331,7 +348,21 @@
   transition: transform 200ms cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
 
-.social:hover { transform: translateY(-3px) scale(1.06) !important; }
+.social:hover,
+.social:focus-visible {
+  transform: translateY(-3px) scale(1.06) !important;
+}
+
+.social[data-contact="cv"]:hover,
+.social[data-contact="cv"]:focus-visible       { background-image: url("../img/icons/ui/cv-neon.svg") !important; }
+.social[data-contact="dprofile"]:hover,
+.social[data-contact="dprofile"]:focus-visible { background-image: url("../img/icons/ui/dprofile-neon.svg") !important; }
+.social[data-contact="behance"]:hover,
+.social[data-contact="behance"]:focus-visible  { background-image: url("../img/icons/ui/behance-neon.svg") !important; }
+.social[data-contact="telegram"]:hover,
+.social[data-contact="telegram"]:focus-visible { background-image: url("../img/icons/ui/telegram-neon.svg") !important; }
+.social[data-contact="email"]:hover,
+.social[data-contact="email"]:focus-visible    { background-image: url("../img/icons/ui/mail-neon.svg") !important; }
 
 .social svg, .social span:not(.social__tip) { display: none !important; }
 
@@ -510,11 +541,28 @@
 }
 
 .tag:hover,
-.tag.is-active { color: var(--c-violet) !important; }
+.tag:focus-visible,
+.tag.is-active {
+  color: #11FFB0 !important;                 /* неоновый зелёный */
+  text-decoration: underline !important;
+  text-decoration-color: #11FFB0 !important;
+  text-underline-offset: 6px !important;
+  text-decoration-thickness: 2px !important;
+}
 
 [data-theme="dark"] .tag { color: #FFFFFF !important; }
 [data-theme="dark"] .tag:hover,
-[data-theme="dark"] .tag.is-active { color: var(--c-teal) !important; }
+[data-theme="dark"] .tag:focus-visible,
+[data-theme="dark"] .tag.is-active {
+  color: #11FFB0 !important;
+  text-decoration: underline !important;
+  text-decoration-color: #11FFB0 !important;
+  text-underline-offset: 6px !important;
+}
+
+.tag {
+  text-decoration: none !important;
+}
 
 /* ---- соцкнопки: центр, не растягиваются ---- */
 /* соцкнопки — прямые дети колонки 2, обёртки нет */
