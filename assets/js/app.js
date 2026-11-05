@@ -497,8 +497,7 @@
      Вектор чётче при любом размере.
      ============================================================ */
   (function designOnSVG() {
-    const img = document.querySelector('.design-on');
-    if (!img) return;
+    return; // два слоя задаются в HTML
     const svg = 'assets/img/design-on.svg';
     const probe = new Image();
     probe.onload = () => { img.src = svg; };
