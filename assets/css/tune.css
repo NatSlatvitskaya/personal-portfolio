@@ -70,22 +70,22 @@
   font-weight: 500 !important;
   letter-spacing: -0.06em !important;
   line-height: 1.1 !important;
-  color: #000000 !important;                 /* чёрный по умолчанию */
+  color: #11FFB0 !important;                 /* неоновый зелёный */
   background: transparent !important;
-  border: 2px solid transparent !important;   /* рамка зарезервирована */
-  border-radius: 10px !important;
+  border: 2px solid transparent !important;  /* место под обводку, без сдвига */
+  border-radius: 8px !important;
   padding: 2px 10px !important;
   margin: -2px -10px !important;
-  transition: color 200ms ease, border-color 200ms ease !important;
+  transition: border-color 200ms ease !important;
 }
 
 .topbar__link:hover,
 .topbar__link:focus-visible,
 .topbar__exp:hover,
 .topbar__exp:focus-visible {
-  color: #000000 !important;
-  background: #11FFB0 !important;            /* зелёная плашка */
-  border-color: #11FFB0 !important;
+  color: #11FFB0 !important;
+  background: transparent !important;       /* без заливки */
+  border-color: #11FFB0 !important;         /* только обводка */
   outline: none !important;
 }
 
@@ -281,7 +281,7 @@
 .card:hover,
 .card:focus-visible {
   box-shadow: 6.4px 6.4px 0 0 #49FDC8 !important;
-  transform: translate(-50%, -50%) scale(1.5) !important;
+  transform: translate(-50%, -50%) scale(1.2) !important;
   z-index: 6 !important;
 }
 
@@ -320,14 +320,14 @@
   user-select: none !important;
   z-index: 4 !important;               /* поверх телефона (z-index: 2) */
   /* blur меньше, яркость выше — plus-lighter светит сильнее */
-  filter: blur(3px) brightness(1.55) contrast(1.15) !important;
+  filter: blur(2px) brightness(1.9) contrast(1.25) saturate(1.2) !important;
   opacity: 1 !important;
-  mix-blend-mode: plus-lighter !important;
+  mix-blend-mode: plus-lighter !important;   /* максимум свечения */
 }
 
 [data-theme="dark"] .design-on {
-  opacity: 0.85 !important;
-  filter: blur(4px) brightness(1.35) contrast(1.1) !important;
+  opacity: 1 !important;
+  filter: blur(2px) brightness(1.9) contrast(1.25) saturate(1.2) !important;
   mix-blend-mode: plus-lighter !important;
 }
 
