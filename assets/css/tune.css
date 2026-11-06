@@ -312,23 +312,22 @@
   left: 50% !important;
   transform: translate(-50%, -50%) !important;
   /* ширина считается от колонки (600px), а не от телефона.
-     Телефон 547px → 1,5× от 132% = 198% от телефона = 1083px = 1.805 колонки */
-  width: calc(var(--col-w-vp) * 1.805) !important;
+     Ширина 1.72 колонки — под холст 1060×540 */
+  width: calc(var(--col-w-vp) * 1.72) !important;
   max-width: none !important;
   height: auto !important;
   pointer-events: none !important;
   user-select: none !important;
   z-index: 4 !important;               /* поверх телефона (z-index: 2) */
-  /* blur меньше, яркость выше — plus-lighter светит сильнее */
-  filter: blur(26px) brightness(1) contrast(1) saturate(1) !important;
+  filter: blur(12px) brightness(1) contrast(1) saturate(1) !important;
   opacity: 1 !important;
-  mix-blend-mode: plus-lighter !important;   /* как в макете */
+  mix-blend-mode: normal !important;         /* plus-lighter пересвечивал белые буквы */
 }
 
 [data-theme="dark"] .design-on {
   opacity: 1 !important;
-  filter: blur(26px) brightness(1) contrast(1) saturate(1) !important;
-  mix-blend-mode: plus-lighter !important;
+  filter: blur(12px) brightness(1) contrast(1) saturate(1) !important;
+  mix-blend-mode: normal !important;
 }
 
 @media (max-width: 1199px) {
