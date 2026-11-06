@@ -320,14 +320,14 @@
   user-select: none !important;
   z-index: 4 !important;               /* поверх телефона (z-index: 2) */
   /* blur меньше, яркость выше — plus-lighter светит сильнее */
-  filter: blur(26px) brightness(1.9) contrast(1.25) saturate(1.2) !important;
+  filter: blur(26px) brightness(1) contrast(1) saturate(1) !important;
   opacity: 1 !important;
-  mix-blend-mode: plus-lighter !important;   /* максимум свечения */
+  mix-blend-mode: plus-lighter !important;   /* как в макете */
 }
 
 [data-theme="dark"] .design-on {
   opacity: 1 !important;
-  filter: blur(26px) brightness(1.9) contrast(1.25) saturate(1.2) !important;
+  filter: blur(26px) brightness(1) contrast(1) saturate(1) !important;
   mix-blend-mode: plus-lighter !important;
 }
 
