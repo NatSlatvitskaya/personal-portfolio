@@ -635,6 +635,9 @@
     fx.innerHTML =
       '<div class="nnz-veil"></div>' +
       '<canvas class="nnz-rain" aria-hidden="true"></canvas>' +
+      '<div class="nnz-hacklogo">' +
+        '<img src="assets/img/logo-nat.png" alt="" aria-hidden="true">' +
+      '</div>' +
       '<div class="nnz-win">' +
         '<div class="nnz-win__bar">' +
           '<span class="nnz-win__dots"><i></i><i></i><i></i></span>' +
@@ -669,6 +672,12 @@
       logEl.scrollTop = logEl.scrollHeight;
       i += 1;
     }, 78);
+
+    /* перед ACCESS GRANTED логотип ярко вспыхивает и уходит */
+    setTimeout(() => {
+      const logo = fx.querySelector('.nnz-hacklogo');
+      if (logo) logo.classList.add('is-flare');
+    }, 3450);
 
     setTimeout(() => grant.classList.add('is-on'), 3750);
 
@@ -933,6 +942,42 @@
     if (termField) termField.readOnly = false;
     if (termOut) termPrint('geek mode off', 'dim');
   }
+
+  /* ============================================================
+     ПРЕЛОАДЕР — чёрный экран с логотипом, пока грузятся ассеты
+     ============================================================ */
+  (function preloader() {
+    const el = document.getElementById('nnzPreloader');
+    if (!el) return;
+
+    let done = false;
+
+    function hide() {
+      if (done) return;
+      done = true;
+      el.classList.add('is-out');
+      setTimeout(() => { el.style.display = 'none'; }, 460);
+      document.body.classList.remove('is-preloading');
+    }
+
+    document.body.classList.add('is-preloading');
+
+    /* ждём телефон и щупальца — самые тяжёлые картинки */
+    const heavy = [...document.querySelectorAll('.phone__img, .design-on')];
+    const waits = heavy.map((img) => new Promise((res) => {
+      if (img.complete && img.naturalWidth > 0) return res();
+      img.addEventListener('load', res, { once: true });
+      img.addEventListener('error', res, { once: true });
+    }));
+
+    const ready = Promise.all(waits);
+    const minDelay = new Promise((res) => setTimeout(res, 900));   /* показать логотип */
+    const timeout = new Promise((res) => setTimeout(res, 6000));   /* страховка */
+
+    Promise.race([Promise.all([ready, minDelay]), timeout]).then(() => {
+      requestAnimationFrame(() => requestAnimationFrame(hide));
+    });
+  })();
 
   document.addEventListener('keydown', (e) => {
     if (!geekState) return;
