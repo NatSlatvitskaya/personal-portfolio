@@ -274,7 +274,7 @@
   /* ============================================================
      ТЕЛЕФОН: смена сообщений
      ============================================================ */
-  const messages = ['phone.msg1', 'phone.msg2', 'phone.msg3', 'phone.msg4', 'phone.msg5'];
+  const messages = ['phone.msg1', 'phone.msg2', 'phone.msg3', 'phone.msg4', 'phone.msg5', 'phone.msg6'];
   let msgIndex = 0;
   let typeTimer = null;
   let cycleTimer = null;
@@ -324,7 +324,12 @@
   }
 
   function startMessage() {
-    const text = t(messages[msgIndex]);
+    const key = messages[msgIndex];
+    const text = t(key);
+
+    /* длинные фразы не влезают в экран телефона — уменьшаем кегль только им */
+    if (phoneText) phoneText.classList.toggle('is-long', key === 'phone.msg6');
+
     typeMessage(text, () => {
       clearTimeout(cycleTimer);
       cycleTimer = setTimeout(cycleMessages, 2600);

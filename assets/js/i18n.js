@@ -19,6 +19,7 @@ const I18N = {
     'phone.msg3': 'Say hi!',
     'phone.msg4': 'Link up',
     'phone.msg5': 'Hit me up',
+    'phone.msg6': 'Boot console',
 
     /* теги */
     'tag.branding': '{брендинг}',
@@ -29,7 +30,7 @@ const I18N = {
     /* футер */
     'foot.rights': '© 2026 Наталья Слатвицкая',
     'foot.built': 'Собрано вручную · HTML / CSS / JS',
-    'foot.console': 'v1.0 / console',
+    'foot.console': 'v1.2 / console',
     'foot.cv': 'CV',
     'foot.dprofile': 'Dprofile',
     'foot.behance': 'Behance',
@@ -100,6 +101,7 @@ const I18N = {
     'phone.msg3': 'Say hi!',
     'phone.msg4': 'Link up',
     'phone.msg5': 'Hit me up',
+    'phone.msg6': 'Boot console',
 
     'tag.branding': '{branding}',
     'tag.web': '{web design}',
@@ -108,7 +110,7 @@ const I18N = {
 
     'foot.rights': '© 2026 Natalia Slatvitskaya',
     'foot.built': 'Hand-built · HTML / CSS / JS',
-    'foot.console': 'v1.0 / console',
+    'foot.console': 'v1.2 / console',
     'foot.cv': 'CV',
     'foot.dprofile': 'Dprofile',
     'foot.behance': 'Behance',
