@@ -615,7 +615,7 @@
 .footbar__legal > :last-child  { justify-self: end !important; }
 .footbar__legal > :nth-child(2){ justify-self: center !important; }
 
-[data-theme="dark"] .footbar__legal { color: var(--c-navy) !important; }
+[data-theme="dark"] .footbar__legal { color: #FFFFFF !important; }
 
 .footbar__easter {
   font-family: var(--font-display) !important;
@@ -625,7 +625,7 @@
   color: var(--c-navy) !important;
 }
 
-[data-theme="dark"] .footbar__easter { color: var(--c-navy) !important; }
+[data-theme="dark"] .footbar__easter { color: #FFFFFF !important; }
 [data-theme="dark"] .footbar__easter:hover { color: var(--c-teal) !important; }
 
 
