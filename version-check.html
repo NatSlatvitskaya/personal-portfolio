@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Проверка версии файлов</title>
+<style>
+  body {
+    margin: 0; padding: 32px;
+    background: #05070A; color: #C9FFE9;
+    font-family: ui-monospace, Menlo, monospace;
+    font-size: 14px; line-height: 1.7;
+  }
+  h1 { font-size: 18px; letter-spacing: .04em; color: #11FFB0; margin: 0 0 6px; }
+  p.sub { color: rgba(255,255,255,.5); margin: 0 0 26px; font-size: 12px; }
+  .row {
+    display: grid; grid-template-columns: 180px 1fr; gap: 10px;
+    padding: 10px 14px; border-left: 3px solid #22303a;
+    margin-bottom: 6px; background: rgba(255,255,255,.03);
+  }
+  .row.ok   { border-left-color: #11FFB0; }
+  .row.bad  { border-left-color: #FF4D6D; }
+  .name { color: #8fb8c9; }
+  .ok-t  { color: #11FFB0; }
+  .bad-t { color: #FF4D6D; }
+  .meta { color: rgba(255,255,255,.45); font-size: 12px; }
+  #verdict {
+    margin-top: 26px; padding: 16px 18px; border: 2px solid;
+    font-size: 15px; letter-spacing: .03em;
+  }
+  #verdict.good { border-color: #11FFB0; color: #11FFB0; background: rgba(17,255,176,.07); }
+  #verdict.bad  { border-color: #FF4D6D; color: #FF4D6D; background: rgba(255,77,109,.07); }
+  #verdict ul { margin: 10px 0 0; padding-left: 20px; color: #fff; font-size: 13px; }
+  button {
+    margin-top: 20px; padding: 9px 18px; cursor: pointer;
+    background: #11FFB0; color: #05070A; border: 0;
+    font-family: inherit; font-size: 13px; font-weight: 700;
+    letter-spacing: .05em; text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+
+<h1>ПРОВЕРКА ВЕРСИИ ФАЙЛОВ</h1>
+<p class="sub">Страница запрашивает файлы заново, в обход кэша, и проверяет, что в них лежит.</p>
+
+<div id="out"></div>
+<div id="verdict"></div>
+
+<button onclick="run()">Проверить снова</button>
+
+<script>
+const CHECKS = [
+  {
+    file: 'assets/js/app.js',
+    marker: 'v1.2',
+    label: 'v1.2 · modes',
+    size: '~30 849 б'
+  },
+  {
+    file: 'assets/js/app.js',
+    marker: 'function hackRun',
+    label: 'функция hackRun',
+    size: null
+  },
+  {
+    file: 'assets/js/i18n.js',
+    marker: 'Скрытые: hack_nat',
+    label: 'скрытые команды',
+    size: '~6 253 б'
+  },
+  {
+    file: 'assets/css/tune.css',
+    marker: '.nnz-fx',
+    label: 'стили .nnz-fx',
+    size: '~34 702 б'
+  },
+  {
+    file: 'assets/css/tune.css',
+    marker: '@keyframes nnzFall',
+    label: 'анимация падения',
+    size: null
+  }
+];
+
+const cache = {};
+
+async function get(url) {
+  if (cache[url]) return cache[url];
+  const res = await fetch(url + '?nocache=' + Date.now(), { cache: 'no-store' });
+  const buf = await res.arrayBuffer();
+  cache[url] = {
+    ok: res.ok,
+    status: res.status,
+    size: buf.byteLength,
+    text: new TextDecoder().decode(buf)
+  };
+  return cache[url];
+}
+
+async function run() {
+  const out = document.getElementById('out');
+  const verdict = document.getElementById('verdict');
+  out.innerHTML = '';
+  verdict.className = '';
+  verdict.textContent = 'Проверяю…';
+
+  const results = [];
+
+  for (const c of CHECKS) {
+    let r;
+    try {
+      r = await get(c.file);
+    } catch (e) {
+      results.push({ ...c, pass: false, note: 'не загрузился' });
+      continue;
+    }
+    const pass = r.ok && r.text.includes(c.marker);
+    results.push({ ...c, pass, size: r.size, note: pass ? 'найдено' : 'НЕ найдено' });
+  }
+
+  // группируем по файлу — показываем одну строку на файл
+  const byFile = {};
+  for (const r of results) {
+    if (!byFile[r.file]) byFile[r.file] = { size: null, all: true, missing: [] };
+    byFile[r.file].size = r.size;
+    if (!r.pass) { byFile[r.file].all = false; byFile[r.file].missing.push(r.label); }
+  }
+
+  out.innerHTML = Object.entries(byFile).map(([file, info]) => {
+    const cls = info.all ? 'ok' : 'bad';
+    const word = info.all
+      ? '<span class="ok-t">АКТУАЛЬНЫЙ</span>'
+      : '<span class="bad-t">СТАРЫЙ</span>';
+    const extra = info.all ? 'все признаки на месте' : 'нет: ' + info.missing.join(', ');
+    const size = info.size != null ? ' · ' + info.size.toLocaleString('ru-RU') + ' б' : '';
+    return '<div class="row ' + cls + '">' +
+             '<span class="name">' + file + '</span>' +
+             '<span>' + word + '<span class="meta">' + size + ' · ' + extra + '</span></span>' +
+           '</div>';
+  }).join('');
+
+  const broken = Object.entries(byFile).filter(([, i]) => !i.all);
+
+  if (!broken.length) {
+    verdict.className = 'good';
+    verdict.innerHTML = 'ВСЁ АКТУАЛЬНО — сервер отдаёт новые файлы';
+  } else {
+    verdict.className = 'bad';
+    verdict.innerHTML = 'СЕРВЕР ОТДАЁТ СТАРЫЕ ФАЙЛЫ:' +
+      '<ul>' + broken.map(([f]) => '<li>' + f + '</li>').join('') + '</ul>';
+  }
+}
+
+run();
+</script>
+</body>
+</html>
