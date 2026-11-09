@@ -1022,9 +1022,7 @@ body.is-destroying .stage .design-on {
 /* стрелка-курсор и плавность на саму кнопку */
 .footbar__easter {
   cursor: pointer !important;
-  display: inline-flex !important;
-  align-items: baseline !important;
-  gap: 0.18em !important;
+  display: inline-block !important;   /* нужно для heredity подчёркивания */
   transition:
     color 180ms ease,
     text-shadow 180ms ease,
@@ -1048,23 +1046,29 @@ body.is-destroying .stage .design-on {
   50%, 100% { opacity: 0; }
 }
 
-/* ---- светлая тема: неоновая подсветка на ховере ---- */
+/* ---- ховер: подчёркивание как у тегов, цвет не меняем ----
+   бирюзовый на светлом футере даёт контраст 1.02 — не читается,
+   поэтому цвет остаётся тёмным (светлая тема) / белым (тёмная) */
 .footbar__easter:hover,
 .footbar__easter:focus-visible {
-  color: var(--c-teal) !important;
-  text-shadow:
-    0 0 6px rgba(73, 253, 200, 0.85),
-    0 0 18px rgba(73, 253, 200, 0.45) !important;
+  color: var(--c-navy) !important;
+  text-shadow: none !important;
+  text-decoration: underline !important;
+  text-decoration-color: currentColor !important;
+  text-underline-offset: 6px !important;
+  text-decoration-thickness: 2px !important;
   outline: none !important;
 }
 
-/* ---- тёмная тема: тот же неон, но ярче ---- */
+/* тёмная тема — как у тегов: белый текст, бирюзовая линия */
 [data-theme="dark"] .footbar__easter:hover,
 [data-theme="dark"] .footbar__easter:focus-visible {
-  color: var(--c-teal) !important;
-  text-shadow:
-    0 0 8px rgba(73, 253, 200, 0.95),
-    0 0 22px rgba(73, 253, 200, 0.55) !important;
+  color: #FFFFFF !important;
+  text-shadow: none !important;
+  text-decoration: underline !important;
+  text-decoration-color: #11FFB0 !important;
+  text-underline-offset: 6px !important;
+  text-decoration-thickness: 2px !important;
 }
 
 /* уважение к prefers-reduced-motion */
