@@ -1,0 +1,1015 @@
+/* =============================================================
+   TUNE.CSS — правки визуала (v5)
+   ============================================================= */
+
+
+/* ============================================================
+   0. ОСНОВА
+   ============================================================ */
+
+:root {
+  --font-display: "Inter", system-ui, -apple-system, sans-serif;
+  --font-head:    "Inter", system-ui, -apple-system, sans-serif;
+  --font-body:    "Inter", system-ui, -apple-system, sans-serif;
+  --font-mono:    "Inter", system-ui, -apple-system, sans-serif;
+  --font-screen:  "Silkscreen", ui-monospace, monospace;
+
+  --c-violet: #BA71FF;
+  --c-green:  #11FFB0;
+  --c-navy:   #221D49;
+  --c-teal:   #49FDC8;
+}
+
+
+/* ============================================================
+   ФОН — её готовые файлы. Градиент и текстура УЖЕ внутри.
+   Никаких дополнительных слоёв: они перекрывали дизайн.
+   ============================================================ */
+
+.fx__grad,
+.fx__halo,
+.fx__edge,
+.fx__grain {
+  display: none !important;
+}
+
+.fx {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image: url("../img/bg-light.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  transition: background-image 400ms ease;
+}
+
+[data-theme="dark"] .fx {
+  background-image: url("../img/bg-dark.jpg");
+}
+
+/* текстура отдельным слоем больше не нужна */
+.fx__texture { display: none !important; }
+
+
+/* ============================================================
+   1-3. ВЕРХНЯЯ СТРОКА
+   ============================================================ */
+
+.topbar {
+  padding-top: 14px !important;
+  padding-inline: var(--grid-margin) !important;   /* 32px — как у сетки */
+  align-items: start !important;
+}
+
+.topbar__link,
+.topbar__exp {
+  font-family: var(--font-display) !important;
+  font-size: 36px !important;
+  font-weight: 500 !important;
+  letter-spacing: -0.06em !important;
+  line-height: 1.1 !important;
+  color: #11FFB0 !important;                 /* неоновый зелёный */
+  background: transparent !important;
+  border: 2px solid transparent !important;  /* место под обводку, без сдвига */
+  border-radius: 8px !important;
+  padding: 2px 10px !important;
+  margin: -2px -10px !important;
+  transition: border-color 200ms ease !important;
+}
+
+.topbar__link:hover,
+.topbar__link:focus-visible,
+.topbar__exp:hover,
+.topbar__exp:focus-visible {
+  color: #11FFB0 !important;
+  background: transparent !important;       /* без заливки */
+  border-color: #11FFB0 !important;         /* только обводка */
+  outline: none !important;
+}
+
+.topbar__title {
+  font-family: var(--font-display) !important;
+  font-size: 36px !important;
+  font-weight: 500 !important;
+  letter-spacing: -0.06em !important;
+  line-height: 1.1 !important;
+  color: var(--c-green) !important;
+}
+
+.topbar__sub {
+  font-family: var(--font-display) !important;
+  font-size: 28px !important;
+  font-weight: 400 !important;
+  letter-spacing: -0.04em !important;
+  line-height: 1.2 !important;
+  color: #FFFFFF !important;                 /* белый */
+  margin-top: 4px !important;
+}
+
+
+/* ============================================================
+   4. ТЕЛЕФОН
+   ============================================================ */
+
+.stage__center {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  align-self: stretch !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  padding-block: 12px !important;
+  position: relative !important;
+}
+
+.phone {
+  height: min(718px, 100%) !important;
+  width: auto !important;
+  max-height: 100% !important;
+  max-width: 100% !important;
+  aspect-ratio: 1088 / 1429 !important;
+  flex: 0 0 auto !important;
+  position: relative !important;
+  z-index: 2 !important;
+}
+
+.phone__screen {
+  left: 24.36% !important;
+  top: 23.09% !important;
+  width: 40.17% !important;
+  height: 19.59% !important;
+  background: transparent !important;   /* зелёный уже в PNG */
+  box-shadow: none !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+}
+
+
+/* ============================================================
+   5. ТЕКСТ НА ЭКРАНЕ
+   ============================================================ */
+
+.phone__screen { container-type: size; }
+
+.phone__text {
+  font-family: var(--font-screen) !important;
+  font-size: 13cqw !important;
+  letter-spacing: 0.01em !important;
+  line-height: 1 !important;
+  color: #04311F !important;          /* тёмный на зелёном из PNG */
+  padding: 0 4% !important;
+  text-shadow: none !important;
+}
+
+/* центр экрана: текст по центру */
+.phone__screen {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+
+/* ============================================================
+   5.5 СЕТКА — 3 колонки: margin 32, gutter 28, stretch
+   Карточки позиционируются от этих колонок.
+   ============================================================ */
+
+:root {
+  --col-gap: var(--grid-gutter);            /* 28px */
+  --col-w: calc((100% - (var(--grid-margin) * 2) - (var(--col-gap) * 2)) / 3);
+  --col-1: var(--grid-margin);
+  --col-2: calc(var(--grid-margin) + var(--col-w) + var(--col-gap));
+  --col-3: calc(var(--grid-margin) + (var(--col-w) + var(--col-gap)) * 2);
+
+  /* половина карточки + 8px, чтобы центр не уводил её за край */
+  --edge-safe: calc(142px / 2 + 8px);
+
+  /* Ширина колонки, посчитанная от ЭКРАНА (не от контейнера).
+     (100vw − margin 32×2 − gutter 28×2) / 3
+     Нужна там, где процент внутри контейнера даёт не тот результат. */
+  --col-w-vp: calc((100vw - 120px) / 3);
+}
+
+/* сцена — контейнер для позиционирования */
+.stage {
+  position: relative !important;
+  display: block !important;
+  grid-template-columns: none !important;
+  grid-template-rows: none !important;
+  padding: 0 !important;
+  gap: 0 !important;
+}
+
+/* телефон — по центру второй колонки, на всю высоту сцены */
+.stage__center {
+  position: absolute !important;
+  top: 0 !important;
+  bottom: 0 !important;
+  left: var(--col-2) !important;
+  width: var(--col-w) !important;
+  grid-column: auto !important;
+  grid-row: auto !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  z-index: 3 !important;
+}
+
+/* ---- карточки: позиции из макета ---- */
+.card {
+  position: absolute !important;
+  z-index: 2 !important;
+  grid-column: auto !important;
+  grid-row: auto !important;
+}
+
+/* ---- позиции карточек ----
+   left = ЦЕНТР карточки (transform: translate(-50%, -50%)).
+   Половина карточки: --card-half. Внутри колонки — доли её ширины. */
+
+:root {
+  --card-half: 71px;
+  /* единый размер обоих переключателей футера (SVG 101×56) */
+  --ctl-w: clamp(74px, 5.26vw, 101px);
+  --ctl-h: clamp(41px, 2.92vw, 56px);
+}
+
+/* КОЛОНКА 1 — левая */
+/* 1 NOCTURNE — сдвинута к середине колонки */
+.card:nth-of-type(1) { left: calc(var(--col-1) + var(--col-w) * 0.482) !important; top: 19.0% !important; }
+/* 3 NAME 1 — ЛЕВЫЙ КРАЙ карточки = левый край колонки (32px) */
+.card:nth-of-type(3) { left: calc(var(--col-1) + var(--card-half)) !important; top: 48.2% !important; }
+/* 4 MEMORIA */
+.card:nth-of-type(4) { left: calc(var(--col-1) + var(--col-w) * 0.816) !important; top: 48.2% !important; }
+/* 7 NAME 4 — по центру колонки */
+.card:nth-of-type(7) { left: calc(var(--col-1) + var(--col-w) * 0.491) !important; top: 81.0% !important; }
+
+/* КОЛОНКА 3 — правая */
+/* 2 NAME 8 */
+.card:nth-of-type(2) { left: calc(var(--col-3) + var(--col-w) * 0.518) !important; top: 19.0% !important; }
+/* 5 SMARTY — левый край = левый край колонки 3 */
+.card:nth-of-type(5) { left: calc(var(--col-3) + var(--card-half)) !important; top: 48.2% !important; }
+/* 8 NAME 7 — ПРАВЫЙ край = правый край колонки 3 */
+.card:nth-of-type(8) { left: calc(var(--col-3) + var(--col-w) - var(--card-half)) !important; top: 48.2% !important; }
+/* 6 СЛЕТ — по центру колонки */
+.card:nth-of-type(6) { left: calc(var(--col-3) + var(--col-w) * 0.518) !important; top: 81.0% !important; }
+
+.card {
+  transform: translate(-50%, -50%) !important;
+}
+
+/* «design on» — над телефоном, по центру */
+.design-on {
+  top: 50% !important;
+  left: 50% !important;
+}
+
+
+/* ============================================================
+   6. КАРТОЧКИ
+   ============================================================ */
+
+.card {
+  padding: 8px !important;
+  gap: 8px !important;
+  box-shadow: none !important;
+  border: 0 !important;
+}
+
+.card:hover,
+.card:focus-visible {
+  box-shadow: 6.4px 6.4px 0 0 #49FDC8 !important;
+  transform: translate(-50%, -50%) scale(1.2) !important;
+  z-index: 6 !important;
+}
+
+.card__cover { border-radius: 8px !important; }
+
+.card__label {
+  font-family: var(--font-display) !important;
+  font-size: 22px !important;
+  font-weight: 500 !important;
+  letter-spacing: -0.04em !important;
+  line-height: 1.05 !important;
+  color: #FFFFFF !important;
+}
+
+.card:hover .card__label,
+.card:focus-visible .card__label {
+  font-size: 23px !important;
+}
+
+
+/* ============================================================
+   7. «design on» — неоновое свечение чистого SVG
+   SVG: чистые белые контуры (#FFFFFF), без blur и без blend внутри файла.
+   Свечение собирается в браузере: plus-lighter + два drop-shadow.
+   ============================================================ */
+
+.design-on {
+  position: absolute !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  /* 1.13 колонки = 680px на экране 1920.
+     Файл квадратный (917×901), поэтому высота равна ширине. */
+  width: calc(var(--col-w-vp) * 1.13) !important;
+  max-width: none !important;
+  height: auto !important;
+  pointer-events: none !important;
+  user-select: none !important;
+  z-index: 4 !important;               /* поверх телефона (z-index: 2) */
+
+  /* Y2K-неон: размытие 2px + лиловый ореол #FAD9FF (8px и 16px) */
+  filter: blur(2px)
+          drop-shadow(0 0 8px #FAD9FF)
+          drop-shadow(0 0 16px rgba(250, 217, 255, 0.7)) !important;
+  mix-blend-mode: plus-lighter !important;
+  opacity: 1 !important;
+  will-change: filter;
+  /* сдвиг композиции — задаётся на каждом слове отдельно */
+  --shift-x: 0px;
+  --shift-y: 0px;
+  translate: var(--shift-x) var(--shift-y);
+}
+
+/* «design» — левее (58px при колонке 600px) */
+.design-on--design {
+  --shift-x: calc(var(--col-w-vp) * -0.097);
+}
+
+/* «on» — ниже (29px при колонке 600px) */
+.design-on--on {
+  --shift-y: calc(var(--col-w-vp) * 0.048);
+}
+
+[data-theme="dark"] .design-on {
+  filter: blur(2px)
+          drop-shadow(0 0 8px #F1E4DA)
+          drop-shadow(0 0 16px rgba(241, 228, 218, 0.7)) !important;
+  mix-blend-mode: plus-lighter !important;
+  opacity: 1 !important;
+}
+
+@media (max-width: 1199px) {
+  .design-on { display: none !important; }
+}
+
+
+/* ============================================================
+   8. СОЦКНОПКИ
+   ============================================================ */
+
+.social {
+  /* 76px при колонке 600: 600 − 70×2 − 20×4 = 380, ÷5
+     пропорционально ширине колонки, но не меньше 40px */
+  width: max(40px, calc(var(--col-w-vp) * 0.1266667)) !important;
+  height: max(40px, calc(var(--col-w-vp) * 0.1266667)) !important;
+  flex: 0 0 auto !important;
+  background-color: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  background-size: contain !important;
+  background-repeat: no-repeat !important;
+  background-position: center !important;
+  transition: transform 200ms cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.social:hover,
+.social:focus-visible {
+  transform: translateY(-3px) scale(1.06) !important;
+}
+
+/* ховер: зелёный глиф на тёмном фоне (раньше заливался весь круг) */
+.social[data-contact="cv"]:hover,
+.social[data-contact="cv"]:focus-visible       { background-image: url("../img/icons/ui/cv-hover.svg") !important; }
+.social[data-contact="dprofile"]:hover,
+.social[data-contact="dprofile"]:focus-visible { background-image: url("../img/icons/ui/dprofile-hover.svg") !important; }
+.social[data-contact="behance"]:hover,
+.social[data-contact="behance"]:focus-visible  { background-image: url("../img/icons/ui/behance-hover.svg") !important; }
+.social[data-contact="telegram"]:hover,
+.social[data-contact="telegram"]:focus-visible { background-image: url("../img/icons/ui/telegram-hover.svg") !important; }
+.social[data-contact="email"]:hover,
+.social[data-contact="email"]:focus-visible    { background-image: url("../img/icons/ui/mail-hover.svg") !important; }
+
+.social svg, .social span:not(.social__tip) { display: none !important; }
+
+/* SVG-иконки: вектор, чёткие на любом экране */
+.social[data-contact="cv"]       { background-image: url("../img/icons/ui/cv.svg") !important; }
+.social[data-contact="dprofile"] { background-image: url("../img/icons/ui/dprofile.svg") !important; }
+.social[data-contact="behance"]  { background-image: url("../img/icons/ui/behance.svg") !important; }
+.social[data-contact="telegram"] { background-image: url("../img/icons/ui/telegram.svg") !important; }
+.social[data-contact="email"]    { background-image: url("../img/icons/ui/mail.svg") !important; }
+
+.social__tip {
+  font-family: var(--font-display) !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  letter-spacing: -0.02em !important;
+}
+
+
+/* ============================================================
+   9. ФУТЕР — одна строка: язык · теги · иконки · теги · тумблер
+   Колонки сетки: margin 32, gutter 28
+   ============================================================ */
+
+:root {
+  --grid-margin: 32px;
+  --grid-gutter: 28px;
+  --foot-pad-y-top: 18px;
+  --foot-pad-y-bot: 14px;
+  --foot-gap: 18px;
+}
+
+.screen {
+  display: flex !important;
+  flex-direction: column !important;
+  grid-template-rows: none !important;
+  height: 100dvh !important;
+  overflow: hidden !important;
+}
+
+.topbar  { flex: 0 0 auto !important; }
+.stage   { flex: 1 1 auto !important; min-height: 0 !important; }
+.footbar { flex: 0 0 auto !important; }
+
+/* ============================================================
+   ЭФФЕКТ СТЕКЛА — параметры из Figma
+   Light: угол −45°, интенсивность 80%
+   Refraction 80 · Depth 35.22 · Dispersion 50 · Frost 7.04 · Splay 0
+   Заливка: #F1E4DA, 20%
+   ============================================================ */
+
+.footbar {
+  height: auto !important;
+  min-height: 0 !important;
+  padding:
+    var(--foot-pad-y-top)
+    0
+    var(--foot-pad-y-bot) !important;
+  gap: var(--foot-gap) !important;
+  border-radius: 20px 20px 0 0 !important;
+
+  /* заливка #F1E4DA 20% */
+  background-color: rgba(241, 228, 218, 0.20) !important;
+
+  /* Light −45°: блик идёт из левого-верхнего угла */
+  background-image: linear-gradient(
+    -45deg,
+    rgba(255, 255, 255, 0.26) 0%,
+    rgba(255, 255, 255, 0.10) 34%,
+    rgba(255, 255, 255, 0.00) 68%,
+    rgba(241, 228, 218, 0.10) 100%
+  ) !important;
+
+  /* Frost 7.04 → размытие; Refraction 80 → лёгкое усиление насыщенности */
+  backdrop-filter: blur(7px) saturate(1.25) brightness(1.04) !important;
+  -webkit-backdrop-filter: blur(7px) saturate(1.25) brightness(1.04) !important;
+
+  /* Depth 35.22 → внутренняя тень; Dispersion 50 → тонкая цветная кромка */
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.55),
+    inset 0 -32px 48px -34px rgba(60, 40, 30, 0.22),
+    inset 1px 0 0 rgba(255, 240, 250, 0.30),
+    inset -1px 0 0 rgba(210, 255, 245, 0.30) !important;
+
+  border-top: 1px solid rgba(255, 255, 255, 0.60) !important;
+}
+
+/* тёмная тема: стекло #F1E4DA — как в светлой */
+[data-theme="dark"] .footbar {
+  background-color: rgba(241, 228, 218, 0.20) !important;
+  background-image: linear-gradient(
+    -45deg,
+    rgba(255, 255, 255, 0.26) 0%,
+    rgba(255, 255, 255, 0.10) 34%,
+    rgba(255, 255, 255, 0.00) 68%,
+    rgba(241, 228, 218, 0.10) 100%
+  ) !important;
+  backdrop-filter: blur(7px) saturate(1.25) brightness(1.04) !important;
+  -webkit-backdrop-filter: blur(7px) saturate(1.25) brightness(1.04) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.55),
+    inset 0 -32px 48px -34px rgba(60, 40, 30, 0.22),
+    inset 1px 0 0 rgba(255, 240, 250, 0.30),
+    inset -1px 0 0 rgba(210, 255, 245, 0.30) !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.60) !important;
+}
+
+/* ---- главная строка: ТА ЖЕ сетка 3 колонки, что у сцены ----
+   7 дорожек: 32 | col | 28 | col | 28 | col | 32
+   Сумма = 100% родителя, поэтому колонки встают точно на места. */
+.footbar__main {
+  display: grid !important;
+  grid-template-columns:
+    var(--grid-margin)
+    var(--col-w)
+    var(--grid-gutter)
+    var(--col-w)
+    var(--grid-gutter)
+    var(--col-w)
+    var(--grid-margin) !important;
+  column-gap: 0 !important;
+  align-items: center !important;
+  width: 100% !important;
+  min-height: 56px !important;
+}
+
+.footcol--1 { grid-column: 2 !important; }
+.footcol--2 { grid-column: 4 !important; }
+.footcol--3 { grid-column: 6 !important; }
+
+/* ---- колонки футера ----
+   Каждая колонка = ширина колонки сетки (600px при 1920).
+   Внутри — space-between: первый элемент по левому краю,
+   последний по правому, промежутки равные. */
+.footcol {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 0 !important;
+  min-width: 0 !important;
+  width: 100% !important;
+  flex-wrap: nowrap !important;
+}
+
+/* ---- КОЛОНКА 2: иконки, своё выравнивание ----
+   Контейнер = ширина колонки (600px при 1920).
+   Отступ от краёв 70px, зазор между иконками 20px.
+   600 − 70×2 − 20×4 = 380 → 380 / 5 = 76px на иконку. */
+.footcol--2 {
+  justify-content: center !important;
+  /* пропорции от ширины колонки, посчитанной от экрана:
+     20/600 = 3.333%  ·  70/600 = 11.667%  ·  76/600 = 12.667% */
+  gap: calc(var(--col-w-vp) * 0.0333333) !important;
+  padding-inline: calc(var(--col-w-vp) * 0.1166667) !important;
+  box-sizing: border-box !important;
+}
+
+/* старые обёртки, если где-то остались */
+.footbar__tags {
+  display: flex !important;
+  align-items: center !important;
+  gap: var(--grid-gutter) !important;
+  flex-wrap: nowrap !important;
+}
+
+.tag {
+  font-family: var(--font-display) !important;
+  font-size: 28px !important;
+  font-weight: 500 !important;
+  letter-spacing: -0.04em !important;
+  line-height: 1.1 !important;
+  color: var(--c-navy) !important;
+  white-space: nowrap !important;
+  transition: color 160ms ease !important;
+  min-width: 0 !important;
+}
+
+.tag:hover,
+.tag:focus-visible,
+.tag.is-active {
+  color: var(--c-navy) !important;           /* цвет не меняем */
+  text-decoration: underline !important;
+  text-decoration-color: currentColor !important;
+  text-underline-offset: 6px !important;
+  text-decoration-thickness: 2px !important;
+}
+
+[data-theme="dark"] .tag { color: #FFFFFF !important; }
+[data-theme="dark"] .tag:hover,
+[data-theme="dark"] .tag:focus-visible,
+[data-theme="dark"] .tag.is-active {
+  color: #FFFFFF !important;
+  text-decoration: underline !important;
+  text-decoration-color: #11FFB0 !important;
+  text-underline-offset: 6px !important;
+}
+
+.tag {
+  text-decoration: none !important;
+}
+
+/* ---- соцкнопки: центр, не растягиваются ---- */
+/* соцкнопки — прямые дети колонки 2, обёртки нет */
+.socials { display: contents !important; }   /* страховка, если останется */
+
+/* ---- подпись ---- */
+.footbar__legal {
+  padding-inline: var(--grid-margin) !important;
+  font-family: var(--font-display) !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  letter-spacing: -0.04em !important;
+  line-height: 1.2 !important;
+  color: var(--c-navy) !important;
+  display: grid !important;
+  grid-template-columns: 1fr auto 1fr !important;
+  align-items: center !important;
+  gap: 10px !important;
+}
+
+.footbar__legal > :last-child  { justify-self: end !important; }
+.footbar__legal > :nth-child(2){ justify-self: center !important; }
+
+[data-theme="dark"] .footbar__legal { color: #FFFFFF !important; }
+
+.footbar__easter {
+  font-family: var(--font-display) !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  letter-spacing: -0.04em !important;
+  color: var(--c-navy) !important;
+}
+
+[data-theme="dark"] .footbar__easter { color: #FFFFFF !important; }
+[data-theme="dark"] .footbar__easter:hover { color: var(--c-teal) !important; }
+
+
+/* ============================================================
+   11-12. ПЕРЕКЛЮЧАТЕЛИ
+   ============================================================ */
+
+.switcher {
+  background: none !important;
+  border: 0 !important;
+  border-radius: 0 !important;          /* убираем круглость от base.css */
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  overflow: visible !important;
+  box-shadow: none !important;
+  outline: 0 !important;
+  width: var(--ctl-w) !important;
+  height: var(--ctl-h) !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  min-width: 0 !important;
+  background-image: url("../img/icons/ui/lang-light-ru.svg") !important;
+  background-size: contain !important;
+  background-repeat: no-repeat !important;
+  background-position: center !important;
+  cursor: pointer !important;
+  position: relative !important;
+}
+
+[data-theme="dark"] .switcher {
+  background-image: url("../img/icons/ui/lang-dark.svg") !important;
+}
+
+.switcher__btn { display: none !important; }
+
+.themetoggle {
+  width: var(--ctl-w) !important;
+  height: var(--ctl-h) !important;
+  background-color: transparent !important;   /* убираем светлую плашку */
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  outline: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  min-width: 0 !important;
+  background-image: url("../img/icons/ui/theme-light.svg") !important;
+  background-size: contain !important;
+  background-repeat: no-repeat !important;
+  background-position: center !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  position: relative !important;
+}
+
+[data-theme="dark"] .themetoggle {
+  background-image: url("../img/icons/ui/theme-dark.svg") !important;
+}
+
+.themetoggle__knob { display: none !important; }
+
+/* ---- SVG-версии ---------------------------------------------------
+   Включаются автоматически, если файлы найдены.
+   Классы ставит app.js: .lang-svg / .theme-svg на <html>.
+   PNG остаётся запасным вариантом.
+   ------------------------------------------------------------------ */
+
+/* ---- переключатель языка ----
+   Базовые 2 файла (lang-light / lang-dark) — всегда работают.
+   Если загружены 4 файла с состояниями (lang-light-ru и т.д.),
+   JS ставит .lang-states на <html> и включаются они. */
+
+/* базовый вид — берём -ru, он гарантированно загружен */
+.lang-svg .switcher {
+  background-image: url("../img/icons/ui/lang-light-ru.svg") !important;
+}
+.lang-svg[data-theme="dark"] .switcher {
+  background-image: url("../img/icons/ui/lang-dark-ru.svg") !important;
+}
+
+/* активный язык непрозрачный, неактивный приглушён — когда есть 4 состояния */
+.lang-states.lang-svg .switcher {
+  background-image: url("../img/icons/ui/lang-light-ru.svg") !important;
+}
+.lang-states.lang-svg[data-lang="en"] .switcher {
+  background-image: url("../img/icons/ui/lang-light-en.svg") !important;
+}
+
+.lang-states.lang-svg[data-theme="dark"] .switcher {
+  background-image: url("../img/icons/ui/lang-dark-ru.svg") !important;
+}
+.lang-states.lang-svg[data-theme="dark"][data-lang="en"] .switcher {
+  background-image: url("../img/icons/ui/lang-dark-en.svg") !important;
+}
+
+/* тумблер темы */
+.theme-svg .themetoggle {
+  background-image: url("../img/icons/ui/theme-light.svg") !important;
+}
+.theme-svg[data-theme="dark"] .themetoggle {
+  background-image: url("../img/icons/ui/theme-dark.svg") !important;
+}
+
+
+/* ============================================================
+   АДАПТИВ
+   ============================================================ */
+
+@media (max-width: 1600px) {
+  .topbar__link, .topbar__exp, .topbar__title { font-size: 28px !important; }
+  .topbar__sub { font-size: 21px !important; }
+  .footbar__legal, .footbar__easter { font-size: 14px !important; }
+  .card__label { font-size: 18px !important; }
+  .card:hover .card__label { font-size: 19px !important; }
+  .tag { font-size: 21px !important; }
+  :root { --foot-pad-x: 34px; --foot-gap: 28px; }
+}
+
+@media (max-width: 1280px) {
+  .topbar__link, .topbar__exp, .topbar__title { font-size: 24px !important; }
+  .topbar__sub { font-size: 18px !important; }
+  .footbar__legal, .footbar__easter { font-size: 14px !important; }
+  .card__label { font-size: 16px !important; }
+  .card:hover .card__label { font-size: 17px !important; }
+  .tag { font-size: 18px !important; }
+  :root { --foot-pad-x: 28px; --foot-gap: 20px; --foot-pad-y-top: 16px; --foot-pad-y-bot: 18px; }
+}
+
+/* ниже 1100 колонка уже ~293px — теги в 16px не помещаются,
+   поэтому размер пересчитан пропорционально ширине колонки */
+@media (max-width: 1100px) {
+  .tag { font-size: 14px !important; }
+  :root { --ctl-w: 62px; --ctl-h: 34px; }
+}
+
+@media (max-width: 1000px) {
+  .topbar__link, .topbar__exp, .topbar__title { font-size: 21px !important; }
+  .topbar__sub { font-size: 16px !important; }
+  .footbar__legal, .footbar__easter { font-size: 12px !important; }
+  .card__label { font-size: 14px !important; }
+  .card:hover .card__label { font-size: 15px !important; }
+  .tag { font-size: 13px !important; }
+  :root { --ctl-w: 54px; --ctl-h: 30px; }
+}
+
+@media (max-width: 860px) {
+  .footbar { padding: 14px 20px 14px !important; gap: 12px !important; }
+  .footbar__main { justify-content: center !important; gap: 14px !important; }
+  .footbar__tags { display: none !important; }
+  .socials { display: flex !important; }
+  .phone { height: clamp(240px, 40dvh, 340px) !important; }
+  .topbar__link, .topbar__exp, .topbar__title { font-size: 18px !important; }
+  .topbar__sub { font-size: 14px !important; }
+  .card__label { font-size: 14px !important; }
+  .card:hover .card__label { font-size: 15px !important; }
+  .tag { font-size: 12px !important; }
+  :root { --ctl-w: 50px; --ctl-h: 28px; }
+  .footbar__legal { font-size: 12px !important; flex-direction: column !important; align-items: center !important; gap: 4px !important; }
+}
+
+
+/* ============================================================
+   ИНТЕРАКТИВНЫЕ РЕЖИМЫ ТЕРМИНАЛА
+   hack_nat · destruct · geek
+   ============================================================ */
+
+/* ---------- общий слой ---------- */
+.nnz-fx {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 300ms ease;
+}
+.nnz-fx.is-on { opacity: 1; }
+
+/* ============================================================
+   1. hack_nat — пиксельное окно
+   ============================================================ */
+
+.nnz-win {
+  width: min(660px, 100%);
+  background: #03050A;
+  border: 3px solid #11FFB0;
+  box-shadow:
+    0 0 0 3px #03050A,
+    0 0 0 6px #11FFB0,
+    0 0 42px rgba(17, 255, 176, 0.50),
+    0 0 110px rgba(17, 255, 176, 0.22);
+  font-family: var(--font-pixel), monospace;
+  color: #C9FFE9;
+  overflow: hidden;
+}
+
+.nnz-win__bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px;
+  background: repeating-linear-gradient(
+    0deg,
+    #11FFB0 0 2px,
+    #0B3A2C 2px 4px
+  );
+  color: #03050A;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.nnz-win__dots { display: flex; gap: 5px; flex: 0 0 auto; }
+.nnz-win__dots i { width: 9px; height: 9px; background: #03050A; display: block; }
+
+.nnz-win__body {
+  position: relative;
+  height: 300px;
+  padding: 14px 16px 18px;
+  overflow: hidden;
+  font-size: 12px;
+  line-height: 1.85;
+}
+
+/* сканлайны старого монитора */
+.nnz-win__body::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.26) 0 1px,
+    transparent 1px 3px
+  );
+}
+
+.nnz-log { white-space: pre; }
+.nnz-log b { color: #11FFB0; font-weight: 400; }
+.nnz-log i { color: #FF4D6D; font-style: normal; }
+
+.nnz-grant {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: 30px;
+  letter-spacing: 0.10em;
+  color: #11FFB0;
+  text-shadow: 0 0 18px #11FFB0, 0 0 44px rgba(17, 255, 176, 0.55);
+  background: rgba(3, 5, 10, 0.86);
+  opacity: 0;
+  transition: opacity 220ms ease;
+}
+.nnz-grant.is-on {
+  opacity: 1;
+  animation: nnzGrantPulse 620ms steps(2, end) infinite;
+}
+@keyframes nnzGrantPulse { 50% { opacity: 0.55; } }
+
+/* ============================================================
+   2. destruct — тревога, отсчёт, падение
+   ============================================================ */
+
+/* красная пульсация по краям экрана */
+body.is-alarm::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 190;
+  pointer-events: none;
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(255, 0, 60, 0) 30%,
+    rgba(255, 0, 60, 0.45) 100%
+  );
+  animation: nnzBlink 700ms steps(2, end) infinite;
+}
+
+body.is-alarm .terminal__box {
+  border-color: #FF4D6D !important;
+  box-shadow: 0 0 60px -12px #FF4D6D !important;
+  animation: nnzBlink 700ms steps(2, end) infinite;
+}
+
+@keyframes nnzBlink { 50% { opacity: 0.38; } }
+
+/* крупный пиксельный счётчик */
+.nnz-count {
+  position: fixed;
+  inset: 0;
+  z-index: 195;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+  font-family: var(--font-pixel), monospace;
+  font-size: clamp(120px, 20vw, 250px);
+  line-height: 1;
+  color: #FF4D6D;
+  text-shadow: 0 0 24px #FF4D6D, 0 0 70px rgba(255, 77, 109, 0.6);
+}
+.nnz-count.is-tick { animation: nnzTick 420ms cubic-bezier(0.2, 1.4, 0.4, 1); }
+@keyframes nnzTick {
+  0%   { scale: 1.55; opacity: 0.15; }
+  100% { scale: 1;    opacity: 1; }
+}
+
+/* терминал уходит в угол, чтобы не закрывать сцену */
+.terminal.is-spectate {
+  background: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  place-items: end end !important;
+  padding: 18px !important;
+}
+.terminal.is-spectate .terminal__box {
+  width: min(430px, 44vw);
+  max-height: 42vh;
+}
+
+/* падение элементов
+   используем независимые свойства translate / rotate —
+   они не конфликтуют с transform, которым стоят карточки */
+body.is-destroying .screen > .topbar,
+body.is-destroying .screen > .footbar,
+body.is-destroying .stage .card,
+body.is-destroying .stage .phone,
+body.is-destroying .stage .design-on {
+  animation: nnzFall 1200ms cubic-bezier(0.45, 0, 0.85, 0.55) var(--fall-delay, 0ms) forwards;
+  z-index: calc(10 + var(--fall-z, 0)) !important;
+}
+
+@keyframes nnzFall {
+  0% {
+    translate: 0 0;
+    rotate: 0deg;
+  }
+  14% {
+    translate: 0 -22px;
+    rotate: calc(var(--fall-rot, 0deg) * 0.12);
+  }
+  100% {
+    translate: var(--fall-x, 0px) var(--fall-y, 0px);
+    rotate: var(--fall-rot, 0deg);
+  }
+}
+
+/* ============================================================
+   3. geek — режим набора кода
+   ============================================================ */
+
+.terminal.is-geek .terminal__box {
+  border-color: #B98FEB;
+  box-shadow: 0 0 70px -14px #B98FEB;
+}
+.terminal.is-geek .terminal__out { color: #B98FEB; }
+
+.geek-code {
+  white-space: pre-wrap;
+  word-break: break-word;
+  color: #7BFFD5;
+}
+.geek-code:last-child::after {
+  content: '\258A';
+  color: #B98FEB;
+  animation: nnzCaret 560ms steps(2, end) infinite;
+}
+@keyframes nnzCaret { 50% { opacity: 0; } }
+
+/* уважение к prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .nnz-grant.is-on,
+  body.is-alarm::before,
+  body.is-alarm .terminal__box,
+  .nnz-count.is-tick,
+  .geek-code:last-child::after { animation: none !important; }
+  body.is-destroying .screen > .topbar,
+  body.is-destroying .screen > .footbar,
+  body.is-destroying .stage .card,
+  body.is-destroying .stage .phone,
+  body.is-destroying .stage .design-on { animation-duration: 1ms !important; }
+}
