@@ -1013,3 +1013,68 @@ body.is-destroying .stage .design-on {
   body.is-destroying .stage .phone,
   body.is-destroying .stage .design-on { animation-duration: 1ms !important; }
 }
+
+
+/* ============================================================
+   КНОПКА КОНСОЛИ В ФУТЕРЕ — мигающий курсор + неоновый ховер
+   ============================================================ */
+
+/* стрелка-курсор и плавность на саму кнопку */
+.footbar__easter {
+  cursor: pointer !important;
+  display: inline-flex !important;
+  align-items: baseline !important;
+  gap: 0.18em !important;
+  transition:
+    color 180ms ease,
+    text-shadow 180ms ease,
+    opacity 180ms ease !important;
+}
+
+/* мигающая вертикальная черта после слова console */
+.footbar__easter::after {
+  content: '';
+  display: inline-block;
+  width: 0.09em;
+  height: 0.92em;
+  margin-left: 0.10em;
+  vertical-align: -0.06em;
+  background: currentColor;
+  animation: nnzBlinkCaret 1.05s steps(1, end) infinite;
+}
+
+@keyframes nnzBlinkCaret {
+  0%, 49%   { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+/* ---- светлая тема: неоновая подсветка на ховере ---- */
+.footbar__easter:hover,
+.footbar__easter:focus-visible {
+  color: var(--c-teal) !important;
+  text-shadow:
+    0 0 6px rgba(73, 253, 200, 0.85),
+    0 0 18px rgba(73, 253, 200, 0.45) !important;
+  outline: none !important;
+}
+
+/* ---- тёмная тема: тот же неон, но ярче ---- */
+[data-theme="dark"] .footbar__easter:hover,
+[data-theme="dark"] .footbar__easter:focus-visible {
+  color: var(--c-teal) !important;
+  text-shadow:
+    0 0 8px rgba(73, 253, 200, 0.95),
+    0 0 22px rgba(73, 253, 200, 0.55) !important;
+}
+
+/* уважение к prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .footbar__easter::after { animation: none !important; opacity: 1; }
+}
+
+
+/* «Boot console» шире остальных фраз в 1.2x — уменьшаем кегль только ей,
+   чтобы она вписалась в экран телефона */
+.phone__text.is-long {
+  font-size: 9.3cqw !important;
+}
