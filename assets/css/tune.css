@@ -322,10 +322,10 @@
   user-select: none !important;
   z-index: 4 !important;               /* поверх телефона (z-index: 2) */
 
-  /* Y2K-неон: лёгкое размытие контура + ореол 8px + широкое свечение 16px */
+  /* Y2K-неон: размытие 2px + лиловый ореол #FAD9FF (8px и 16px) */
   filter: blur(2px)
-          drop-shadow(0 0 8px rgba(255, 255, 255, 0.95))
-          drop-shadow(0 0 16px rgba(255, 255, 255, 0.7)) !important;
+          drop-shadow(0 0 8px #FAD9FF)
+          drop-shadow(0 0 16px rgba(250, 217, 255, 0.7)) !important;
   mix-blend-mode: plus-lighter !important;
   opacity: 1 !important;
   will-change: filter;
@@ -333,8 +333,8 @@
 
 [data-theme="dark"] .design-on {
   filter: blur(2px)
-          drop-shadow(0 0 8px rgba(255, 255, 255, 0.95))
-          drop-shadow(0 0 16px rgba(255, 255, 255, 0.7)) !important;
+          drop-shadow(0 0 8px #FAD9FF)
+          drop-shadow(0 0 16px rgba(250, 217, 255, 0.7)) !important;
   mix-blend-mode: plus-lighter !important;
   opacity: 1 !important;
 }
@@ -368,16 +368,17 @@
   transform: translateY(-3px) scale(1.06) !important;
 }
 
+/* ховер: зелёный глиф на тёмном фоне (раньше заливался весь круг) */
 .social[data-contact="cv"]:hover,
-.social[data-contact="cv"]:focus-visible       { background-image: url("../img/icons/ui/cv-neon.svg") !important; }
+.social[data-contact="cv"]:focus-visible       { background-image: url("../img/icons/ui/cv-hover.svg") !important; }
 .social[data-contact="dprofile"]:hover,
-.social[data-contact="dprofile"]:focus-visible { background-image: url("../img/icons/ui/dprofile-neon.svg") !important; }
+.social[data-contact="dprofile"]:focus-visible { background-image: url("../img/icons/ui/dprofile-hover.svg") !important; }
 .social[data-contact="behance"]:hover,
-.social[data-contact="behance"]:focus-visible  { background-image: url("../img/icons/ui/behance-neon.svg") !important; }
+.social[data-contact="behance"]:focus-visible  { background-image: url("../img/icons/ui/behance-hover.svg") !important; }
 .social[data-contact="telegram"]:hover,
-.social[data-contact="telegram"]:focus-visible { background-image: url("../img/icons/ui/telegram-neon.svg") !important; }
+.social[data-contact="telegram"]:focus-visible { background-image: url("../img/icons/ui/telegram-hover.svg") !important; }
 .social[data-contact="email"]:hover,
-.social[data-contact="email"]:focus-visible    { background-image: url("../img/icons/ui/mail-neon.svg") !important; }
+.social[data-contact="email"]:focus-visible    { background-image: url("../img/icons/ui/mail-hover.svg") !important; }
 
 .social svg, .social span:not(.social__tip) { display: none !important; }
 
