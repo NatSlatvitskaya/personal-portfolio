@@ -415,7 +415,7 @@
     document.body.classList.add('is-locked');
     if (termOut && !termOut.dataset.init) {
       termOut.dataset.init = '1';
-      termPrint('nnz://portfolio v1.0 — Y2K build', 'ok');
+      termPrint('nnz://portfolio v1.2 — Y2K build · modes', 'ok');
       termPrint(t('term.hint'), 'dim');
     }
     setTimeout(() => termField?.focus({ preventScroll: true }), 90);
