@@ -1313,3 +1313,185 @@ body.is-geek .terminal__box {
   .nnz-scan::after { animation: none !important; }
   .nnz-rain { display: none !important; }
 }
+
+
+/* ============================================================
+   ЛОГОТИП NAT — прелоадер, водяной знак, захват
+   ============================================================ */
+
+/* ---------- 1. СТАРТОВЫЙ ПРЕЛОАДЕР ---------- */
+.nnz-preloader {
+  position: fixed;
+  inset: 0;
+  z-index: 900;
+  background: #000000;
+  display: grid;
+  place-items: center;
+  gap: 34px;
+  grid-auto-flow: row;
+  justify-items: center;
+  transition: opacity 300ms ease, visibility 300ms;
+}
+
+/* резкий глитч-уход */
+.nnz-preloader.is-out {
+  animation: nnzPreloaderOut 420ms steps(1, end) forwards;
+}
+
+.nnz-preloader__logo {
+  width: clamp(120px, 15vw, 220px);
+  height: auto;
+  filter: drop-shadow(0 0 18px rgba(17, 255, 176, 0.65))
+          drop-shadow(0 0 48px rgba(17, 255, 176, 0.35));
+  animation: nnzLogoBreath 2100ms ease-in-out infinite;
+}
+
+/* неоновое мерцание */
+@keyframes nnzLogoBreath {
+  0%, 100% { opacity: 0.62; filter: drop-shadow(0 0 14px rgba(17,255,176,.5)) drop-shadow(0 0 40px rgba(17,255,176,.22)); }
+  42%      { opacity: 1;    filter: drop-shadow(0 0 22px rgba(17,255,176,.9)) drop-shadow(0 0 62px rgba(17,255,176,.5)); }
+  46%      { opacity: 0.55; }
+  52%      { opacity: 1;    }
+  70%      { opacity: 0.85; }
+}
+
+/* тонкая полоса загрузки под логотипом */
+.nnz-preloader__bar {
+  width: clamp(120px, 15vw, 220px);
+  height: 2px;
+  background: rgba(17, 255, 176, 0.16);
+  overflow: hidden;
+}
+.nnz-preloader__bar i {
+  display: block;
+  width: 40%;
+  height: 100%;
+  background: #11FFB0;
+  box-shadow: 0 0 12px #11FFB0;
+  animation: nnzPreBar 1200ms cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+@keyframes nnzPreBar {
+  0%   { transform: translateX(-110%); }
+  100% { transform: translateX(280%); }
+}
+
+/* глитч-распад при уходе */
+@keyframes nnzPreloaderOut {
+  0%   { opacity: 1; transform: translate(0, 0) skewX(0deg); filter: none; }
+  12%  { opacity: 1; transform: translate(-6px, 2px) skewX(-1.2deg); filter: invert(1) hue-rotate(90deg); }
+  22%  { opacity: 0.9; transform: translate(8px, -3px) skewX(1.6deg); filter: hue-rotate(-70deg) saturate(3); }
+  34%  { opacity: 0.75; transform: translate(-4px, 1px) skewX(-0.8deg); filter: none; }
+  48%  { opacity: 0.5; transform: translate(5px, 0) skewX(1deg); filter: brightness(2.4); }
+  64%  { opacity: 0.28; transform: translate(-2px, 0) skewX(-0.4deg); filter: none; }
+  100% { opacity: 0; transform: translate(0, 0) skewX(0deg); filter: none; }
+}
+
+/* ---------- 2. ВОДЯНОЙ ЗНАК НА ФОНЕ ---------- */
+.fx__logo {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: clamp(280px, 44vw, 820px);
+  height: auto;
+  transform: translate(-50%, -50%);
+  opacity: 0.05;
+  filter: grayscale(1) brightness(2.6);
+  pointer-events: none;
+  user-select: none;
+  z-index: 0;
+  mix-blend-mode: screen;
+}
+
+[data-theme="dark"] .fx__logo {
+  opacity: 0.055;
+  filter: none;
+}
+
+/* ---------- 3. ЛОГОТИП В ЦЕНТРЕ ЗАХВАТА hack_nat ---------- */
+.nnz-hacklogo {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  z-index: 1;
+  pointer-events: none;
+  /* путь считается от tune.css, а не от HTML — иначе 404 */
+  --logo-url: url('../img/logo-nat.png');
+}
+
+.nnz-hacklogo img {
+  width: clamp(220px, 34vw, 520px);
+  height: auto;
+  filter:
+    drop-shadow(0 0 26px rgba(17, 255, 176, 0.85))
+    drop-shadow(0 0 70px rgba(17, 255, 176, 0.45));
+  animation: nnzHackPulse 760ms ease-in-out infinite;
+}
+
+/* пульс в такт взлому */
+@keyframes nnzHackPulse {
+  0%, 100% { opacity: 0.78; scale: 1; }
+  50%      { opacity: 1;    scale: 1.035; }
+}
+
+/* глитч-двойник: два сдвинутых слоя в цветах каналов */
+.nnz-hacklogo::before,
+.nnz-hacklogo::after {
+  content: '';
+  position: absolute;
+  width: clamp(220px, 34vw, 520px);
+  height: clamp(220px, 34vw, 520px);
+  background-image: var(--logo-url);
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0.55;
+  mix-blend-mode: screen;
+}
+.nnz-hacklogo::before {
+  filter: drop-shadow(0 0 0 #FF2D6F) brightness(1.1);
+  animation: nnzHackGlitchA 2400ms steps(1, end) infinite;
+}
+.nnz-hacklogo::after {
+  filter: drop-shadow(0 0 0 #29E0FF) brightness(1.1);
+  animation: nnzHackGlitchB 2900ms steps(1, end) infinite;
+}
+
+@keyframes nnzHackGlitchA {
+  0%, 88%, 100% { transform: translate(0, 0); opacity: 0; }
+  89%           { transform: translate(-7px, 2px); opacity: 0.5; }
+  91%           { transform: translate(5px, -3px); opacity: 0.42; }
+  93%           { transform: translate(-3px, 1px); opacity: 0; }
+}
+
+@keyframes nnzHackGlitchB {
+  0%, 84%, 100% { transform: translate(0, 0); opacity: 0; }
+  85%           { transform: translate(8px, -2px); opacity: 0.45; }
+  87%           { transform: translate(-6px, 3px); opacity: 0.38; }
+  90%           { transform: translate(2px, -1px); opacity: 0; }
+}
+
+/* финал: яркая вспышка логотипа перед ACCESS GRANTED */
+.nnz-hacklogo.is-flare img {
+  animation: nnzHackFlare 620ms cubic-bezier(0.2, 0.9, 0.2, 1) forwards;
+}
+.nnz-hacklogo.is-flare::before,
+.nnz-hacklogo.is-flare::after { animation: none; opacity: 0; }
+
+@keyframes nnzHackFlare {
+  0%   { opacity: 1; scale: 1; filter: drop-shadow(0 0 26px rgba(17,255,176,.85)) drop-shadow(0 0 70px rgba(17,255,176,.45)); }
+  30%  { opacity: 1; scale: 1.10; filter: drop-shadow(0 0 46px #FFFFFF) drop-shadow(0 0 130px rgba(17,255,176,1)) brightness(2.6) saturate(0.2); }
+  100% { opacity: 0; scale: 0.96; filter: drop-shadow(0 0 30px rgba(17,255,176,0)) brightness(1); }
+}
+
+/* логотип уходит вместе с перезагрузкой */
+.nnz-fx.is-hack.is-out .nnz-hacklogo { opacity: 0; transition: opacity 300ms ease; }
+
+/* уважение к prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .nnz-preloader__logo { animation: none !important; opacity: 1; }
+  .nnz-preloader__bar i { animation: none !important; width: 100%; }
+  .nnz-hacklogo img { animation: none !important; }
+  .nnz-hacklogo::before, .nnz-hacklogo::after { animation: none !important; opacity: 0; }
+  .nnz-hacklogo.is-flare img { animation: none !important; opacity: 0; }
+}
