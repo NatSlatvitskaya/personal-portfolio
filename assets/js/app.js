@@ -274,7 +274,7 @@
   /* ============================================================
      ТЕЛЕФОН: смена сообщений
      ============================================================ */
-  const messages = ['phone.msg1', 'phone.msg2', 'phone.msg3', 'phone.msg4'];
+  const messages = ['phone.msg1', 'phone.msg2', 'phone.msg3', 'phone.msg4', 'phone.msg5'];
   let msgIndex = 0;
   let typeTimer = null;
   let cycleTimer = null;

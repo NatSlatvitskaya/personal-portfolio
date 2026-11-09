@@ -14,10 +14,11 @@ const I18N = {
     'top.exp': '6 лет опыта',
 
     /* телефон */
-    'phone.msg1': 'text me',
-    'phone.msg2': 'hello?',
-    'phone.msg3': 'call me',
-    'phone.msg4': 'let’s go',
+    'phone.msg1': 'Connect...',
+    'phone.msg2': 'Text me',
+    'phone.msg3': 'Say hi!',
+    'phone.msg4': 'Link up',
+    'phone.msg5': 'Hit me up',
 
     /* теги */
     'tag.branding': '{брендинг}',
@@ -93,10 +94,11 @@ const I18N = {
     'top.role': '{graphic & brand designer}',
     'top.exp': '6 years of experience',
 
-    'phone.msg1': 'text me',
-    'phone.msg2': 'hello?',
-    'phone.msg3': 'call me',
-    'phone.msg4': 'let\u2019s go',
+    'phone.msg1': 'Connect...',
+    'phone.msg2': 'Text me',
+    'phone.msg3': 'Say hi!',
+    'phone.msg4': 'Link up',
+    'phone.msg5': 'Hit me up',
 
     'tag.branding': '{branding}',
     'tag.web': '{web design}',
