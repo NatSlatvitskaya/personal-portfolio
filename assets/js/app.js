@@ -620,7 +620,7 @@
 
       /* все центры сводим в нижнюю полосу экрана — получается куча */
       const targetX = W / 2 + (Math.random() - 0.5) * W * 0.55;
-      const targetY = H * 0.88 + (Math.random() - 0.5) * H * 0.10;
+      const targetY = H * 0.94 + (Math.random() - 0.5) * H * 0.09;
 
       const dx = targetX - cx;
       const dy = targetY - cy;
@@ -629,8 +629,10 @@
 
       el.style.setProperty('--fall-x', dx.toFixed(0) + 'px');
       el.style.setProperty('--fall-y', dy.toFixed(0) + 'px');
-      el.style.setProperty('--fall-rot', ((Math.random() - 0.5) * 40).toFixed(1) + 'deg');
-      el.style.setProperty('--fall-delay', (Math.random() * 320).toFixed(0) + 'ms');
+      el.style.setProperty('--fall-rot', ((Math.random() - 0.5) * 46).toFixed(1) + 'deg');
+      /* обвал, а не перелёт: короткая разбежка и быстрый разгон */
+      el.style.setProperty('--fall-delay', (Math.random() * 110).toFixed(0) + 'ms');
+      el.style.setProperty('--fall-dur', (470 + Math.random() * 170).toFixed(0) + 'ms');
       el.style.setProperty('--fall-z', String(Math.floor(Math.random() * 8)));
     });
 
@@ -645,7 +647,7 @@
     terminal?.classList.remove('is-spectate');
     document.querySelectorAll('.nnz-count').forEach((n) => n.remove());
     $$('[style*="--fall-"]').forEach((el) => {
-      ['--fall-x', '--fall-y', '--fall-rot', '--fall-delay']
+      ['--fall-x', '--fall-y', '--fall-rot', '--fall-delay', '--fall-dur']
         .forEach((prop) => el.style.removeProperty(prop));
     });
   }
