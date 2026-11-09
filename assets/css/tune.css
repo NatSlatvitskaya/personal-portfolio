@@ -329,6 +329,20 @@
   mix-blend-mode: plus-lighter !important;
   opacity: 1 !important;
   will-change: filter;
+  /* сдвиг композиции — задаётся на каждом слове отдельно */
+  --shift-x: 0px;
+  --shift-y: 0px;
+  translate: var(--shift-x) var(--shift-y);
+}
+
+/* «design» — левее (58px при колонке 600px) */
+.design-on--design {
+  --shift-x: calc(var(--col-w-vp) * -0.097);
+}
+
+/* «on» — ниже (29px при колонке 600px) */
+.design-on--on {
+  --shift-y: calc(var(--col-w-vp) * 0.048);
 }
 
 [data-theme="dark"] .design-on {
