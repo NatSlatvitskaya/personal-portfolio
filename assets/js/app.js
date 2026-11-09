@@ -473,7 +473,106 @@
      ============================================================ */
 
   let geekState = null;
+  let geekRain = null;
+  let hackRain = null;
   let countTimer = null;
+
+
+  /* ============================================================
+     ДОЖДЬ ИЗ КОДА — canvas-движок для hack_nat и geek
+     ============================================================ */
+  function createRain(canvas, cfg) {
+    const ctx = canvas.getContext('2d');
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const size = cfg.size || 15;
+    const glyphs = cfg.glyphs;
+
+    let cols = 0;
+    let drops = [];
+    let speeds = [];
+    let W = 1;
+    let H = 1;
+    let raf = 0;
+    let boost = 0;
+    let dead = false;
+
+    function measure() {
+      const r = canvas.getBoundingClientRect();
+      W = Math.max(1, Math.round(r.width));
+      H = Math.max(1, Math.round(r.height));
+      canvas.width = Math.round(W * dpr);
+      canvas.height = Math.round(H * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.font = size + 'px ' + cfg.font;
+      ctx.textBaseline = 'top';
+
+      cols = Math.ceil(W / size);
+      drops = new Array(cols);
+      speeds = new Array(cols);
+      for (let i = 0; i < cols; i += 1) {
+        drops[i] = Math.random() * -H / size;
+        speeds[i] = 0.45 + Math.random() * 0.95;
+      }
+    }
+
+    function frame() {
+      if (dead) return;
+
+      if (cfg.clear) {
+        ctx.globalCompositeOperation = 'source-over';
+        ctx.fillStyle = cfg.clear;
+        ctx.fillRect(0, 0, W, H);
+      } else {
+        ctx.globalCompositeOperation = 'destination-out';
+        ctx.fillStyle = 'rgba(0,0,0,' + cfg.fade + ')';
+        ctx.fillRect(0, 0, W, H);
+        ctx.globalCompositeOperation = 'source-over';
+      }
+
+      for (let i = 0; i < cols; i += 1) {
+        const ch = glyphs[(Math.random() * glyphs.length) | 0];
+        const x = i * size;
+        const y = drops[i] * size;
+
+        if (Math.random() > 0.982) {
+          ctx.fillStyle = cfg.head;
+          ctx.shadowColor = cfg.head;
+          ctx.shadowBlur = size * 0.85;
+        } else {
+          ctx.fillStyle = cfg.color;
+          ctx.shadowBlur = 0;
+        }
+
+        ctx.fillText(ch, x, y);
+        ctx.shadowBlur = 0;
+
+        drops[i] += speeds[i] * (1 + boost);
+
+        if (y > H && Math.random() > 0.972) {
+          drops[i] = 0;
+          speeds[i] = 0.45 + Math.random() * 0.95;
+        }
+      }
+
+      boost *= 0.945;
+      raf = requestAnimationFrame(frame);
+    }
+
+    measure();
+    window.addEventListener('resize', measure);
+    raf = requestAnimationFrame(frame);
+
+    return {
+      burst(v) { boost = Math.min(7, boost + v); },
+      stop() {
+        if (dead) return;
+        dead = true;
+        cancelAnimationFrame(raf);
+        window.removeEventListener('resize', measure);
+        if (canvas.parentNode) canvas.remove();
+      }
+    };
+  }
 
   /* ------------------------------------------------------------
      1. hack_nat — пиксельное окно взлома
@@ -517,12 +616,25 @@
     'Compiling finale ... <b>Done</b>'
   ];
 
+  /* глифы для дождя — катакана, цифры, обрывки кода */
+  const RAIN_GLYPHS =
+    'アイウエオカキクケコサシスセソタチツテト' +
+    'ナニヌネノハヒフヘホマミムメモヤユヨラリ' +
+    '0123456789ABCDEF{}[]<>/*+-=$#';
+
   function hackRun() {
     if (!termOut || document.querySelector('.nnz-fx')) return;
 
+    /* --- 1. глитч-тряска всего сайта --- */
+    document.body.classList.add('is-hacking');
+    setTimeout(() => document.body.classList.remove('is-hacking'), 900);
+
+    /* --- 2. полноэкранный захват: тьма + дождь кода + окно --- */
     const fx = document.createElement('div');
-    fx.className = 'nnz-fx';
+    fx.className = 'nnz-fx is-hack';
     fx.innerHTML =
+      '<div class="nnz-veil"></div>' +
+      '<canvas class="nnz-rain" aria-hidden="true"></canvas>' +
       '<div class="nnz-win">' +
         '<div class="nnz-win__bar">' +
           '<span class="nnz-win__dots"><i></i><i></i><i></i></span>' +
@@ -535,6 +647,15 @@
       '</div>';
     document.body.appendChild(fx);
     requestAnimationFrame(() => fx.classList.add('is-on'));
+
+    hackRain = createRain(fx.querySelector('.nnz-rain'), {
+      font: '"Silkscreen", "JetBrains Mono", monospace',
+      size: 16,
+      color: 'rgba(17, 255, 176, 0.85)',
+      head: '#D6FFEE',
+      fade: 0.075,          /* прозрачное затухание — видно градиент под дождём */
+      glyphs: RAIN_GLYPHS
+    });
 
     const logEl = fx.querySelector('#nnzLog');
     const grant = fx.querySelector('#nnzGrant');
@@ -549,14 +670,27 @@
       i += 1;
     }, 78);
 
-    setTimeout(() => grant.classList.add('is-on'), 3800);
+    setTimeout(() => grant.classList.add('is-on'), 3750);
 
+    /* --- 3. финал: белая вспышка и плавный возврат --- */
     setTimeout(() => {
       clearInterval(logTimer);
-      fx.classList.remove('is-on');
-      setTimeout(() => fx.remove(), 340);
+      fx.classList.add('is-out');
+
+      if (hackRain) { hackRain.stop(); hackRain = null; }
+
+      const flash = document.createElement('div');
+      flash.className = 'nnz-flash';
+      document.body.appendChild(flash);
+      requestAnimationFrame(() => flash.classList.add('is-on'));
+
+      document.body.classList.add('is-rebooting');
+      setTimeout(() => document.body.classList.remove('is-rebooting'), 1000);
+
+      setTimeout(() => flash.remove(), 1100);
+      setTimeout(() => fx.remove(), 420);
       termPrint('Done. Website optimized.', 'ok');
-    }, 4700);
+    }, 5150);
   }
 
   /* ------------------------------------------------------------
@@ -721,6 +855,30 @@
     if (!termOut || geekState) return;
 
     terminal?.classList.add('is-geek');
+    document.body.classList.add('is-geek');       /* перекраска сайта в монохром */
+
+    /* отдельный слой: код струится по фону ПОД интерфейсом */
+    let layer = document.querySelector('.nnz-geekfx');
+    if (!layer) {
+      layer = document.createElement('div');
+      layer.className = 'nnz-geekfx';
+      layer.innerHTML = '<canvas class="nnz-geekrain" aria-hidden="true"></canvas>' +
+                        '<div class="nnz-scan"></div>';
+      const screen = document.querySelector('.screen');
+      if (screen && screen.parentNode) screen.parentNode.insertBefore(layer, screen);
+      else document.body.appendChild(layer);
+    }
+    requestAnimationFrame(() => layer.classList.add('is-on'));
+
+    geekRain = createRain(layer.querySelector('.nnz-geekrain'), {
+      font: '"JetBrains Mono", ui-monospace, monospace',
+      size: 14,
+      color: 'rgba(150, 255, 235, 0.55)',
+      head: '#E8FFFB',
+      fade: 0.07,
+      glyphs: RAIN_GLYPHS
+    });
+
     termPrint('geek mode · type anything · exit to quit', 'dim');
 
     const line = document.createElement('div');
@@ -751,6 +909,9 @@
       geekState.pos += 1;
     }
 
+    /* каждая напечатанная порция ускоряет дождь — «перепрограммируем» фон */
+    if (geekRain) geekRain.burst(0.55 * count);
+
     termOut.scrollTop = termOut.scrollHeight;
     while (termOut.children.length > 300) termOut.firstElementChild.remove();
   }
@@ -760,6 +921,15 @@
     clearInterval(geekState.timer);
     geekState = null;
     terminal?.classList.remove('is-geek');
+    document.body.classList.remove('is-geek');
+
+    if (geekRain) { geekRain.stop(); geekRain = null; }
+    const layer = document.querySelector('.nnz-geekfx');
+    if (layer) {
+      layer.classList.remove('is-on');
+      setTimeout(() => layer.remove(), 520);
+    }
+
     if (termField) termField.readOnly = false;
     if (termOut) termPrint('geek mode off', 'dim');
   }
@@ -767,7 +937,10 @@
   document.addEventListener('keydown', (e) => {
     if (!geekState) return;
     if (e.key === 'Escape') { geekExit(); return; }
-    if (e.key.length === 1 || e.key === 'Enter' || e.key === 'Backspace') geekStep(3);
+    if (e.key.length === 1 || e.key === 'Enter' || e.key === 'Backspace') {
+      geekStep(3);
+      if (geekRain) geekRain.burst(0.9);      /* живой отклик фона на каждую клавишу */
+    }
   }, true);
 
   /* ============================================================
