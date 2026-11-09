@@ -303,7 +303,9 @@
 
 
 /* ============================================================
-   7. «design on» — картинка поверх телефона
+   7. «design on» — неоновое свечение чистого SVG
+   SVG: чистые белые контуры (#FFFFFF), без blur и без blend внутри файла.
+   Свечение собирается в браузере: plus-lighter + два drop-shadow.
    ============================================================ */
 
 .design-on {
@@ -311,24 +313,30 @@
   top: 50% !important;
   left: 50% !important;
   transform: translate(-50%, -50%) !important;
-  /* ширина считается от колонки (600px), а не от телефона.
-     Телефон 547px → 1,5× от 132% = 198% от телефона = 1083px = 1.805 колонки */
-  width: calc(var(--col-w-vp) * 1.805) !important;
+  /* 1.13 колонки = 680px на экране 1920.
+     Файл квадратный (917×901), поэтому высота равна ширине. */
+  width: calc(var(--col-w-vp) * 1.13) !important;
   max-width: none !important;
   height: auto !important;
   pointer-events: none !important;
   user-select: none !important;
   z-index: 4 !important;               /* поверх телефона (z-index: 2) */
-  /* blur меньше, яркость выше — plus-lighter светит сильнее */
-  filter: blur(26px) brightness(1) contrast(1) saturate(1) !important;
+
+  /* Y2K-неон: лёгкое размытие контура + ореол 8px + широкое свечение 16px */
+  filter: blur(2px)
+          drop-shadow(0 0 8px rgba(255, 255, 255, 0.95))
+          drop-shadow(0 0 16px rgba(255, 255, 255, 0.7)) !important;
+  mix-blend-mode: plus-lighter !important;
   opacity: 1 !important;
-  mix-blend-mode: plus-lighter !important;   /* как в макете */
+  will-change: filter;
 }
 
 [data-theme="dark"] .design-on {
-  opacity: 1 !important;
-  filter: blur(26px) brightness(1) contrast(1) saturate(1) !important;
+  filter: blur(2px)
+          drop-shadow(0 0 8px rgba(255, 255, 255, 0.95))
+          drop-shadow(0 0 16px rgba(255, 255, 255, 0.7)) !important;
   mix-blend-mode: plus-lighter !important;
+  opacity: 1 !important;
 }
 
 @media (max-width: 1199px) {
@@ -535,9 +543,7 @@
 
 .tag {
   font-family: var(--font-display) !important;
-  /* 28px на 1920, пропорционально меньше на узких экранах,
-     чтобы три элемента влезали в колонку без слипания */
-  font-size: clamp(13px, 1.458vw, 28px) !important;
+  font-size: 28px !important;
   font-weight: 500 !important;
   letter-spacing: -0.04em !important;
   line-height: 1.1 !important;
@@ -579,7 +585,7 @@
 .footbar__legal {
   padding-inline: var(--grid-margin) !important;
   font-family: var(--font-display) !important;
-  font-size: 20px !important;
+  font-size: 16px !important;
   font-weight: 500 !important;
   letter-spacing: -0.04em !important;
   line-height: 1.2 !important;
@@ -597,7 +603,7 @@
 
 .footbar__easter {
   font-family: var(--font-display) !important;
-  font-size: 20px !important;
+  font-size: 16px !important;
   font-weight: 500 !important;
   letter-spacing: -0.04em !important;
   color: var(--c-navy) !important;
@@ -715,28 +721,40 @@
    ============================================================ */
 
 @media (max-width: 1600px) {
-  .topbar__link, .topbar__exp, .topbar__title { font-size: 30px !important; }
-  .topbar__sub { font-size: 23px !important; }
-  .footbar__legal, .footbar__easter { font-size: 17px !important; }
+  .topbar__link, .topbar__exp, .topbar__title { font-size: 28px !important; }
+  .topbar__sub { font-size: 21px !important; }
+  .footbar__legal, .footbar__easter { font-size: 16px !important; }
   .card__label { font-size: 18px !important; }
   .card:hover .card__label { font-size: 19px !important; }
+  .tag { font-size: 21px !important; }
   :root { --foot-pad-x: 34px; --foot-gap: 28px; }
 }
 
 @media (max-width: 1280px) {
-  .topbar__link, .topbar__exp, .topbar__title { font-size: 25px !important; }
-  .topbar__sub { font-size: 19px !important; }
-  .footbar__legal, .footbar__easter { font-size: 15px !important; }
-  .card__label { font-size: 15px !important; }
-  .card:hover .card__label { font-size: 15.5px !important; }
+  .topbar__link, .topbar__exp, .topbar__title { font-size: 24px !important; }
+  .topbar__sub { font-size: 18px !important; }
+  .footbar__legal, .footbar__easter { font-size: 14px !important; }
+  .card__label { font-size: 16px !important; }
+  .card:hover .card__label { font-size: 17px !important; }
+  .tag { font-size: 18px !important; }
   :root { --foot-pad-x: 28px; --foot-gap: 20px; --foot-pad-y-top: 16px; --foot-pad-y-bot: 18px; }
+}
+
+/* ниже 1100 колонка уже ~293px — теги в 16px не помещаются,
+   поэтому размер пересчитан пропорционально ширине колонки */
+@media (max-width: 1100px) {
+  .tag { font-size: 14px !important; }
+  :root { --ctl-w: 62px; --ctl-h: 34px; }
 }
 
 @media (max-width: 1000px) {
   .topbar__link, .topbar__exp, .topbar__title { font-size: 21px !important; }
   .topbar__sub { font-size: 16px !important; }
-  .footbar__legal, .footbar__easter { font-size: 13px !important; }
-  .card__label { font-size: 12px !important; }
+  .footbar__legal, .footbar__easter { font-size: 12px !important; }
+  .card__label { font-size: 14px !important; }
+  .card:hover .card__label { font-size: 15px !important; }
+  .tag { font-size: 13px !important; }
+  :root { --ctl-w: 54px; --ctl-h: 30px; }
 }
 
 @media (max-width: 860px) {
@@ -745,8 +763,11 @@
   .footbar__tags { display: none !important; }
   .socials { display: flex !important; }
   .phone { height: clamp(240px, 40dvh, 340px) !important; }
-  .topbar__link, .topbar__exp, .topbar__title { font-size: 19px !important; }
-  .topbar__sub { font-size: 15px !important; }
-  .card__label { font-size: 12px !important; }
+  .topbar__link, .topbar__exp, .topbar__title { font-size: 18px !important; }
+  .topbar__sub { font-size: 14px !important; }
+  .card__label { font-size: 14px !important; }
+  .card:hover .card__label { font-size: 15px !important; }
+  .tag { font-size: 12px !important; }
+  :root { --ctl-w: 50px; --ctl-h: 28px; }
   .footbar__legal { font-size: 12px !important; flex-direction: column !important; align-items: center !important; gap: 4px !important; }
 }
