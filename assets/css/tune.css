@@ -959,22 +959,37 @@ body.is-destroying .screen > .footbar,
 body.is-destroying .stage .card,
 body.is-destroying .stage .phone,
 body.is-destroying .stage .design-on {
-  animation: nnzFall 1200ms cubic-bezier(0.45, 0, 0.85, 0.55) var(--fall-delay, 0ms) forwards;
+  /* падение без «плавучести»: короткий обвал с жёстким ускорением.
+     длительность приходит из JS (--fall-dur), чтобы куски падали не синхронно */
+  animation: nnzFall var(--fall-dur, 560ms) linear var(--fall-delay, 0ms) forwards;
   z-index: calc(10 + var(--fall-z, 0)) !important;
+  will-change: translate, rotate;
+  backface-visibility: hidden;
 }
 
+/* свободное падение: скорость растёт по ходу, поэтому кривые задаются
+   на каждом отрезке отдельно — элемент разгоняется и бьётся, а не планирует */
 @keyframes nnzFall {
   0% {
     translate: 0 0;
     rotate: 0deg;
+    animation-timing-function: cubic-bezier(0.5, 0, 1, 0.9);
   }
-  14% {
-    translate: 0 -22px;
-    rotate: calc(var(--fall-rot, 0deg) * 0.12);
+  /* микро-срыв: элемент трогается с места, а не выезжает плавно */
+  5% {
+    translate: 0 -3px;
+    rotate: calc(var(--fall-rot, 0deg) * 0.03);
+    animation-timing-function: cubic-bezier(0.42, 0, 1, 1);
   }
-  100% {
+  /* последние 7% — удар: гасим скорость резко, без мягкой посадки */
+  93% {
     translate: var(--fall-x, 0px) var(--fall-y, 0px);
     rotate: var(--fall-rot, 0deg);
+    animation-timing-function: cubic-bezier(0.15, 0, 0.4, 1);
+  }
+  100% {
+    translate: var(--fall-x, 0px) calc(var(--fall-y, 0px) + 5px);
+    rotate: calc(var(--fall-rot, 0deg) * 1.04);
   }
 }
 
