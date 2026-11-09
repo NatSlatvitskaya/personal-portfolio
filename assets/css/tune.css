@@ -787,3 +787,229 @@
   :root { --ctl-w: 50px; --ctl-h: 28px; }
   .footbar__legal { font-size: 12px !important; flex-direction: column !important; align-items: center !important; gap: 4px !important; }
 }
+
+
+/* ============================================================
+   ИНТЕРАКТИВНЫЕ РЕЖИМЫ ТЕРМИНАЛА
+   hack_nat · destruct · geek
+   ============================================================ */
+
+/* ---------- общий слой ---------- */
+.nnz-fx {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 300ms ease;
+}
+.nnz-fx.is-on { opacity: 1; }
+
+/* ============================================================
+   1. hack_nat — пиксельное окно
+   ============================================================ */
+
+.nnz-win {
+  width: min(660px, 100%);
+  background: #03050A;
+  border: 3px solid #11FFB0;
+  box-shadow:
+    0 0 0 3px #03050A,
+    0 0 0 6px #11FFB0,
+    0 0 42px rgba(17, 255, 176, 0.50),
+    0 0 110px rgba(17, 255, 176, 0.22);
+  font-family: var(--font-pixel), monospace;
+  color: #C9FFE9;
+  overflow: hidden;
+}
+
+.nnz-win__bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px;
+  background: repeating-linear-gradient(
+    0deg,
+    #11FFB0 0 2px,
+    #0B3A2C 2px 4px
+  );
+  color: #03050A;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.nnz-win__dots { display: flex; gap: 5px; flex: 0 0 auto; }
+.nnz-win__dots i { width: 9px; height: 9px; background: #03050A; display: block; }
+
+.nnz-win__body {
+  position: relative;
+  height: 300px;
+  padding: 14px 16px 18px;
+  overflow: hidden;
+  font-size: 12px;
+  line-height: 1.85;
+}
+
+/* сканлайны старого монитора */
+.nnz-win__body::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.26) 0 1px,
+    transparent 1px 3px
+  );
+}
+
+.nnz-log { white-space: pre; }
+.nnz-log b { color: #11FFB0; font-weight: 400; }
+.nnz-log i { color: #FF4D6D; font-style: normal; }
+
+.nnz-grant {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: 30px;
+  letter-spacing: 0.10em;
+  color: #11FFB0;
+  text-shadow: 0 0 18px #11FFB0, 0 0 44px rgba(17, 255, 176, 0.55);
+  background: rgba(3, 5, 10, 0.86);
+  opacity: 0;
+  transition: opacity 220ms ease;
+}
+.nnz-grant.is-on {
+  opacity: 1;
+  animation: nnzGrantPulse 620ms steps(2, end) infinite;
+}
+@keyframes nnzGrantPulse { 50% { opacity: 0.55; } }
+
+/* ============================================================
+   2. destruct — тревога, отсчёт, падение
+   ============================================================ */
+
+/* красная пульсация по краям экрана */
+body.is-alarm::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 190;
+  pointer-events: none;
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(255, 0, 60, 0) 30%,
+    rgba(255, 0, 60, 0.45) 100%
+  );
+  animation: nnzBlink 700ms steps(2, end) infinite;
+}
+
+body.is-alarm .terminal__box {
+  border-color: #FF4D6D !important;
+  box-shadow: 0 0 60px -12px #FF4D6D !important;
+  animation: nnzBlink 700ms steps(2, end) infinite;
+}
+
+@keyframes nnzBlink { 50% { opacity: 0.38; } }
+
+/* крупный пиксельный счётчик */
+.nnz-count {
+  position: fixed;
+  inset: 0;
+  z-index: 195;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+  font-family: var(--font-pixel), monospace;
+  font-size: clamp(120px, 20vw, 250px);
+  line-height: 1;
+  color: #FF4D6D;
+  text-shadow: 0 0 24px #FF4D6D, 0 0 70px rgba(255, 77, 109, 0.6);
+}
+.nnz-count.is-tick { animation: nnzTick 420ms cubic-bezier(0.2, 1.4, 0.4, 1); }
+@keyframes nnzTick {
+  0%   { scale: 1.55; opacity: 0.15; }
+  100% { scale: 1;    opacity: 1; }
+}
+
+/* терминал уходит в угол, чтобы не закрывать сцену */
+.terminal.is-spectate {
+  background: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  place-items: end end !important;
+  padding: 18px !important;
+}
+.terminal.is-spectate .terminal__box {
+  width: min(430px, 44vw);
+  max-height: 42vh;
+}
+
+/* падение элементов
+   используем независимые свойства translate / rotate —
+   они не конфликтуют с transform, которым стоят карточки */
+body.is-destroying .screen > .topbar,
+body.is-destroying .screen > .footbar,
+body.is-destroying .stage .card,
+body.is-destroying .stage .phone,
+body.is-destroying .stage .design-on {
+  animation: nnzFall 1200ms cubic-bezier(0.45, 0, 0.85, 0.55) var(--fall-delay, 0ms) forwards;
+  z-index: calc(10 + var(--fall-z, 0)) !important;
+}
+
+@keyframes nnzFall {
+  0% {
+    translate: 0 0;
+    rotate: 0deg;
+  }
+  14% {
+    translate: 0 -22px;
+    rotate: calc(var(--fall-rot, 0deg) * 0.12);
+  }
+  100% {
+    translate: var(--fall-x, 0px) var(--fall-y, 0px);
+    rotate: var(--fall-rot, 0deg);
+  }
+}
+
+/* ============================================================
+   3. geek — режим набора кода
+   ============================================================ */
+
+.terminal.is-geek .terminal__box {
+  border-color: #B98FEB;
+  box-shadow: 0 0 70px -14px #B98FEB;
+}
+.terminal.is-geek .terminal__out { color: #B98FEB; }
+
+.geek-code {
+  white-space: pre-wrap;
+  word-break: break-word;
+  color: #7BFFD5;
+}
+.geek-code:last-child::after {
+  content: '\258A';
+  color: #B98FEB;
+  animation: nnzCaret 560ms steps(2, end) infinite;
+}
+@keyframes nnzCaret { 50% { opacity: 0; } }
+
+/* уважение к prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .nnz-grant.is-on,
+  body.is-alarm::before,
+  body.is-alarm .terminal__box,
+  .nnz-count.is-tick,
+  .geek-code:last-child::after { animation: none !important; }
+  body.is-destroying .screen > .topbar,
+  body.is-destroying .screen > .footbar,
+  body.is-destroying .stage .card,
+  body.is-destroying .stage .phone,
+  body.is-destroying .stage .design-on { animation-duration: 1ms !important; }
+}
