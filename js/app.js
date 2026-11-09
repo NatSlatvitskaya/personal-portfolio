@@ -441,7 +441,8 @@
     termPrint(`> ${raw}`, 'dim');
     if (!cmd) return;
     switch (cmd) {
-      case 'help':     termPrint(t('term.help'), 'ok'); break;
+      case 'help':     termPrint(t('term.help'), 'ok');
+                       termPrint(t('term.secret'), 'dim'); break;
       case 'projects': closeTerminal(); break;
       case 'archive':  closeTerminal(); location.href = 'archive.html'; break;
       case 'cv':       window.open(CONTACTS.cv, '_blank', 'noopener'); termPrint('opening cv…', 'ok'); break;
