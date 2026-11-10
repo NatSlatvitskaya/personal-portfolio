@@ -10,8 +10,9 @@
 <meta property="og:title" content="Наталья Слатвицкая — графический и бренд-дизайнер">
 <meta property="og:description" content="Брендинг, иллюстрация, веб-дизайн. 6 лет опыта.">
 <meta property="og:image" content="assets/img/phone.png">
-<link rel="icon" href="assets/img/favicon.png" type="image/png">
-<link rel="apple-touch-icon" href="assets/img/favicon.png">
+<link rel="icon" href="assets/img/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="256x256" href="assets/img/favicon.png">
+<link rel="apple-touch-icon" sizes="256x256" href="assets/img/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;700&family=Inter+Tight:wght@400;500;600&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
@@ -19,12 +20,19 @@
 <link rel="stylesheet" href="assets/css/base.css">
 <link rel="stylesheet" href="assets/css/layout.css">
 <link rel="stylesheet" href="assets/css/components.css">
-<link rel="stylesheet" href="assets/css/tune.css?v=1.3">
+<link rel="stylesheet" href="assets/css/tune.css?v=1.4">
 </head>
 <body>
 
+<!-- ============ ПРЕЛОАДЕР ============ -->
+<div class="nnz-preloader" id="nnzPreloader" aria-hidden="true">
+  <img class="nnz-preloader__logo" src="assets/img/logo-nat.png" alt="NAT" decoding="async" fetchpriority="high">
+  <div class="nnz-preloader__bar"><i></i></div>
+</div>
+
 <!-- фоновые слои -->
 <div class="fx" aria-hidden="true">
+  <img class="fx__logo" src="assets/img/logo-nat.png" alt="" aria-hidden="true" decoding="async">
   <div class="fx__grad"></div>
   <div class="fx__halo"></div>
   <div class="fx__texture"></div>
@@ -184,8 +192,8 @@
   </div>
 </div>
 
-<script src="assets/js/data.js?v=1.3"></script>
-<script src="assets/js/i18n.js?v=1.3"></script>
-<script src="assets/js/app.js?v=1.3"></script>
+<script src="assets/js/data.js?v=1.4"></script>
+<script src="assets/js/i18n.js?v=1.4"></script>
+<script src="assets/js/app.js?v=1.4"></script>
 </body>
 </html>
