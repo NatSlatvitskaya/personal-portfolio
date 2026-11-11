@@ -175,6 +175,18 @@
       </figure>`).join('');
   }
 
+  /* галерея макета: широкий, пара квадратов, широкий, пара, пара, широкий… */
+  const PCASE_PATTERN = ['w', 'h', 'h', 'w', 'h', 'h', 'h', 'h', 'w'];
+  function pcaseGalleryHTML(p) {
+    if (!p.images || !p.images.length) return galleryHTML(p);
+    return p.images.map((src, i) => {
+      const k = PCASE_PATTERN[i % PCASE_PATTERN.length];
+      return `<figure class="pcase__fig pcase__fig--${k}">
+        <img src="${src}" alt="${tx(p.full || p.title)} — ${i + 1}" loading="lazy" decoding="async">
+      </figure>`;
+    }).join('');
+  }
+
   function renderModalContent(p) {
     if (!p || !modal) return;
     const cat = t('cat.' + p.cat);
@@ -186,28 +198,39 @@
     const body = $('#modalBody');
     if (!body) return;
 
+    const role = p.role ? tx(p.role) : cat;
+    const tools = (p.tools || []).map((tl) => `<span class="pcase__tool">${tl}</span>`).join('');
+    const more = `<a class="pcase__more" href="${p.external}" target="_blank" rel="noopener noreferrer">${t('modal.more')}</a>`;
+
     body.innerHTML = `
-      <div class="case">
-        <div class="case__top">
-          <div>
-            <p class="case__cat">${cat} · ${p.year}</p>
-            <h2 class="case__title" id="modalTitle">${title}</h2>
-            <p class="case__desc">${tx(p.desc)}</p>
+      <div class="pcase">
+        <div class="pcase__head">
+          <div class="pcase__info">
+            <p class="pcase__cat">{${cat}}</p>
+            <h2 class="pcase__title" id="modalTitle">${title}</h2>
+            <p class="pcase__desc">${tx(p.desc)}</p>
           </div>
-          <dl class="case__meta">
-            <div><dt>${t('modal.client')}</dt><dd>${cat}</dd></div>
-            <div><dt>${t('modal.year')}</dt><dd>${p.year}</dd></div>
-          </dl>
+          <aside class="pcase__side">
+            <div class="pcase__block">
+              <span class="pcase__label">${t('modal.tools')}</span>
+              <div class="pcase__tools">${tools}</div>
+            </div>
+            <div class="pcase__block">
+              <span class="pcase__label">${t('modal.role')}</span>
+              <span class="pcase__value">${role}</span>
+            </div>
+          </aside>
         </div>
-        <div class="case__actions">
-          <a class="pill pill--accent" href="${p.external}" target="_blank" rel="noopener noreferrer">
-            ${t('modal.more')}
-          </a>
-          <button class="pill pill--ghost" type="button" data-close-modal>${t('modal.close')}</button>
-          <span class="mono" style="margin-left:auto">${t('modal.note')}</span>
+        <div class="pcase__bar">
+          <span class="pcase__handle">@NatSlatvitskaya</span>
+          ${more}
         </div>
-      </div>
-      <div class="case__gallery">${galleryHTML(p)}</div>`;
+        <div class="pcase__gallery">${pcaseGalleryHTML(p)}</div>
+        <div class="pcase__bar pcase__bar--foot">
+          <span class="pcase__handle">@NatSlatvitskaya</span>
+          ${more}
+        </div>
+      </div>`;
   }
 
   function openModal(slug, { push = true, trigger = null } = {}) {

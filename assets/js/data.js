@@ -33,7 +33,7 @@ const PROJECTS = [
     },
     external: 'https://www.behance.net/nnzuzu5f5d',
     cover: 'assets/img/projects/nocturne-label/00.jpg',
-    images: IMG('nocturne-label', 10)
+    images: IMG('nocturne-label', 6)
   },
   {
     slug: 'name-8',
@@ -71,8 +71,10 @@ const PROJECTS = [
       en: 'A cover series about memory as a physical object: books, archive, dust. Monochrome, heavy light, and the feel of paper on a screen.'
     },
     external: 'https://www.behance.net/nnzuzu5f5d',
+    role: { ru: 'Бренд-дизайнер', en: 'Brand designer' },
+    tools: ['Ai', 'Ps'],
     cover: 'assets/img/projects/midnight-door/01.jpg',
-    images: IMG('midnight-door', 9)
+    images: IMG('midnight-door', 6)
   },
   {
     slug: 'smarty',
@@ -87,7 +89,7 @@ const PROJECTS = [
     },
     external: 'https://dprofile.ru/nat_slatvitskaya',
     cover: 'assets/img/projects/snor-miracle/00.jpg',
-    images: IMG('snor-miracle', 10)
+    images: IMG('snor-miracle', 6)
   },
   {
     slug: 'slet',
@@ -102,7 +104,7 @@ const PROJECTS = [
     },
     external: 'https://www.behance.net/nnzuzu5f5d',
     cover: 'assets/img/projects/hyperline-fest/01.jpg',
-    images: IMG('hyperline-fest', 9)
+    images: IMG('hyperline-fest', 6)
   },
   {
     slug: 'name-4',
@@ -143,7 +145,7 @@ const PROJECTS = [
     },
     external: 'https://dprofile.ru/nat_slatvitskaya',
     cover: 'assets/img/projects/liquid-glass-ui/00.jpg',
-    images: IMG('liquid-glass-ui', 8)
+    images: IMG('liquid-glass-ui', 1)
   },
   {
     slug: 'atlas',
@@ -158,7 +160,7 @@ const PROJECTS = [
     },
     external: 'https://dprofile.ru/nat_slatvitskaya',
     cover: 'assets/img/projects/atlas-mobility/00.jpg',
-    images: IMG('atlas-mobility', 9)
+    images: IMG('atlas-mobility', 1)
   },
   {
     slug: 'brunswick',
@@ -173,7 +175,7 @@ const PROJECTS = [
     },
     external: 'https://www.behance.net/nnzuzu5f5d',
     cover: 'assets/img/projects/brunswick-coffee/00.jpg',
-    images: IMG('brunswick-coffee', 7)
+    images: IMG('brunswick-coffee', 1)
   },
   {
     slug: 'polar',
@@ -188,7 +190,7 @@ const PROJECTS = [
     },
     external: 'https://dprofile.ru/nat_slatvitskaya',
     cover: 'assets/img/projects/polar-materials/00.jpg',
-    images: IMG('polar-materials', 7)
+    images: IMG('polar-materials', 1)
   },
   {
     slug: 'chrome-oracle',
@@ -203,7 +205,7 @@ const PROJECTS = [
     },
     external: 'https://www.behance.net/nnzuzu5f5d',
     cover: 'assets/img/projects/chrome-oracle/00.jpg',
-    images: IMG('chrome-oracle', 7)
+    images: IMG('chrome-oracle', 1)
   },
   {
     slug: 'orbital',
@@ -218,7 +220,7 @@ const PROJECTS = [
     },
     external: 'https://dprofile.ru/nat_slatvitskaya',
     cover: 'assets/img/projects/orbital-archive/00.jpg',
-    images: IMG('orbital-archive', 7)
+    images: IMG('orbital-archive', 1)
   },
   {
     slug: 'syntax-zero',
@@ -233,7 +235,7 @@ const PROJECTS = [
     },
     external: 'https://dprofile.ru/nat_slatvitskaya',
     cover: 'assets/img/projects/syntax-zero/00.jpg',
-    images: IMG('syntax-zero', 7)
+    images: IMG('syntax-zero', 1)
   },
   {
     slug: 'neon-botany',
@@ -248,7 +250,7 @@ const PROJECTS = [
     },
     external: 'https://www.behance.net/nnzuzu5f5d',
     cover: 'assets/img/projects/neon-botany/00.jpg',
-    images: IMG('neon-botany', 7)
+    images: IMG('neon-botany', 1)
   },
   {
     slug: 'arcade-desk',
@@ -263,7 +265,7 @@ const PROJECTS = [
     },
     external: 'https://dprofile.ru/nat_slatvitskaya',
     cover: 'assets/img/projects/arcade-desk/00.jpg',
-    images: IMG('arcade-desk', 7)
+    images: IMG('arcade-desk', 1)
   },
   {
     slug: 'emerald-riot',
@@ -278,7 +280,7 @@ const PROJECTS = [
     },
     external: 'https://www.behance.net/nnzuzu5f5d',
     cover: 'assets/img/projects/emerald-riot/00.jpg',
-    images: IMG('emerald-riot', 7)
+    images: IMG('emerald-riot', 1)
   },
   {
     slug: 'signal-decay',
@@ -293,7 +295,7 @@ const PROJECTS = [
     },
     external: 'https://dprofile.ru/nat_slatvitskaya',
     cover: 'assets/img/projects/signal-decay/00.jpg',
-    images: IMG('signal-decay', 7)
+    images: IMG('signal-decay', 1)
   },
   {
     slug: 'velvet-circuit',
@@ -308,7 +310,7 @@ const PROJECTS = [
     },
     external: 'https://www.behance.net/nnzuzu5f5d',
     cover: 'assets/img/projects/velvet-circuit/00.jpg',
-    images: IMG('velvet-circuit', 7)
+    images: IMG('velvet-circuit', 1)
   },
   {
     slug: 'monolith',
@@ -323,6 +325,6 @@ const PROJECTS = [
     },
     external: 'https://dprofile.ru/nat_slatvitskaya',
     cover: 'assets/img/projects/monolith-type/00.jpg',
-    images: IMG('monolith-type', 7)
+    images: IMG('monolith-type', 1)
   }
 ];
