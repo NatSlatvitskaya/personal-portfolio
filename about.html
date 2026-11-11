@@ -3,11 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Страница в разработке — Наталья Слатвицкая</title>
-<meta name="description" content="Раздел находится в разработке.">
+<title>Обо мне — Наталья Слатвицкая</title>
+<meta name="description" content="Обо мне: графический и бренд-дизайнер, 6 лет опыта.">
 <meta name="theme-color" content="#B98FEB">
-<meta name="robots" content="noindex">
-<link rel="icon" href="assets/img/favicon.png" type="image/png">
+<link rel="icon" href="assets/img/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="256x256" href="assets/img/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;700&family=Inter+Tight:wght@400;500;600&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
@@ -15,7 +15,7 @@
 <link rel="stylesheet" href="assets/css/base.css">
 <link rel="stylesheet" href="assets/css/layout.css">
 <link rel="stylesheet" href="assets/css/components.css">
-<link rel="stylesheet" href="assets/css/tune.css">
+<link rel="stylesheet" href="assets/css/tune.css?v=2.4">
 </head>
 <body class="is-scroll-body">
 
@@ -28,40 +28,68 @@
 
 <div class="page">
 
-  <header class="page__bar">
-    <a class="page__brand" href="index.html">NNZ</a>
-    <nav class="page__nav" aria-label="Навигация">
-      <a href="index.html" data-i18n="archive.back">На главную</a>
-      <a href="archive.html">Архив</a>
-    </nav>
-    <div class="page__tools">
-      <div class="switcher" role="group">
-        <button class="switcher__btn lang__btn is-active" type="button" data-lang="ru" aria-pressed="true">ru</button>
-        <button class="switcher__btn lang__btn" type="button" data-lang="en" aria-pressed="false">en</button>
-      </div>
-      <button class="themetoggle" type="button" data-theme-toggle aria-pressed="false">
-        <span class="themetoggle__knob"></span>
-      </button>
+  <header class="topbar page__bar">
+    <div class="topbar__left">
+      <a class="topbar__link" href="index.html" data-i18n="archive.back">На главную</a>
+    </div>
+    <div class="topbar__right">
+      <a class="topbar__exp" href="about.html" aria-current="page">6 лет опыта</a>
     </div>
   </header>
 
-  <main class="stub">
-    <div>
-      <div class="stub__code" data-i18n="e404.code">404</div>
-      <h1 class="stub__title" data-i18n="e404.title">Страница в разработке</h1>
-      <p class="stub__text" data-i18n="e404.text">
-        Этого раздела пока нет. Дизайн страницы «Обо мне» ещё в работе — совсем скоро она появится здесь.
-      </p>
-      <div class="stub__actions">
-        <a class="pill pill--accent" href="index.html" data-i18n="archive.back">На главную</a>
-        <a class="pill pill--ghost" href="archive.html">Архив</a>
+  <main class="about">
+    <h1 class="about__title">Обо мне</h1>
+
+    <section class="about__grid">
+      <div class="about__text">
+        <p class="about__lead">Наталья Слатвицкая — графический и бренд-дизайнер.</p>
+        <p class="about__placeholder">[Текст о себе — добавить]</p>
       </div>
-    </div>
+
+      <aside class="about__card">
+        <h2 class="about__label">Опыт</h2>
+        <p class="about__value">6 лет</p>
+        <h2 class="about__label">Направления</h2>
+        <ul class="about__list">
+          <li>Брендинг</li>
+          <li>Иллюстрация</li>
+          <li>Веб-дизайн</li>
+        </ul>
+        <h2 class="about__label">Контакты</h2>
+        <ul class="about__list">
+          <li><a href="#" data-contact="email">E-mail</a></li>
+          <li><a href="#" data-contact="telegram" target="_blank" rel="noopener">Telegram</a></li>
+          <li><a href="#" data-contact="behance" target="_blank" rel="noopener">Behance</a></li>
+        </ul>
+      </aside>
+    </section>
   </main>
+
+  <footer class="footbar arch-footbar">
+    <div class="footbar__legal">
+      <span data-i18n="foot.rights">© 2026 Наталья Слатвицкая</span>
+      <span data-i18n="foot.built">Собрано вручную · HTML / CSS / JS</span>
+      <button class="footbar__easter mono" type="button" data-open-terminal data-i18n="foot.console">v1.2 / console</button>
+    </div>
+  </footer>
 </div>
 
-<script src="assets/js/data.js"></script>
-<script src="assets/js/i18n.js"></script>
-<script src="assets/js/app.js"></script>
+<div class="terminal" id="terminal" role="dialog" aria-modal="true" aria-hidden="true" aria-label="Терминал">
+  <div class="terminal__box">
+    <div class="terminal__bar">
+      <span data-i18n="term.title">nnz://terminal</span>
+      <button class="wbtn wbtn--close" type="button" id="termClose" aria-label="Закрыть" style="margin-left:auto">×</button>
+    </div>
+    <div class="terminal__out" id="termOut"></div>
+    <div class="terminal__in">
+      <span class="terminal__prompt">nnz:~$</span>
+      <input class="terminal__field" id="termField" type="text" autocomplete="off" spellcheck="false" aria-label="Команда">
+    </div>
+  </div>
+</div>
+
+<script src="assets/js/data.js?v=2.4"></script>
+<script src="assets/js/i18n.js?v=2.4"></script>
+<script src="assets/js/app.js?v=2.4"></script>
 </body>
 </html>
