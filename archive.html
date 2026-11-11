@@ -14,7 +14,7 @@
 <link rel="stylesheet" href="assets/css/base.css">
 <link rel="stylesheet" href="assets/css/layout.css">
 <link rel="stylesheet" href="assets/css/components.css">
-<link rel="stylesheet" href="assets/css/tune.css">
+<link rel="stylesheet" href="assets/css/tune.css?v=1.8">
 </head>
 <body class="is-scroll-body">
 
@@ -27,29 +27,23 @@
 <div class="page">
 
   <header class="page__bar">
-    <a class="page__brand" href="index.html">NNZ</a>
-    <nav class="page__nav" aria-label="Навигация">
-      <a href="index.html" data-i18n="archive.back">На главную</a>
-      <a href="archive.html" class="is-active">Архив</a>
-      <a href="about.html" data-i18n="top.exp">6 лет опыта</a>
-    </nav>
-    <div class="page__tools">
-      <div class="switcher" role="group">
-        <button class="switcher__btn lang__btn is-active" type="button" data-lang="ru" aria-pressed="true">ru</button>
-        <button class="switcher__btn lang__btn" type="button" data-lang="en" aria-pressed="false">en</button>
+    <a class="page__back" href="index.html" data-i18n="archive.back">На главную</a>
+    <div class="page__right">
+      <div class="page__tools">
+        <div class="switcher" role="group">
+          <button class="switcher__btn lang__btn is-active" type="button" data-lang="ru" aria-pressed="true">ru</button>
+          <button class="switcher__btn lang__btn" type="button" data-lang="en" aria-pressed="false">en</button>
+        </div>
+        <button class="themetoggle" type="button" data-theme-toggle aria-pressed="false">
+          <span class="themetoggle__knob"></span>
+        </button>
       </div>
-      <button class="themetoggle" type="button" data-theme-toggle aria-pressed="false">
-        <span class="themetoggle__knob"></span>
-      </button>
+      <a class="page__exp" href="about.html" data-i18n="top.exp">6 лет опыта</a>
     </div>
   </header>
 
   <main class="page__main">
-    <div class="page__head">
-      <p class="mono" data-i18n="archive.eyebrow">Архив</p>
-      <h1 class="page__title" data-i18n="archive.title">Все проекты</h1>
-      <p class="page__lede" data-i18n="archive.lede">Сквозной архив за всё время. Фильтр по направлению.</p>
-    </div>
+    <h1 class="page__title" data-i18n="archive.title">Все проекты</h1>
 
     <div class="filters" role="group">
       <button class="filter is-active" type="button" data-filter="all" aria-pressed="true">
@@ -62,13 +56,31 @@
         <span data-i18n="archive.illustration">Иллюстрация</span><span class="filter__count"></span>
       </button>
       <button class="filter" type="button" data-filter="web" aria-pressed="false">
-        <span data-i18n="archive.web">Вэб-дизайн</span><span class="filter__count"></span>
+        <span data-i18n="archive.web">Веб-дизайн</span><span class="filter__count"></span>
       </button>
-      <span class="filters__count" id="archiveCount"></span>
+      <div class="filters__social">
+        <a class="arch-social" href="#" data-contact="cv" target="_blank" rel="noopener" aria-label="CV">CV</a>
+        <a class="arch-social" href="#" data-contact="dprofile" target="_blank" rel="noopener" aria-label="Dprofile">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2.2"/></svg>
+        </a>
+        <a class="arch-social" href="#" data-contact="behance" target="_blank" rel="noopener" aria-label="Behance">Bē</a>
+        <a class="arch-social" href="#" data-contact="telegram" target="_blank" rel="noopener" aria-label="Telegram">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M21 4L2.5 11.2l5.1 1.7L19 6.4 9.4 14.2l-.4 4.6 3-3.2 4.2 3.1L21 4Z" fill="currentColor"/></svg>
+        </a>
+        <a class="arch-social" href="#" data-contact="email" aria-label="E-mail">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="2.5" y="5.5" width="19" height="13" rx="1.8" stroke="currentColor" stroke-width="1.9"/><path d="M3.5 6.8L12 12.6l8.5-5.8" stroke="currentColor" stroke-width="1.9"/></svg>
+        </a>
+      </div>
     </div>
 
     <div class="grid-archive" id="archiveGrid" aria-live="polite"></div>
   </main>
+
+  <footer class="arch-foot">
+    <span data-i18n="foot.rights">© 2026 Наталья Слатвицкая</span>
+    <span data-i18n="foot.built">Собрано вручную · HTML / CSS / JS</span>
+    <button class="arch-foot__console" type="button" data-open-terminal data-i18n="foot.console">v1.2 / console</button>
+  </footer>
 </div>
 
 <div class="modal" id="modal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="modalTitle">
