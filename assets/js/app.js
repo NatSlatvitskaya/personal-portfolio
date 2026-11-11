@@ -73,14 +73,13 @@
     const hasCover = !!p.cover;
     const media = hasCover
       ? `<img src="${p.cover}" alt="${title}" loading="lazy" decoding="async" width="800" height="600">`
-      : `<span class="acard__empty">${title}</span>`;
+      : `<span class="acard__empty"></span>`;
 
     return `<button class="acard" type="button" data-slug="${p.slug}"
               aria-label="${title} — ${cat} ${p.year}">
       <span class="acard__media">${media}</span>
       <span class="acard__body">
         <span class="acard__title">${title}</span>
-        <span class="acard__year">${p.year}</span>
       </span>
     </button>`;
   }
