@@ -1761,3 +1761,9 @@ body.is-geek .screen .card {
 .filters__social .social { width: clamp(30px, 2.6vw, 46px) !important; height: clamp(30px, 2.6vw, 46px) !important; }
 .filters .social { position: relative; }
 
+/* ============================================================
+   АРХИВ v3 — шапка в правой колонке, заголовок semibold
+   ============================================================ */
+.page__bar.topbar .topbar__right { grid-column: 3; justify-self: end; }
+.page__title { font-weight: 600 !important; }
+
