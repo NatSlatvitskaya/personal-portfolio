@@ -622,22 +622,101 @@
     'ナニヌネノハヒフヘホマミムメモヤユヨラリ' +
     '0123456789ABCDEF{}[]<>/*+-=$#';
 
+  /* ------------------------------------------------------------
+     ПИКСЕЛЬНЫЙ РАСПАД — элементы сайта рассыпаются на квадраты
+     и поднимаются вверх пылью. Без затемнения фона.
+     ------------------------------------------------------------ */
+  function pixelDecay(delay, span) {
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce) return { restore() {} };
+
+    const DUST_PALETTE = ['#242424', '#11FFB0', '#FFFFFF', '#BA71FF', '#0B3A2C'];
+    const TARGETS = '.screen > .topbar, .screen > .footbar, .stage .card, .stage .phone, .stage .design-on';
+
+    let els = $$(TARGETS).filter((el) => el.getBoundingClientRect().width > 0);
+    for (let k = els.length - 1; k > 0; k -= 1) {          /* хаотичный порядок */
+      const j = (Math.random() * (k + 1)) | 0;
+      [els[k], els[j]] = [els[j], els[k]];
+    }
+    const rects = els.map((el) => el.getBoundingClientRect());
+    const area = rects.reduce((s, r) => s + r.width * r.height, 0);
+    const cell = Math.max(7, Math.round(Math.sqrt(area / 5000)));
+
+    const canvas = document.createElement('canvas');
+    canvas.className = 'nnz-dust';
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    canvas.width = Math.round(window.innerWidth * dpr);
+    canvas.height = Math.round(window.innerHeight * dpr);
+    document.body.appendChild(canvas);
+    const ctx = canvas.getContext('2d');
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+    const cells = [];
+    const timers = [];
+    els.forEach((el, idx) => {
+      const r = rects[idx];
+      const t0 = delay + (idx / els.length) * span;         /* волна по элементам */
+      timers.push(setTimeout(() => { el.style.visibility = 'hidden'; }, t0));
+      for (let y = r.top; y < r.bottom; y += cell) {
+        for (let x = r.left; x < r.right; x += cell) {
+          cells.push({
+            x, y, s: cell - 1,
+            t: t0 + Math.random() * 180,
+            life: 380 + Math.random() * 480,
+            c: DUST_PALETTE[(Math.random() * DUST_PALETTE.length) | 0],
+            drift: -(0.04 + Math.random() * 0.12),
+            sway: (Math.random() - 0.5) * 0.05
+          });
+        }
+      }
+    });
+
+    const begin = performance.now();
+    const finish = delay + span + 900;
+    let raf = 0;
+    let alive = true;
+
+    const frame = (now) => {
+      if (!alive) return;
+      const t = now - begin;
+      ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+      for (let n = 0; n < cells.length; n += 1) {
+        const c = cells[n];
+        const age = t - c.t;
+        if (age < 0 || age > c.life) continue;
+        ctx.globalAlpha = 1 - age / c.life;
+        ctx.fillStyle = c.c;
+        ctx.fillRect(c.x + c.sway * age, c.y + c.drift * age, c.s, c.s);
+      }
+      ctx.globalAlpha = 1;
+      if (t < finish) raf = requestAnimationFrame(frame);
+    };
+    raf = requestAnimationFrame(frame);
+
+    return {
+      restore() {
+        alive = false;
+        cancelAnimationFrame(raf);
+        timers.forEach((id) => clearTimeout(id));
+        els.forEach((el) => { el.style.visibility = ''; });
+        canvas.remove();
+      }
+    };
+  }
+
   function hackRun() {
     if (!termOut || document.querySelector('.nnz-fx')) return;
 
-    /* --- 1. глитч-тряска всего сайта --- */
+    /* --- 1. глитч-тряска сайта --- */
     document.body.classList.add('is-hacking');
     setTimeout(() => document.body.classList.remove('is-hacking'), 900);
 
-    /* --- 2. полноэкранный захват: тьма + дождь кода + окно --- */
+    /* --- 2. захват: код-дождь, логотип по центру, окно логов сбоку --- */
     const fx = document.createElement('div');
     fx.className = 'nnz-fx is-hack';
     fx.innerHTML =
-      '<div class="nnz-veil"></div>' +
       '<canvas class="nnz-rain" aria-hidden="true"></canvas>' +
-      '<div class="nnz-hacklogo">' +
-        '<img src="assets/img/logo-nat.png" alt="" aria-hidden="true">' +
-      '</div>' +
+      '<div class="nnz-hacklogo"><img src="assets/img/logo-nat.png" alt="" aria-hidden="true"></div>' +
       '<div class="nnz-win">' +
         '<div class="nnz-win__bar">' +
           '<span class="nnz-win__dots"><i></i><i></i><i></i></span>' +
@@ -656,9 +735,26 @@
       size: 16,
       color: 'rgba(17, 255, 176, 0.85)',
       head: '#D6FFEE',
-      fade: 0.075,          /* прозрачное затухание — видно градиент под дождём */
+      fade: 0.075,
       glyphs: RAIN_GLYPHS
     });
+
+    /* --- 3. распад интерфейса в пиксели --- */
+    const decay = pixelDecay(1100, 1500);
+
+    /* --- 4. логотип дергается в такт строкам лога --- */
+    const logoWrap = fx.querySelector('.nnz-hacklogo');
+    const logoImg = logoWrap.querySelector('img');
+    const beat = (hard) => {
+      logoImg.classList.remove('is-beat', 'is-hard');
+      void logoImg.offsetWidth;
+      logoImg.classList.add(hard ? 'is-hard' : 'is-beat');
+
+      logoWrap.classList.remove('is-split');
+      void logoWrap.offsetWidth;
+      logoWrap.classList.add('is-split');
+      setTimeout(() => logoWrap.classList.remove('is-split'), 110);
+    };
 
     const logEl = fx.querySelector('#nnzLog');
     const grant = fx.querySelector('#nnzGrant');
@@ -666,22 +762,19 @@
     let i = 0;
     const logTimer = setInterval(() => {
       if (i >= HACK_LOGS.length) { clearInterval(logTimer); return; }
+      const raw = HACK_LOGS[i];
       const line = document.createElement('div');
-      line.innerHTML = '&gt; ' + HACK_LOGS[i];
+      line.innerHTML = '&gt; ' + raw;
       logEl.appendChild(line);
       logEl.scrollTop = logEl.scrollHeight;
+      beat(raw.includes('<i>'));                 /* <i> — красные строки «retry / root» */
       i += 1;
     }, 78);
 
-    /* перед ACCESS GRANTED логотип ярко вспыхивает и уходит */
-    setTimeout(() => {
-      const logo = fx.querySelector('.nnz-hacklogo');
-      if (logo) logo.classList.add('is-flare');
-    }, 3450);
-
+    /* --- 5. финал: вспышка логотипа, ACCESS GRANTED, перезагрузка --- */
+    setTimeout(() => logoWrap.classList.add('is-flare'), 3450);
     setTimeout(() => grant.classList.add('is-on'), 3750);
 
-    /* --- 3. финал: белая вспышка и плавный возврат --- */
     setTimeout(() => {
       clearInterval(logTimer);
       fx.classList.add('is-out');
@@ -698,6 +791,7 @@
 
       setTimeout(() => flash.remove(), 1100);
       setTimeout(() => fx.remove(), 420);
+      setTimeout(() => decay.restore(), 300);   /* элементы возвращаются под вспышкой */
       termPrint('Done. Website optimized.', 'ok');
     }, 5150);
   }
@@ -762,7 +856,7 @@
       const cy = r.top + r.height / 2;
 
       /* все центры сводим в нижнюю полосу экрана — получается куча */
-      const targetX = W / 2 + (Math.random() - 0.5) * W * 0.55;
+      const targetX = cx; /* без сноса в сторону: падаем строго вниз */
       const targetY = H * 0.94 + (Math.random() - 0.5) * H * 0.09;
 
       const dx = targetX - cx;
@@ -772,7 +866,7 @@
 
       el.style.setProperty('--fall-x', dx.toFixed(0) + 'px');
       el.style.setProperty('--fall-y', dy.toFixed(0) + 'px');
-      el.style.setProperty('--fall-rot', ((Math.random() - 0.5) * 46).toFixed(1) + 'deg');
+      el.style.setProperty('--fall-rot', '0deg');
       /* обвал, а не перелёт: короткая разбежка и быстрый разгон */
       el.style.setProperty('--fall-delay', (Math.random() * 110).toFixed(0) + 'ms');
       el.style.setProperty('--fall-dur', (470 + Math.random() * 170).toFixed(0) + 'ms');
