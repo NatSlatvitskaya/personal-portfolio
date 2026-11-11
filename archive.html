@@ -14,7 +14,7 @@
 <link rel="stylesheet" href="assets/css/base.css">
 <link rel="stylesheet" href="assets/css/layout.css">
 <link rel="stylesheet" href="assets/css/components.css">
-<link rel="stylesheet" href="assets/css/tune.css?v=1.8">
+<link rel="stylesheet" href="assets/css/tune.css?v=1.9">
 </head>
 <body class="is-scroll-body">
 
@@ -26,19 +26,12 @@
 
 <div class="page">
 
-  <header class="page__bar">
-    <a class="page__back" href="index.html" data-i18n="archive.back">На главную</a>
-    <div class="page__right">
-      <div class="page__tools">
-        <div class="switcher" role="group">
-          <button class="switcher__btn lang__btn is-active" type="button" data-lang="ru" aria-pressed="true">ru</button>
-          <button class="switcher__btn lang__btn" type="button" data-lang="en" aria-pressed="false">en</button>
-        </div>
-        <button class="themetoggle" type="button" data-theme-toggle aria-pressed="false">
-          <span class="themetoggle__knob"></span>
-        </button>
-      </div>
-      <a class="page__exp" href="about.html" data-i18n="top.exp">6 лет опыта</a>
+  <header class="topbar page__bar">
+    <div class="topbar__left">
+      <a class="topbar__link" href="index.html" data-i18n="archive.back">На главную</a>
+    </div>
+    <div class="topbar__right">
+      <a class="topbar__exp" href="about.html" data-i18n="top.exp">6 лет опыта</a>
     </div>
   </header>
 
@@ -46,29 +39,43 @@
     <h1 class="page__title" data-i18n="archive.title">Все проекты</h1>
 
     <div class="filters" role="group">
-      <button class="filter is-active" type="button" data-filter="all" aria-pressed="true">
+      <button class="tag is-active" type="button" data-filter="all" aria-pressed="true">
         <span data-i18n="archive.all">Все</span><span class="filter__count"></span>
       </button>
-      <button class="filter" type="button" data-filter="branding" aria-pressed="false">
+      <button class="tag" type="button" data-filter="branding" aria-pressed="false">
         <span data-i18n="archive.branding">Брендинг</span><span class="filter__count"></span>
       </button>
-      <button class="filter" type="button" data-filter="illustration" aria-pressed="false">
+      <button class="tag" type="button" data-filter="illustration" aria-pressed="false">
         <span data-i18n="archive.illustration">Иллюстрация</span><span class="filter__count"></span>
       </button>
-      <button class="filter" type="button" data-filter="web" aria-pressed="false">
+      <button class="tag" type="button" data-filter="web" aria-pressed="false">
         <span data-i18n="archive.web">Веб-дизайн</span><span class="filter__count"></span>
       </button>
-      <div class="filters__social">
-        <a class="arch-social" href="#" data-contact="cv" target="_blank" rel="noopener" aria-label="CV">CV</a>
-        <a class="arch-social" href="#" data-contact="dprofile" target="_blank" rel="noopener" aria-label="Dprofile">
+      <div class="socials filters__social">
+        <a class="social" href="#" data-contact="cv" target="_blank" rel="noopener"
+           data-i18n-attr="aria-label:foot.cv" aria-label="CV">
+          <span class="pixel">CV</span>
+          <span class="social__tip" data-i18n="foot.cv">CV</span>
+        </a>
+        <a class="social" href="#" data-contact="dprofile" target="_blank" rel="noopener"
+           data-i18n-attr="aria-label:foot.dprofile" aria-label="Dprofile">
           <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2.2"/></svg>
+          <span class="social__tip" data-i18n="foot.dprofile">Dprofile</span>
         </a>
-        <a class="arch-social" href="#" data-contact="behance" target="_blank" rel="noopener" aria-label="Behance">Bē</a>
-        <a class="arch-social" href="#" data-contact="telegram" target="_blank" rel="noopener" aria-label="Telegram">
+        <a class="social" href="#" data-contact="behance" target="_blank" rel="noopener"
+           data-i18n-attr="aria-label:foot.behance" aria-label="Behance">
+          <span class="pixel" style="font-size:0.92em">Be</span>
+          <span class="social__tip" data-i18n="foot.behance">Behance</span>
+        </a>
+        <a class="social" href="#" data-contact="telegram" target="_blank" rel="noopener"
+           data-i18n-attr="aria-label:foot.telegram" aria-label="Telegram">
           <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M21 4L2.5 11.2l5.1 1.7L19 6.4 9.4 14.2l-.4 4.6 3-3.2 4.2 3.1L21 4Z" fill="currentColor"/></svg>
+          <span class="social__tip" data-i18n="foot.telegram">Telegram</span>
         </a>
-        <a class="arch-social" href="#" data-contact="email" aria-label="E-mail">
+        <a class="social" href="#" data-contact="email"
+           data-i18n-attr="aria-label:foot.email" aria-label="E-mail">
           <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="2.5" y="5.5" width="19" height="13" rx="1.8" stroke="currentColor" stroke-width="1.9"/><path d="M3.5 6.8L12 12.6l8.5-5.8" stroke="currentColor" stroke-width="1.9"/></svg>
+          <span class="social__tip" data-i18n="foot.email">E-mail</span>
         </a>
       </div>
     </div>
