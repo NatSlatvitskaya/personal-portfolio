@@ -1605,7 +1605,1671 @@ body.is-geek .screen .card {
 .filter__count::after  { content: '}'; }
 
 /* соцкнопки справа в панели */
-.filters__social { margin-left: auto; display: flex; align-items: center; gap: 10px; }
+.filters__social { margin-left: auto !important; display: flex !important; align-items: center; gap: 10px; flex: 0 0 auto; }
+.arch-social {
+  width: 34px; height: 34px;
+  display: grid; place-items: center;
+  border-radius: 50%;
+  background: #000;
+  color: #fff;
+  font-family: var(--font-pixel), monospace;
+  font-weight: 700;
+  font-size: 11px;
+  text-decoration: none;
+  transition: transform var(--dur) var(--ease-out);
+}
+.arch-social svg { width: 18px; height: 18px; }
+.arch-social:hover, .arch-social:focus-visible { transform: translateY(-2px) scale(1.06); }
+
+/* сетка: три колонки, карточка = ширина колонки */
+.grid-archive {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(14px, 1.45vw, 28px);
+}
+
+/* карточка: тёмная панель, белое превью, название по центру */
+.acard {
+  background: var(--card-panel);
+  border-radius: clamp(14px, 1.3vw, 22px);
+  padding: clamp(6px, 0.6vw, 9px);
+  gap: 0;
+  box-shadow: none;
+  width: 100%;
+  min-width: 0;
+}
+.acard:hover, .acard:focus-visible {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.35);
+}
+.acard__media {
+  aspect-ratio: 2.43 / 1;
+  border-radius: clamp(10px, 1vw, 16px);
+  background: #FFFFFF;
+}
+.acard__empty { background: #FFFFFF; }
+.acard__body {
+  display: block;
+  text-align: center;
+  padding: clamp(8px, 0.9vw, 14px) 0 clamp(6px, 0.7vw, 10px);
+}
+.acard__title {
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: clamp(0.95rem, 1.4vw, 1.25rem);
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  color: var(--card-ink);
+}
+.acard__year { display: none; }
+
+* =============================================================
+   TUNE.CSS — правки визуала (v5)
+   ============================================================= */
+
+
+/* ============================================================
+   0. ОСНОВА
+   ============================================================ */
+
+:root {
+  --font-display: "Inter", system-ui, -apple-system, sans-serif;
+  --font-head:    "Inter", system-ui, -apple-system, sans-serif;
+  --font-body:    "Inter", system-ui, -apple-system, sans-serif;
+  --font-mono:    "Inter", system-ui, -apple-system, sans-serif;
+  --font-screen:  "Silkscreen", ui-monospace, monospace;
+
+  --c-violet: #BA71FF;
+  --c-green:  #11FFB0;
+  --c-navy:   #221D49;
+  --c-teal:   #49FDC8;
+}
+
+
+/* ============================================================
+   ФОН — её готовые файлы. Градиент и текстура УЖЕ внутри.
+   Никаких дополнительных слоёв: они перекрывали дизайн.
+   ============================================================ */
+
+.fx__grad,
+.fx__halo,
+.fx__edge,
+.fx__grain {
+  display: none !important;
+}
+
+.fx {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image: url("../img/bg-light.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  transition: background-image 400ms ease;
+}
+
+[data-theme="dark"] .fx {
+  background-image: url("../img/bg-dark.jpg");
+}
+
+/* текстура отдельным слоем больше не нужна */
+.fx__texture { display: none !important; }
+
+
+/* ============================================================
+   1-3. ВЕРХНЯЯ СТРОКА
+   ============================================================ */
+
+.topbar {
+  padding-top: 14px !important;
+  padding-inline: var(--grid-margin) !important;   /* 32px — как у сетки */
+  align-items: start !important;
+}
+
+.topbar__link,
+.topbar__exp {
+  font-family: var(--font-display) !important;
+  font-size: 36px !important;
+  font-weight: 500 !important;
+  letter-spacing: -0.06em !important;
+  line-height: 1.1 !important;
+  color: #11FFB0 !important;                 /* неоновый зелёный */
+  background: transparent !important;
+  border: 2px solid transparent !important;  /* место под обводку, без сдвига */
+  border-radius: 8px !important;
+  padding: 2px 10px !important;
+  margin: -2px -10px !important;
+  transition: border-color 200ms ease !important;
+}
+
+.topbar__link:hover,
+.topbar__link:focus-visible,
+.topbar__exp:hover,
+.topbar__exp:focus-visible {
+  color: #11FFB0 !important;
+  background: transparent !important;       /* без заливки */
+  border-color: #11FFB0 !important;         /* только обводка */
+  outline: none !important;
+}
+
+.topbar__title {
+  font-family: var(--font-display) !important;
+  font-size: 36px !important;
+  font-weight: 500 !important;
+  letter-spacing: -0.06em !important;
+  line-height: 1.1 !important;
+  color: var(--c-green) !important;
+}
+
+.topbar__sub {
+  font-family: var(--font-display) !important;
+  font-size: 28px !important;
+  font-weight: 400 !important;
+  letter-spacing: -0.04em !important;
+  line-height: 1.2 !important;
+  color: #FFFFFF !important;                 /* белый */
+  margin-top: 4px !important;
+}
+
+
+/* ============================================================
+   4. ТЕЛЕФОН
+   ============================================================ */
+
+.stage__center {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  align-self: stretch !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  padding-block: 12px !important;
+  position: relative !important;
+}
+
+.phone {
+  height: min(718px, 100%) !important;
+  width: auto !important;
+  max-height: 100% !important;
+  max-width: 100% !important;
+  aspect-ratio: 1088 / 1429 !important;
+  flex: 0 0 auto !important;
+  position: relative !important;
+  z-index: 2 !important;
+}
+
+.phone__screen {
+  left: 24.36% !important;
+  top: 23.09% !important;
+  width: 40.17% !important;
+  height: 19.59% !important;
+  background: transparent !important;   /* зелёный уже в PNG */
+  box-shadow: none !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+}
+
+
+/* ============================================================
+   5. ТЕКСТ НА ЭКРАНЕ
+   ============================================================ */
+
+.phone__screen { container-type: size; }
+
+.phone__text {
+  font-family: var(--font-screen) !important;
+  font-size: 13cqw !important;
+  letter-spacing: 0.01em !important;
+  line-height: 1 !important;
+  color: #04311F !important;          /* тёмный на зелёном из PNG */
+  padding: 0 4% !important;
+  text-shadow: none !important;
+}
+
+/* центр экрана: текст по центру */
+.phone__screen {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+
+/* ============================================================
+   5.5 СЕТКА — 3 колонки: margin 32, gutter 28, stretch
+   Карточки позиционируются от этих колонок.
+   ============================================================ */
+
+:root {
+  --col-gap: var(--grid-gutter);            /* 28px */
+  --col-w: calc((100% - (var(--grid-margin) * 2) - (var(--col-gap) * 2)) / 3);
+  --col-1: var(--grid-margin);
+  --col-2: calc(var(--grid-margin) + var(--col-w) + var(--col-gap));
+  --col-3: calc(var(--grid-margin) + (var(--col-w) + var(--col-gap)) * 2);
+
+  /* половина карточки + 8px, чтобы центр не уводил её за край */
+  --edge-safe: calc(142px / 2 + 8px);
+
+  /* Ширина колонки, посчитанная от ЭКРАНА (не от контейнера).
+     (100vw − margin 32×2 − gutter 28×2) / 3
+     Нужна там, где процент внутри контейнера даёт не тот результат. */
+  --col-w-vp: calc((100vw - 120px) / 3);
+}
+
+/* сцена — контейнер для позиционирования */
+.stage {
+  position: relative !important;
+  display: block !important;
+  grid-template-columns: none !important;
+  grid-template-rows: none !important;
+  padding: 0 !important;
+  gap: 0 !important;
+}
+
+/* телефон — по центру второй колонки, на всю высоту сцены */
+.stage__center {
+  position: absolute !important;
+  top: 0 !important;
+  bottom: 0 !important;
+  left: var(--col-2) !important;
+  width: var(--col-w) !important;
+  grid-column: auto !important;
+  grid-row: auto !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  z-index: 3 !important;
+}
+
+/* ---- карточки: позиции из макета ---- */
+.card {
+  position: absolute !important;
+  z-index: 2 !important;
+  grid-column: auto !important;
+  grid-row: auto !important;
+}
+
+/* ---- позиции карточек ----
+   left = ЦЕНТР карточки (transform: translate(-50%, -50%)).
+   Половина карточки: --card-half. Внутри колонки — доли её ширины. */
+
+:root {
+  --card-half: 71px;
+  /* единый размер обоих переключателей футера (SVG 101×56) */
+  --ctl-w: clamp(74px, 5.26vw, 101px);
+  --ctl-h: clamp(41px, 2.92vw, 56px);
+}
+
+/* КОЛОНКА 1 — левая */
+/* 1 NOCTURNE — сдвинута к середине колонки */
+.card:nth-of-type(1) { left: calc(var(--col-1) + var(--col-w) * 0.482) !important; top: 19.0% !important; }
+/* 3 NAME 1 — ЛЕВЫЙ КРАЙ карточки = левый край колонки (32px) */
+.card:nth-of-type(3) { left: calc(var(--col-1) + var(--card-half)) !important; top: 48.2% !important; }
+/* 4 MEMORIA */
+.card:nth-of-type(4) { left: calc(var(--col-1) + var(--col-w) * 0.816) !important; top: 48.2% !important; }
+/* 7 NAME 4 — по центру колонки */
+.card:nth-of-type(7) { left: calc(var(--col-1) + var(--col-w) * 0.491) !important; top: 81.0% !important; }
+
+/* КОЛОНКА 3 — правая */
+/* 2 NAME 8 */
+.card:nth-of-type(2) { left: calc(var(--col-3) + var(--col-w) * 0.518) !important; top: 19.0% !important; }
+/* 5 SMARTY — левый край = левый край колонки 3 */
+.card:nth-of-type(5) { left: calc(var(--col-3) + var(--card-half)) !important; top: 48.2% !important; }
+/* 8 NAME 7 — ПРАВЫЙ край = правый край колонки 3 */
+.card:nth-of-type(8) { left: calc(var(--col-3) + var(--col-w) - var(--card-half)) !important; top: 48.2% !important; }
+/* 6 СЛЕТ — по центру колонки */
+.card:nth-of-type(6) { left: calc(var(--col-3) + var(--col-w) * 0.518) !important; top: 81.0% !important; }
+
+.card {
+  transform: translate(-50%, -50%) !important;
+}
+
+/* «design on» — над телефоном, по центру */
+.design-on {
+  top: 50% !important;
+  left: 50% !important;
+}
+
+
+/* ============================================================
+   6. КАРТОЧКИ
+   ============================================================ */
+
+.card {
+  padding: 8px !important;
+  gap: 8px !important;
+  box-shadow: none !important;
+  border: 0 !important;
+}
+
+.card:hover,
+.card:focus-visible {
+  box-shadow: 6.4px 6.4px 0 0 #49FDC8 !important;
+  transform: translate(-50%, -50%) scale(1.2) !important;
+  z-index: 6 !important;
+}
+
+.card__cover { border-radius: 8px !important; }
+
+.card__label {
+  font-family: var(--font-display) !important;
+  font-size: 22px !important;
+  font-weight: 500 !important;
+  letter-spacing: -0.04em !important;
+  line-height: 1.05 !important;
+  color: #FFFFFF !important;
+}
+
+.card:hover .card__label,
+.card:focus-visible .card__label {
+  font-size: 23px !important;
+}
+
+
+/* ============================================================
+   7. «design on» — неоновое свечение чистого SVG
+   SVG: чистые белые контуры (#FFFFFF), без blur и без blend внутри файла.
+   Свечение собирается в браузере: plus-lighter + два drop-shadow.
+   ============================================================ */
+
+.design-on {
+  position: absolute !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  /* 1.13 колонки = 680px на экране 1920.
+     Файл квадратный (917×901), поэтому высота равна ширине. */
+  width: calc(var(--col-w-vp) * 1.13) !important;
+  max-width: none !important;
+  height: auto !important;
+  pointer-events: none !important;
+  user-select: none !important;
+  z-index: 4 !important;               /* поверх телефона (z-index: 2) */
+
+  /* Y2K-неон: размытие 2px + лиловый ореол #FAD9FF (8px и 16px) */
+  filter: blur(2px)
+          drop-shadow(0 0 8px #FAD9FF)
+          drop-shadow(0 0 16px rgba(250, 217, 255, 0.7)) !important;
+  mix-blend-mode: plus-lighter !important;
+  opacity: 1 !important;
+  will-change: filter;
+  /* сдвиг композиции — задаётся на каждом слове отдельно */
+  --shift-x: 0px;
+  --shift-y: 0px;
+  translate: var(--shift-x) var(--shift-y);
+}
+
+/* «design» — левее (58px при колонке 600px) */
+.design-on--design {
+  --shift-x: calc(var(--col-w-vp) * -0.097);
+}
+
+/* «on» — ниже (29px при колонке 600px) */
+.design-on--on {
+  --shift-y: calc(var(--col-w-vp) * 0.048);
+}
+
+[data-theme="dark"] .design-on {
+  filter: blur(2px)
+          drop-shadow(0 0 8px #F1E4DA)
+          drop-shadow(0 0 16px rgba(241, 228, 218, 0.7)) !important;
+  mix-blend-mode: plus-lighter !important;
+  opacity: 1 !important;
+}
+
+@media (max-width: 1199px) {
+  .design-on { display: none !important; }
+}
+
+
+/* ============================================================
+   8. СОЦКНОПКИ
+   ============================================================ */
+
+.social {
+  /* 76px при колонке 600: 600 − 70×2 − 20×4 = 380, ÷5
+     пропорционально ширине колонки, но не меньше 40px */
+  width: max(40px, calc(var(--col-w-vp) * 0.1266667)) !important;
+  height: max(40px, calc(var(--col-w-vp) * 0.1266667)) !important;
+  flex: 0 0 auto !important;
+  background-color: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  background-size: contain !important;
+  background-repeat: no-repeat !important;
+  background-position: center !important;
+  transition: transform 200ms cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.social:hover,
+.social:focus-visible {
+  transform: translateY(-3px) scale(1.06) !important;
+}
+
+/* ховер: зелёный глиф на тёмном фоне (раньше заливался весь круг) */
+.social[data-contact="cv"]:hover,
+.social[data-contact="cv"]:focus-visible       { background-image: url("../img/icons/ui/cv-hover.svg") !important; }
+.social[data-contact="dprofile"]:hover,
+.social[data-contact="dprofile"]:focus-visible { background-image: url("../img/icons/ui/dprofile-hover.svg") !important; }
+.social[data-contact="behance"]:hover,
+.social[data-contact="behance"]:focus-visible  { background-image: url("../img/icons/ui/behance-hover.svg") !important; }
+.social[data-contact="telegram"]:hover,
+.social[data-contact="telegram"]:focus-visible { background-image: url("../img/icons/ui/telegram-hover.svg") !important; }
+.social[data-contact="email"]:hover,
+.social[data-contact="email"]:focus-visible    { background-image: url("../img/icons/ui/mail-hover.svg") !important; }
+
+.social svg, .social span:not(.social__tip) { display: none !important; }
+
+/* SVG-иконки: вектор, чёткие на любом экране */
+.social[data-contact="cv"]       { background-image: url("../img/icons/ui/cv.svg") !important; }
+.social[data-contact="dprofile"] { background-image: url("../img/icons/ui/dprofile.svg") !important; }
+.social[data-contact="behance"]  { background-image: url("../img/icons/ui/behance.svg") !important; }
+.social[data-contact="telegram"] { background-image: url("../img/icons/ui/telegram.svg") !important; }
+.social[data-contact="email"]    { background-image: url("../img/icons/ui/mail.svg") !important; }
+
+.social__tip {
+  font-family: var(--font-display) !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  letter-spacing: -0.02em !important;
+}
+
+
+/* ============================================================
+   9. ФУТЕР — одна строка: язык · теги · иконки · теги · тумблер
+   Колонки сетки: margin 32, gutter 28
+   ============================================================ */
+
+:root {
+  --grid-margin: 32px;
+  --grid-gutter: 28px;
+  --foot-pad-y-top: 18px;
+  --foot-pad-y-bot: 14px;
+  --foot-gap: 18px;
+}
+
+.screen {
+  display: flex !important;
+  flex-direction: column !important;
+  grid-template-rows: none !important;
+  height: 100dvh !important;
+  overflow: hidden !important;
+}
+
+.topbar  { flex: 0 0 auto !important; }
+.stage   { flex: 1 1 auto !important; min-height: 0 !important; }
+.footbar { flex: 0 0 auto !important; }
+
+/* ============================================================
+   ЭФФЕКТ СТЕКЛА — параметры из Figma
+   Light: угол −45°, интенсивность 80%
+   Refraction 80 · Depth 35.22 · Dispersion 50 · Frost 7.04 · Splay 0
+   Заливка: #F1E4DA, 20%
+   ============================================================ */
+
+.footbar {
+  height: auto !important;
+  min-height: 0 !important;
+  padding:
+    var(--foot-pad-y-top)
+    0
+    var(--foot-pad-y-bot) !important;
+  gap: var(--foot-gap) !important;
+  border-radius: 20px 20px 0 0 !important;
+
+  /* заливка #F1E4DA 20% */
+  background-color: rgba(241, 228, 218, 0.20) !important;
+
+  /* Light −45°: блик идёт из левого-верхнего угла */
+  background-image: linear-gradient(
+    -45deg,
+    rgba(255, 255, 255, 0.26) 0%,
+    rgba(255, 255, 255, 0.10) 34%,
+    rgba(255, 255, 255, 0.00) 68%,
+    rgba(241, 228, 218, 0.10) 100%
+  ) !important;
+
+  /* Frost 7.04 → размытие; Refraction 80 → лёгкое усиление насыщенности */
+  backdrop-filter: blur(7px) saturate(1.25) brightness(1.04) !important;
+  -webkit-backdrop-filter: blur(7px) saturate(1.25) brightness(1.04) !important;
+
+  /* Depth 35.22 → внутренняя тень; Dispersion 50 → тонкая цветная кромка */
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.55),
+    inset 0 -32px 48px -34px rgba(60, 40, 30, 0.22),
+    inset 1px 0 0 rgba(255, 240, 250, 0.30),
+    inset -1px 0 0 rgba(210, 255, 245, 0.30) !important;
+
+  border-top: 1px solid rgba(255, 255, 255, 0.60) !important;
+}
+
+/* тёмная тема: стекло #F1E4DA — как в светлой */
+[data-theme="dark"] .footbar {
+  background-color: rgba(241, 228, 218, 0.20) !important;
+  background-image: linear-gradient(
+    -45deg,
+    rgba(255, 255, 255, 0.26) 0%,
+    rgba(255, 255, 255, 0.10) 34%,
+    rgba(255, 255, 255, 0.00) 68%,
+    rgba(241, 228, 218, 0.10) 100%
+  ) !important;
+  backdrop-filter: blur(7px) saturate(1.25) brightness(1.04) !important;
+  -webkit-backdrop-filter: blur(7px) saturate(1.25) brightness(1.04) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.55),
+    inset 0 -32px 48px -34px rgba(60, 40, 30, 0.22),
+    inset 1px 0 0 rgba(255, 240, 250, 0.30),
+    inset -1px 0 0 rgba(210, 255, 245, 0.30) !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.60) !important;
+}
+
+/* ---- главная строка: ТА ЖЕ сетка 3 колонки, что у сцены ----
+   7 дорожек: 32 | col | 28 | col | 28 | col | 32
+   Сумма = 100% родителя, поэтому колонки встают точно на места. */
+.footbar__main {
+  display: grid !important;
+  grid-template-columns:
+    var(--grid-margin)
+    var(--col-w)
+    var(--grid-gutter)
+    var(--col-w)
+    var(--grid-gutter)
+    var(--col-w)
+    var(--grid-margin) !important;
+  column-gap: 0 !important;
+  align-items: center !important;
+  width: 100% !important;
+  min-height: 56px !important;
+}
+
+.footcol--1 { grid-column: 2 !important; }
+.footcol--2 { grid-column: 4 !important; }
+.footcol--3 { grid-column: 6 !important; }
+
+/* ---- колонки футера ----
+   Каждая колонка = ширина колонки сетки (600px при 1920).
+   Внутри — space-between: первый элемент по левому краю,
+   последний по правому, промежутки равные. */
+.footcol {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 0 !important;
+  min-width: 0 !important;
+  width: 100% !important;
+  flex-wrap: nowrap !important;
+}
+
+/* ---- КОЛОНКА 2: иконки, своё выравнивание ----
+   Контейнер = ширина колонки (600px при 1920).
+   Отступ от краёв 70px, зазор между иконками 20px.
+   600 − 70×2 − 20×4 = 380 → 380 / 5 = 76px на иконку. */
+.footcol--2 {
+  justify-content: center !important;
+  /* пропорции от ширины колонки, посчитанной от экрана:
+     20/600 = 3.333%  ·  70/600 = 11.667%  ·  76/600 = 12.667% */
+  gap: calc(var(--col-w-vp) * 0.0333333) !important;
+  padding-inline: calc(var(--col-w-vp) * 0.1166667) !important;
+  box-sizing: border-box !important;
+}
+
+/* старые обёртки, если где-то остались */
+.footbar__tags {
+  display: flex !important;
+  align-items: center !important;
+  gap: var(--grid-gutter) !important;
+  flex-wrap: nowrap !important;
+}
+
+.tag {
+  font-family: var(--font-display) !important;
+  font-size: 28px !important;
+  font-weight: 500 !important;
+  letter-spacing: -0.04em !important;
+  line-height: 1.1 !important;
+  color: var(--c-navy) !important;
+  white-space: nowrap !important;
+  transition: color 160ms ease !important;
+  min-width: 0 !important;
+}
+
+.tag:hover,
+.tag:focus-visible,
+.tag.is-active {
+  color: var(--c-navy) !important;           /* цвет не меняем */
+  text-decoration: underline !important;
+  text-decoration-color: currentColor !important;
+  text-underline-offset: 6px !important;
+  text-decoration-thickness: 2px !important;
+}
+
+[data-theme="dark"] .tag { color: #FFFFFF !important; }
+[data-theme="dark"] .tag:hover,
+[data-theme="dark"] .tag:focus-visible,
+[data-theme="dark"] .tag.is-active {
+  color: #FFFFFF !important;
+  text-decoration: underline !important;
+  text-decoration-color: #11FFB0 !important;
+  text-underline-offset: 6px !important;
+}
+
+.tag {
+  text-decoration: none !important;
+}
+
+/* ---- соцкнопки: центр, не растягиваются ---- */
+/* соцкнопки — прямые дети колонки 2, обёртки нет */
+.socials { display: contents !important; }   /* страховка, если останется */
+
+/* ---- подпись ---- */
+.footbar__legal {
+  padding-inline: var(--grid-margin) !important;
+  font-family: var(--font-display) !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  letter-spacing: -0.04em !important;
+  line-height: 1.2 !important;
+  color: var(--c-navy) !important;
+  display: grid !important;
+  grid-template-columns: 1fr auto 1fr !important;
+  align-items: center !important;
+  gap: 10px !important;
+}
+
+.footbar__legal > :last-child  { justify-self: end !important; }
+.footbar__legal > :nth-child(2){ justify-self: center !important; }
+
+[data-theme="dark"] .footbar__legal { color: #FFFFFF !important; }
+
+.footbar__easter {
+  font-family: var(--font-display) !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  letter-spacing: -0.04em !important;
+  color: var(--c-navy) !important;
+}
+
+[data-theme="dark"] .footbar__easter { color: #FFFFFF !important; }
+[data-theme="dark"] .footbar__easter:hover { color: var(--c-teal) !important; }
+
+
+/* ============================================================
+   11-12. ПЕРЕКЛЮЧАТЕЛИ
+   ============================================================ */
+
+.switcher {
+  background: none !important;
+  border: 0 !important;
+  border-radius: 0 !important;          /* убираем круглость от base.css */
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  overflow: visible !important;
+  box-shadow: none !important;
+  outline: 0 !important;
+  width: var(--ctl-w) !important;
+  height: var(--ctl-h) !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  min-width: 0 !important;
+  background-image: url("../img/icons/ui/lang-light-ru.svg") !important;
+  background-size: contain !important;
+  background-repeat: no-repeat !important;
+  background-position: center !important;
+  cursor: pointer !important;
+  position: relative !important;
+}
+
+[data-theme="dark"] .switcher {
+  background-image: url("../img/icons/ui/lang-dark.svg") !important;
+}
+
+.switcher__btn { display: none !important; }
+
+.themetoggle {
+  width: var(--ctl-w) !important;
+  height: var(--ctl-h) !important;
+  background-color: transparent !important;   /* убираем светлую плашку */
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  outline: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  min-width: 0 !important;
+  background-image: url("../img/icons/ui/theme-light.svg") !important;
+  background-size: contain !important;
+  background-repeat: no-repeat !important;
+  background-position: center !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  position: relative !important;
+}
+
+[data-theme="dark"] .themetoggle {
+  background-image: url("../img/icons/ui/theme-dark.svg") !important;
+}
+
+.themetoggle__knob { display: none !important; }
+
+/* ---- SVG-версии ---------------------------------------------------
+   Включаются автоматически, если файлы найдены.
+   Классы ставит app.js: .lang-svg / .theme-svg на <html>.
+   PNG остаётся запасным вариантом.
+   ------------------------------------------------------------------ */
+
+/* ---- переключатель языка ----
+   Базовые 2 файла (lang-light / lang-dark) — всегда работают.
+   Если загружены 4 файла с состояниями (lang-light-ru и т.д.),
+   JS ставит .lang-states на <html> и включаются они. */
+
+/* базовый вид — берём -ru, он гарантированно загружен */
+.lang-svg .switcher {
+  background-image: url("../img/icons/ui/lang-light-ru.svg") !important;
+}
+.lang-svg[data-theme="dark"] .switcher {
+  background-image: url("../img/icons/ui/lang-dark-ru.svg") !important;
+}
+
+/* активный язык непрозрачный, неактивный приглушён — когда есть 4 состояния */
+.lang-states.lang-svg .switcher {
+  background-image: url("../img/icons/ui/lang-light-ru.svg") !important;
+}
+.lang-states.lang-svg[data-lang="en"] .switcher {
+  background-image: url("../img/icons/ui/lang-light-en.svg") !important;
+}
+
+.lang-states.lang-svg[data-theme="dark"] .switcher {
+  background-image: url("../img/icons/ui/lang-dark-ru.svg") !important;
+}
+.lang-states.lang-svg[data-theme="dark"][data-lang="en"] .switcher {
+  background-image: url("../img/icons/ui/lang-dark-en.svg") !important;
+}
+
+/* тумблер темы */
+.theme-svg .themetoggle {
+  background-image: url("../img/icons/ui/theme-light.svg") !important;
+}
+.theme-svg[data-theme="dark"] .themetoggle {
+  background-image: url("../img/icons/ui/theme-dark.svg") !important;
+}
+
+
+/* ============================================================
+   АДАПТИВ
+   ============================================================ */
+
+@media (max-width: 1600px) {
+  .topbar__link, .topbar__exp, .topbar__title { font-size: 28px !important; }
+  .topbar__sub { font-size: 21px !important; }
+  .footbar__legal, .footbar__easter { font-size: 14px !important; }
+  .card__label { font-size: 18px !important; }
+  .card:hover .card__label { font-size: 19px !important; }
+  .tag { font-size: 21px !important; }
+  :root { --foot-pad-x: 34px; --foot-gap: 28px; }
+}
+
+@media (max-width: 1280px) {
+  .topbar__link, .topbar__exp, .topbar__title { font-size: 24px !important; }
+  .topbar__sub { font-size: 18px !important; }
+  .footbar__legal, .footbar__easter { font-size: 14px !important; }
+  .card__label { font-size: 16px !important; }
+  .card:hover .card__label { font-size: 17px !important; }
+  .tag { font-size: 18px !important; }
+  :root { --foot-pad-x: 28px; --foot-gap: 20px; --foot-pad-y-top: 16px; --foot-pad-y-bot: 18px; }
+}
+
+/* ниже 1100 колонка уже ~293px — теги в 16px не помещаются,
+   поэтому размер пересчитан пропорционально ширине колонки */
+@media (max-width: 1100px) {
+  .tag { font-size: 14px !important; }
+  :root { --ctl-w: 62px; --ctl-h: 34px; }
+}
+
+@media (max-width: 1000px) {
+  .topbar__link, .topbar__exp, .topbar__title { font-size: 21px !important; }
+  .topbar__sub { font-size: 16px !important; }
+  .footbar__legal, .footbar__easter { font-size: 12px !important; }
+  .card__label { font-size: 14px !important; }
+  .card:hover .card__label { font-size: 15px !important; }
+  .tag { font-size: 13px !important; }
+  :root { --ctl-w: 54px; --ctl-h: 30px; }
+}
+
+@media (max-width: 860px) {
+  .footbar { padding: 14px 20px 14px !important; gap: 12px !important; }
+  .footbar__main { justify-content: center !important; gap: 14px !important; }
+  .footbar__tags { display: none !important; }
+  .socials { display: flex !important; }
+  .phone { height: clamp(240px, 40dvh, 340px) !important; }
+  .topbar__link, .topbar__exp, .topbar__title { font-size: 18px !important; }
+  .topbar__sub { font-size: 14px !important; }
+  .card__label { font-size: 14px !important; }
+  .card:hover .card__label { font-size: 15px !important; }
+  .tag { font-size: 12px !important; }
+  :root { --ctl-w: 50px; --ctl-h: 28px; }
+  .footbar__legal { font-size: 12px !important; flex-direction: column !important; align-items: center !important; gap: 4px !important; }
+}
+
+
+/* ============================================================
+   ИНТЕРАКТИВНЫЕ РЕЖИМЫ ТЕРМИНАЛА
+   hack_nat · destruct · geek
+   ============================================================ */
+
+/* ---------- общий слой ---------- */
+.nnz-fx {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 300ms ease;
+}
+.nnz-fx.is-on { opacity: 1; }
+
+/* ============================================================
+   1. hack_nat — пиксельное окно
+   ============================================================ */
+
+.nnz-win {
+  width: min(660px, 100%);
+  background: #03050A;
+  border: 3px solid #11FFB0;
+  box-shadow:
+    0 0 0 3px #03050A,
+    0 0 0 6px #11FFB0,
+    0 0 42px rgba(17, 255, 176, 0.50),
+    0 0 110px rgba(17, 255, 176, 0.22);
+  font-family: var(--font-pixel), monospace;
+  color: #C9FFE9;
+  overflow: hidden;
+}
+
+.nnz-win__bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px;
+  background: repeating-linear-gradient(
+    0deg,
+    #11FFB0 0 2px,
+    #0B3A2C 2px 4px
+  );
+  color: #03050A;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.nnz-win__dots { display: flex; gap: 5px; flex: 0 0 auto; }
+.nnz-win__dots i { width: 9px; height: 9px; background: #03050A; display: block; }
+
+.nnz-win__body {
+  position: relative;
+  height: 300px;
+  padding: 14px 16px 18px;
+  overflow: hidden;
+  font-size: 12px;
+  line-height: 1.85;
+}
+
+/* сканлайны старого монитора */
+.nnz-win__body::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.26) 0 1px,
+    transparent 1px 3px
+  );
+}
+
+.nnz-log { white-space: pre; }
+.nnz-log b { color: #11FFB0; font-weight: 400; }
+.nnz-log i { color: #FF4D6D; font-style: normal; }
+
+.nnz-grant {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: 30px;
+  letter-spacing: 0.10em;
+  color: #11FFB0;
+  text-shadow: 0 0 18px #11FFB0, 0 0 44px rgba(17, 255, 176, 0.55);
+  background: rgba(3, 5, 10, 0.86);
+  opacity: 0;
+  transition: opacity 220ms ease;
+}
+.nnz-grant.is-on {
+  opacity: 1;
+  animation: nnzGrantPulse 620ms steps(2, end) infinite;
+}
+@keyframes nnzGrantPulse { 50% { opacity: 0.55; } }
+
+/* ============================================================
+   2. destruct — тревога, отсчёт, падение
+   ============================================================ */
+
+/* красная пульсация по краям экрана */
+body.is-alarm::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 190;
+  pointer-events: none;
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(255, 0, 60, 0) 30%,
+    rgba(255, 0, 60, 0.45) 100%
+  );
+  animation: nnzBlink 700ms steps(2, end) infinite;
+}
+
+body.is-alarm .terminal__box {
+  border-color: #FF4D6D !important;
+  box-shadow: 0 0 60px -12px #FF4D6D !important;
+  animation: nnzBlink 700ms steps(2, end) infinite;
+}
+
+@keyframes nnzBlink { 50% { opacity: 0.38; } }
+
+/* крупный пиксельный счётчик */
+.nnz-count {
+  position: fixed;
+  inset: 0;
+  z-index: 195;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+  font-family: var(--font-pixel), monospace;
+  font-size: clamp(120px, 20vw, 250px);
+  line-height: 1;
+  color: #FF4D6D;
+  text-shadow: 0 0 24px #FF4D6D, 0 0 70px rgba(255, 77, 109, 0.6);
+}
+.nnz-count.is-tick { animation: nnzTick 420ms cubic-bezier(0.2, 1.4, 0.4, 1); }
+@keyframes nnzTick {
+  0%   { scale: 1.55; opacity: 0.15; }
+  100% { scale: 1;    opacity: 1; }
+}
+
+/* терминал уходит в угол, чтобы не закрывать сцену */
+.terminal.is-spectate {
+  background: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  place-items: end end !important;
+  padding: 18px !important;
+}
+.terminal.is-spectate .terminal__box {
+  width: min(430px, 44vw);
+  max-height: 42vh;
+}
+
+/* падение элементов
+   используем независимые свойства translate / rotate —
+   они не конфликтуют с transform, которым стоят карточки */
+body.is-destroying .screen > .topbar,
+body.is-destroying .screen > .footbar,
+body.is-destroying .stage .card,
+body.is-destroying .stage .phone,
+body.is-destroying .stage .design-on {
+  /* падение без «плавучести»: короткий обвал с жёстким ускорением.
+     длительность приходит из JS (--fall-dur), чтобы куски падали не синхронно */
+  animation: nnzFall var(--fall-dur, 560ms) cubic-bezier(0.55, 0, 1, 0.45) var(--fall-delay, 0ms) forwards;
+  z-index: calc(10 + var(--fall-z, 0)) !important;
+  will-change: translate, rotate;
+  backface-visibility: hidden;
+}
+
+/* свободное падение: скорость растёт по ходу, поэтому кривые задаются
+   на каждом отрезке отдельно — элемент разгоняется и бьётся, а не планирует */
+@keyframes nnzFall {
+  0%   { translate: 0 0; }
+  100% { translate: 0 var(--fall-y, 0px); }
+}
+
+/* ============================================================
+   3. geek — режим набора кода
+   ============================================================ */
+
+.terminal.is-geek .terminal__box {
+  border-color: #B98FEB;
+  box-shadow: 0 0 70px -14px #B98FEB;
+}
+.terminal.is-geek .terminal__out { color: #B98FEB; }
+
+.geek-code {
+  white-space: pre-wrap;
+  word-break: break-word;
+  color: #7BFFD5;
+}
+.geek-code:last-child::after {
+  content: '\258A';
+  color: #B98FEB;
+  animation: nnzCaret 560ms steps(2, end) infinite;
+}
+@keyframes nnzCaret { 50% { opacity: 0; } }
+
+/* уважение к prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .nnz-grant.is-on,
+  body.is-alarm::before,
+  body.is-alarm .terminal__box,
+  .nnz-count.is-tick,
+  .geek-code:last-child::after { animation: none !important; }
+  body.is-destroying .screen > .topbar,
+  body.is-destroying .screen > .footbar,
+  body.is-destroying .stage .card,
+  body.is-destroying .stage .phone,
+  body.is-destroying .stage .design-on { animation-duration: 1ms !important; }
+}
+
+
+/* ============================================================
+   КНОПКА КОНСОЛИ В ФУТЕРЕ — мигающий курсор + неоновый ховер
+   ============================================================ */
+
+/* стрелка-курсор и плавность на саму кнопку */
+.footbar__easter {
+  cursor: pointer !important;
+  display: inline-block !important;   /* нужно для heredity подчёркивания */
+  transition:
+    color 180ms ease,
+    text-shadow 180ms ease,
+    opacity 180ms ease !important;
+}
+
+/* мигающая вертикальная черта после слова console */
+.footbar__easter::after {
+  content: '';
+  display: inline-block;
+  width: 0.09em;
+  height: 0.92em;
+  margin-left: 0.10em;
+  vertical-align: -0.06em;
+  background: currentColor;
+  animation: nnzBlinkCaret 1.05s steps(1, end) infinite;
+}
+
+@keyframes nnzBlinkCaret {
+  0%, 49%   { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+/* ---- ховер: подчёркивание как у тегов, цвет не меняем ----
+   бирюзовый на светлом футере даёт контраст 1.02 — не читается,
+   поэтому цвет остаётся тёмным (светлая тема) / белым (тёмная) */
+.footbar__easter:hover,
+.footbar__easter:focus-visible {
+  color: var(--c-navy) !important;
+  text-shadow: none !important;
+  text-decoration: underline !important;
+  text-decoration-color: currentColor !important;
+  text-underline-offset: 6px !important;
+  text-decoration-thickness: 2px !important;
+  outline: none !important;
+}
+
+/* тёмная тема — как у тегов: белый текст, бирюзовая линия */
+[data-theme="dark"] .footbar__easter:hover,
+[data-theme="dark"] .footbar__easter:focus-visible {
+  color: #FFFFFF !important;
+  text-shadow: none !important;
+  text-decoration: underline !important;
+  text-decoration-color: #11FFB0 !important;
+  text-underline-offset: 6px !important;
+  text-decoration-thickness: 2px !important;
+}
+
+/* уважение к prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .footbar__easter::after { animation: none !important; opacity: 1; }
+}
+
+
+/* «Boot console» шире остальных фраз в 1.2x — уменьшаем кегль только ей,
+   чтобы она вписалась в экран телефона */
+.phone__text.is-long {
+  font-size: 9.3cqw !important;
+}
+
+
+/* ============================================================
+   HACK_NAT — ГЛИТЧ · ДОЖДЬ КОДА · ПЕРЕЗАГРУЗКА
+   ============================================================ */
+
+/* --- 1. глитч-тряска всего сайта в момент активации --- */
+body.is-hacking .screen {
+  animation: nnzGlitch 900ms steps(1, end) 1;
+  will-change: transform, filter;
+}
+
+@keyframes nnzGlitch {
+  0%   { transform: translate(0, 0) skewX(0deg);        filter: none; }
+  4%   { transform: translate(-9px, 3px) skewX(-1.6deg); filter: hue-rotate(70deg) saturate(2.4); }
+  8%   { transform: translate(7px, -4px) skewX(1.4deg);  filter: invert(1) hue-rotate(-60deg); }
+  12%  { transform: translate(-5px, 2px) skewX(0.8deg);  filter: none; }
+  16%  { transform: translate(11px, 0) skewX(-2.2deg);   filter: hue-rotate(-90deg) contrast(1.7); }
+  21%  { transform: translate(-3px, -2px) skewX(1.1deg); filter: none; }
+  26%  { transform: translate(6px, 4px) skewX(-0.9deg);  filter: saturate(0); }
+  31%  { transform: translate(-8px, -3px) skewX(1.8deg); filter: hue-rotate(120deg); }
+  37%  { transform: translate(4px, 1px) skewX(-0.6deg);  filter: none; }
+  44%  { transform: translate(-6px, -1px) skewX(1.2deg); filter: invert(0.85); }
+  52%  { transform: translate(3px, 3px) skewX(-0.4deg);  filter: none; }
+  62%  { transform: translate(-3px, -2px) skewX(0.7deg); filter: hue-rotate(-40deg) blur(1px); }
+  72%  { transform: translate(2px, 1px) skewX(-0.3deg);  filter: none; }
+  84%  { transform: translate(-1px, 0) skewX(0.2deg);    filter: none; }
+  100% { transform: translate(0, 0) skewX(0deg);         filter: none; }
+}
+
+/* --- 2. полноэкранный слой захвата --- */
+.nnz-fx.is-hack {
+  padding: 20px;
+  opacity: 0;
+  transition: opacity 320ms ease;
+}
+
+/* тьма поверх сайта */
+.nnz-veil {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 50% 42%, rgba(0, 60, 42, 0.55) 0%, rgba(0, 8, 6, 0.96) 62%),
+    #01040A;
+  opacity: 0;
+  transition: opacity 320ms ease;
+}
+.nnz-fx.is-hack.is-on .nnz-veil { opacity: 1; }
+
+/* дождь из кода */
+.nnz-rain {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 480ms ease 120ms;
+}
+.nnz-fx.is-hack.is-on .nnz-rain { opacity: 1; }
+
+/* окно всплывает над дождём */
+.nnz-fx.is-hack .nnz-win {
+  position: relative;
+  z-index: 2;
+  scale: 0.94;
+  opacity: 0;
+  transition: scale 380ms cubic-bezier(0.2, 1.5, 0.4, 1), opacity 300ms ease;
+}
+.nnz-fx.is-hack.is-on .nnz-win { scale: 1; opacity: 1; }
+
+/* уход всего захвата */
+.nnz-fx.is-hack.is-out { opacity: 0; transition-duration: 380ms; }
+.nnz-fx.is-hack.is-out .nnz-win {
+  scale: 1.04;
+  opacity: 0;
+  transition-duration: 340ms;
+}
+
+/* --- 3. белая вспышка перезагрузки --- */
+.nnz-flash {
+  position: fixed;
+  inset: 0;
+  z-index: 260;
+  pointer-events: none;
+  background: #FFFFFF;
+  opacity: 0;
+}
+.nnz-flash.is-on { animation: nnzFlash 1000ms cubic-bezier(0.25, 0, 0.3, 1) forwards; }
+
+@keyframes nnzFlash {
+  0%   { opacity: 0; }
+  14%  { opacity: 0.92; }
+  38%  { opacity: 0.72; }
+  100% { opacity: 0; }
+}
+
+/* сайт мягко возвращается из вспышки */
+body.is-rebooting .screen {
+  animation: nnzReboot 1000ms cubic-bezier(0.2, 0.9, 0.2, 1) 1;
+}
+@keyframes nnzReboot {
+  0%   { filter: brightness(1.9) saturate(0.4); scale: 1.012; }
+  55%  { filter: brightness(1.18) saturate(0.9); scale: 1.004; }
+  100% { filter: none; scale: 1; }
+}
+
+/* ============================================================
+   GEEK — МОНОХРОМНЫЙ НЕОН + КОД, СТРУЯЩИЙСЯ ПО ФОНУ
+   ============================================================ */
+
+/* слой под интерфейсом */
+.nnz-geekfx {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 620ms ease;
+}
+.nnz-geekfx.is-on { opacity: 1; }
+
+.nnz-geekrain {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* горизонтальная развёртка, как у рентгена */
+.nnz-scan {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(140, 255, 235, 0.055) 0 1px,
+    transparent 1px 4px
+  );
+  mix-blend-mode: screen;
+}
+.nnz-scan::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 26%;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(150, 255, 240, 0.10) 45%,
+    rgba(200, 255, 250, 0.16) 50%,
+    rgba(150, 255, 240, 0.10) 55%,
+    transparent 100%
+  );
+  animation: nnzScan 5.5s linear infinite;
+}
+@keyframes nnzScan {
+  0%   { top: -30%; }
+  100% { top: 105%; }
+}
+
+/* ---- режим «чертёж»: сайт не перекрашивается, идёт контурная подсветка ---- */
+body.is-geek .screen {
+  transition: box-shadow 620ms ease;
+}
+
+body.is-geek .screen .card,
+body.is-geek .screen .phone,
+body.is-geek .screen .tag,
+body.is-geek .screen .social,
+body.is-geek .screen .footbar,
+body.is-geek .screen .topbar__exp {
+  box-shadow:
+    0 0 0 1px rgba(120, 255, 235, 0.65),
+    0 0 12px rgba(120, 255, 235, 0.32) !important;
+  transition: box-shadow 620ms ease !important;
+}
+
+/* сетка чертёжного листа под интерфейсом */
+.nnz-geekfx::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(120, 255, 235, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(120, 255, 235, 0.07) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+body.is-geek .terminal__box {
+  border-color: rgba(170, 255, 240, 0.75) !important;
+  box-shadow:
+    0 0 0 1px rgba(170, 255, 240, 0.3),
+    0 0 60px -10px rgba(140, 255, 235, 0.55) !important;
+}
+
+/* ---- уважение к prefers-reduced-motion ---- */
+@media (prefers-reduced-motion: reduce) {
+  body.is-hacking .screen { animation: none !important; }
+  body.is-rebooting .screen { animation: none !important; }
+  .nnz-flash.is-on { animation: none !important; opacity: 0 !important; }
+  .nnz-scan::after { animation: none !important; }
+  .nnz-rain { display: none !important; }
+}
+
+
+/* ============================================================
+   ЛОГОТИП NAT — прелоадер, водяной знак, захват
+   ============================================================ */
+
+/* ---------- 1. СТАРТОВЫЙ ПРЕЛОАДЕР ---------- */
+.nnz-preloader {
+  position: fixed;
+  inset: 0;
+  z-index: 900;
+  background: #000000;
+  display: grid;
+  place-items: center;
+  gap: 34px;
+  grid-auto-flow: row;
+  justify-items: center;
+  transition: opacity 300ms ease, visibility 300ms;
+}
+
+/* резкий глитч-уход */
+.nnz-preloader.is-out {
+  animation: nnzPreloaderOut 420ms steps(1, end) forwards;
+}
+
+.nnz-preloader__logo {
+  width: clamp(120px, 15vw, 220px);
+  height: auto;
+  filter: drop-shadow(0 0 18px rgba(17, 255, 176, 0.65))
+          drop-shadow(0 0 48px rgba(17, 255, 176, 0.35));
+  animation: nnzLogoBreath 2100ms ease-in-out infinite;
+}
+
+/* неоновое мерцание */
+@keyframes nnzLogoBreath {
+  0%, 100% { opacity: 0.62; filter: drop-shadow(0 0 14px rgba(17,255,176,.5)) drop-shadow(0 0 40px rgba(17,255,176,.22)); }
+  42%      { opacity: 1;    filter: drop-shadow(0 0 22px rgba(17,255,176,.9)) drop-shadow(0 0 62px rgba(17,255,176,.5)); }
+  46%      { opacity: 0.55; }
+  52%      { opacity: 1;    }
+  70%      { opacity: 0.85; }
+}
+
+/* тонкая полоса загрузки под логотипом */
+.nnz-preloader__bar {
+  width: clamp(120px, 15vw, 220px);
+  height: 2px;
+  background: rgba(17, 255, 176, 0.16);
+  overflow: hidden;
+}
+.nnz-preloader__bar i {
+  display: block;
+  width: 40%;
+  height: 100%;
+  background: #11FFB0;
+  box-shadow: 0 0 12px #11FFB0;
+  animation: nnzPreBar 1200ms cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+@keyframes nnzPreBar {
+  0%   { transform: translateX(-110%); }
+  100% { transform: translateX(280%); }
+}
+
+/* глитч-распад при уходе */
+@keyframes nnzPreloaderOut {
+  0%   { opacity: 1; transform: translate(0, 0) skewX(0deg); filter: none; }
+  12%  { opacity: 1; transform: translate(-6px, 2px) skewX(-1.2deg); filter: invert(1) hue-rotate(90deg); }
+  22%  { opacity: 0.9; transform: translate(8px, -3px) skewX(1.6deg); filter: hue-rotate(-70deg) saturate(3); }
+  34%  { opacity: 0.75; transform: translate(-4px, 1px) skewX(-0.8deg); filter: none; }
+  48%  { opacity: 0.5; transform: translate(5px, 0) skewX(1deg); filter: brightness(2.4); }
+  64%  { opacity: 0.28; transform: translate(-2px, 0) skewX(-0.4deg); filter: none; }
+  100% { opacity: 0; transform: translate(0, 0) skewX(0deg); filter: none; }
+}
+
+/* ---------- 3. ЛОГОТИП В ЦЕНТРЕ ЗАХВАТА hack_nat ---------- */
+.nnz-hacklogo {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  z-index: 1;
+  pointer-events: none;
+  /* путь считается от tune.css, а не от HTML — иначе 404 */
+  --logo-url: url('../img/logo-nat.png');
+}
+
+.nnz-hacklogo img {
+  width: clamp(220px, 34vw, 520px);
+  height: auto;
+  filter:
+    drop-shadow(0 0 26px rgba(17, 255, 176, 0.85))
+    drop-shadow(0 0 70px rgba(17, 255, 176, 0.45));
+  animation: nnzHackPulse 760ms ease-in-out infinite;
+}
+
+/* пульс в такт взлому */
+@keyframes nnzHackPulse {
+  0%, 100% { opacity: 0.78; scale: 1; }
+  50%      { opacity: 1;    scale: 1.035; }
+}
+
+/* глитч-двойник: два сдвинутых слоя в цветах каналов */
+.nnz-hacklogo::before,
+.nnz-hacklogo::after {
+  content: '';
+  position: absolute;
+  width: clamp(220px, 34vw, 520px);
+  height: clamp(220px, 34vw, 520px);
+  background-image: var(--logo-url);
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0.55;
+  mix-blend-mode: screen;
+}
+.nnz-hacklogo::before {
+  filter: drop-shadow(0 0 0 #FF2D6F) brightness(1.1);
+  animation: nnzHackGlitchA 2400ms steps(1, end) infinite;
+}
+.nnz-hacklogo::after {
+  filter: drop-shadow(0 0 0 #29E0FF) brightness(1.1);
+  animation: nnzHackGlitchB 2900ms steps(1, end) infinite;
+}
+
+@keyframes nnzHackGlitchA {
+  0%, 88%, 100% { transform: translate(0, 0); opacity: 0; }
+  89%           { transform: translate(-7px, 2px); opacity: 0.5; }
+  91%           { transform: translate(5px, -3px); opacity: 0.42; }
+  93%           { transform: translate(-3px, 1px); opacity: 0; }
+}
+
+@keyframes nnzHackGlitchB {
+  0%, 84%, 100% { transform: translate(0, 0); opacity: 0; }
+  85%           { transform: translate(8px, -2px); opacity: 0.45; }
+  87%           { transform: translate(-6px, 3px); opacity: 0.38; }
+  90%           { transform: translate(2px, -1px); opacity: 0; }
+}
+
+/* финал: яркая вспышка логотипа перед ACCESS GRANTED */
+.nnz-hacklogo.is-flare img {
+  animation: nnzHackFlare 620ms cubic-bezier(0.2, 0.9, 0.2, 1) forwards;
+}
+.nnz-hacklogo.is-flare::before,
+.nnz-hacklogo.is-flare::after { animation: none; opacity: 0; }
+
+@keyframes nnzHackFlare {
+  0%   { opacity: 1; scale: 1; filter: drop-shadow(0 0 26px rgba(17,255,176,.85)) drop-shadow(0 0 70px rgba(17,255,176,.45)); }
+  30%  { opacity: 1; scale: 1.10; filter: drop-shadow(0 0 46px #FFFFFF) drop-shadow(0 0 130px rgba(17,255,176,1)) brightness(2.6) saturate(0.2); }
+  100% { opacity: 0; scale: 0.96; filter: drop-shadow(0 0 30px rgba(17,255,176,0)) brightness(1); }
+}
+
+/* логотип уходит вместе с перезагрузкой */
+.nnz-fx.is-hack.is-out .nnz-hacklogo { opacity: 0; transition: opacity 300ms ease; }
+
+/* уважение к prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .nnz-preloader__logo { animation: none !important; opacity: 1; }
+  .nnz-preloader__bar i { animation: none !important; width: 100%; }
+  .nnz-hacklogo img { animation: none !important; }
+  .nnz-hacklogo::before, .nnz-hacklogo::after { animation: none !important; opacity: 0; }
+  .nnz-hacklogo.is-flare img { animation: none !important; opacity: 0; }
+}
+
+/* ============================================================
+   GEEK — терминал в углу, без затемнения: фон и код видны
+   ============================================================ */
+.terminal.is-geek {
+  background: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  place-items: end end !important;
+  padding: 18px !important;
+}
+.terminal.is-geek .terminal__box {
+  width: min(430px, 44vw);
+  max-height: 42vh;
+  background: rgba(5, 7, 10, 0.80) !important;
+}
+
+/* ---- чертёж: карточки полупрозрачные, код за ними просвечивает ---- */
+body.is-geek .screen .card {
+  background-color: rgba(8, 12, 16, 0.38) !important;
+  backdrop-filter: blur(1.5px);
+}
+
+/* ---- чертёж: сетка заметнее, поверх — лёгкий «скан» ---- */
+.nnz-geekfx::before {
+  background-image:
+    linear-gradient(rgba(140, 255, 235, 0.13) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(140, 255, 235, 0.13) 1px, transparent 1px) !important;
+  background-size: 56px 56px !important;
+}
+
+/* ============================================================
+   HACK_NAT v2 — окно сбоку, без затемнения · пиксельный распад · пульс по логу
+   ============================================================ */
+
+/* окно логов — справа по центру, экран не затемняется */
+.nnz-fx.is-hack { place-items: center end; padding: 24px; }
+.nnz-fx.is-hack .nnz-win { width: min(430px, 40vw); }
+.nnz-fx.is-hack.is-on .nnz-rain { opacity: 0.6; }
+
+@media (max-width: 760px) {
+  .nnz-fx.is-hack { place-items: end center; padding: 16px; }
+  .nnz-fx.is-hack .nnz-win { width: 100%; }
+}
+
+/* холст пиксельной пыли — под окном, над сайтом */
+.nnz-dust {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 150;
+  pointer-events: none;
+}
+
+/* логотип: спокойное дыхание между строками лога */
+.nnz-hacklogo img { animation: nnzHackIdle 1600ms ease-in-out infinite; }
+@keyframes nnzHackIdle {
+  0%, 100% { opacity: 0.78; }
+  50%      { opacity: 1; }
+}
+
+/* обычная строка лога — короткий толчок */
+.nnz-hacklogo img.is-beat { animation: nnzBeat 170ms steps(3, end) 1; }
+@keyframes nnzBeat {
+  0%   { scale: 1.06; filter: drop-shadow(0 0 26px rgba(17,255,176,.95)) drop-shadow(0 0 70px rgba(17,255,176,.5)); }
+  100% { scale: 1;    filter: drop-shadow(0 0 26px rgba(17,255,176,.85)) drop-shadow(0 0 70px rgba(17,255,176,.45)); }
+}
+
+/* красная строка (retry / root) — жёсткий сбой с расхождением каналов */
+.nnz-hacklogo img.is-hard { animation: nnzBeatHard 260ms steps(4, end) 1; }
+@keyframes nnzBeatHard {
+  0%   { scale: 1.10; translate: -8px 2px;  filter: hue-rotate(90deg) drop-shadow(0 0 30px #FF2D6F); }
+  35%  { translate: 6px -3px;               filter: hue-rotate(-60deg) drop-shadow(0 0 30px #29E0FF); }
+  70%  { translate: -3px 1px; }
+  100% { scale: 1; translate: 0 0;          filter: drop-shadow(0 0 26px rgba(17,255,176,.85)) drop-shadow(0 0 70px rgba(17,255,176,.45)); }
+}
+
+/* во время толчка двойники смещаются в такт ударам */
+.nnz-hacklogo.is-split::before,
+.nnz-hacklogo.is-split::after { animation: none; opacity: 0.7; }
+.nnz-hacklogo.is-split::before { transform: translate(7px, -2px); }
+.nnz-hacklogo.is-split::after  { transform: translate(-6px, 3px); }
+
+@media (prefers-reduced-motion: reduce) {
+  .nnz-hacklogo img,
+  .nnz-hacklogo img.is-beat,
+  .nnz-hacklogo img.is-hard { animation: none !important; }
+}
+
+/* ============================================================
+   АРХИВ — оформление по макету
+   ============================================================ */
+
+/* шапка: прозрачная, две зелёные ссылки по краям */
+.page__bar {
+  position: relative;
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border-bottom: 0;
+  padding: clamp(14px, 2.4vh, 26px) var(--pad-x) 0;
+  justify-content: space-between;
+}
+.page__back,
+.page__exp {
+  font-family: var(--font-head);
+  font-weight: 600;
+  font-size: clamp(1.1rem, 1.9vw, 1.7rem);
+  letter-spacing: -0.03em;
+  color: var(--accent);
+  transition: opacity var(--dur-fast);
+}
+.page__back:hover, .page__exp:hover { opacity: 0.75; }
+.page__right { display: flex; align-items: center; gap: clamp(14px, 2vw, 30px); }
+
+/* заголовок */
+.page__main { padding-top: clamp(18px, 3vh, 40px); }
+.page__title {
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: clamp(3rem, 7vw, 6.4rem);
+  letter-spacing: -0.05em;
+  line-height: 0.95;
+  color: var(--ink);
+  margin: 0 0 clamp(18px, 2.6vw, 34px);
+}
+
+/* панель фильтров: стеклянная полоса со скруглением */
+.filters {
+  position: relative;
+  top: auto;
+  background: var(--panel-glass);
+  backdrop-filter: blur(14px) saturate(1.2);
+  -webkit-backdrop-filter: blur(14px) saturate(1.2);
+  border: 1px solid var(--panel-line);
+  border-bottom: 1px solid var(--panel-line);
+  border-radius: 20px;
+  padding: 14px clamp(18px, 2.2vw, 30px);
+  margin-bottom: clamp(18px, 2vw, 28px);
+  gap: clamp(14px, 2.4vw, 42px);
+  flex-wrap: wrap;
+}
+.filter {
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  font-family: var(--font-head);
+  font-size: clamp(1rem, 1.7vw, 1.5rem);
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  text-transform: none;
+  color: var(--ink);
+  transform: none;
+}
+.filter:hover { transform: none; color: var(--ink); opacity: 0.7; }
+.filter.is-active { background: transparent; border-color: transparent; color: var(--accent); font-weight: 600; }
+.filter__count { margin-left: 0.3em; opacity: 1; }
+.filter__count::before { content: '{'; }
+.filter__count::after  { content: '}'; }
+
+/* соцкнопки справа в панели */
+.filters__social { margin-left: auto !important; display: flex !important; align-items: center; gap: 10px; flex: 0 0 auto; }
 .arch-social {
   width: 34px; height: 34px;
   display: grid; place-items: center;
@@ -1697,14 +3361,14 @@ body.is-geek .screen .card {
 @media (max-width: 620px) {
   .grid-archive { grid-template-columns: 1fr; }
   .filters__social { width: 100%; margin-left: 0; justify-content: flex-end; }
-  .arch-foot { justify-content: center; text-align: center; }
 }
 
 /* ============================================================
    АРХИВ v2 — заголовок, белый в светлой теме
    ============================================================ */
 .page__title {
-  font-size: clamp(1.5rem, 3.5vw, 3.2rem) !important;
+  font-size: 64px !important;
+  font-weight: 500 !important;
   color: #FFFFFF !important;
 }
 [data-theme="dark"] .page__title { color: #FFFFFF !important; }
@@ -1726,7 +3390,7 @@ body.is-geek .screen .card {
 /* фильтры-теги: пропорции тегов с главной (28px display, без рамки) */
 .filters .tag {
   font-family: var(--font-display) !important;
-  font-size: 28px !important;
+  font-size: 21px !important;
   font-weight: 500 !important;
   letter-spacing: -0.04em !important;
   line-height: 1.1 !important;
@@ -1758,14 +3422,13 @@ body.is-geek .screen .card {
 .filters .filter__count { margin-left: 0.2em; opacity: 1; font-size: inherit; }
 
 /* соцкнопки архива — как на главной: залитые SVG, тултип, зелёный ховер */
-.filters__social .social { width: clamp(30px, 2.6vw, 46px) !important; height: clamp(30px, 2.6vw, 46px) !important; }
+.filters__social .social { width: clamp(20px, 1.6667vw, 48px) !important; height: clamp(20px, 1.6667vw, 48px) !important; }
 .filters .social { position: relative; }
 
 /* ============================================================
    АРХИВ v3 — шапка в правой колонке, заголовок semibold
    ============================================================ */
 .page__bar.topbar .topbar__right { grid-column: 3; justify-self: end; }
-.page__title { font-weight: 600 !important; }
 
 /* ============================================================
    ПОПАП ПРОЕКТА — по макету
@@ -1810,4 +3473,61 @@ body.is-geek .screen .card {
 /* 404 — неоновый логотип */
 .stub__logo { display: block; width: clamp(200px, 30vw, 420px); height: auto; margin: 0 0 clamp(14px, 2vw, 26px); animation: nnzLogoBreath 2100ms ease-in-out infinite; }
 @media (prefers-reduced-motion: reduce) { .stub__logo { animation: none; } }
+
+/* ============================================================
+   АРХИВ — футер закреплён снизу, как на главной
+   ============================================================ */
+.arch-foot.footbar {
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  grid-template-rows: auto;
+}
+.page__main { padding-bottom: 130px; }
+
+/* адаптив: заголовок и иконки уменьшаются вместе с экраном */
+@media (max-width: 1600px) { .page__title { font-size: 54px !important; } }
+@media (max-width: 1280px) { .page__title { font-size: 46px !important; } }
+@media (max-width: 1000px) {
+  .page__title { font-size: 38px !important; }
+  .filters .tag { font-size: 18px !important; }
+  .filters__social .social { width: 26px !important; height: 26px !important; }
+}
+@media (max-width: 620px) {
+  .page__title { font-size: 30px !important; }
+  .filters .tag { font-size: 15px !important; }
+  .filters__social .social { width: 24px !important; height: 24px !important; }
+}
+
+/* ============================================================
+   АРХИВ v4 — Medium 64px, теги 21px, иконки справа 32px,
+   футер как на главной и закреплён внизу
+   ============================================================ */
+.page__title {
+  font-size: clamp(34px, 3.3333vw, 64px) !important;
+  font-weight: 500 !important;
+  line-height: 1.05 !important;
+}
+.filters .tag {
+  font-size: 21px !important;
+  line-height: 1.1 !important;
+}
+.filters { display: flex !important; align-items: center !important; }
+.filters__social {
+  margin-left: auto !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: clamp(6px, 0.6vw, 12px) !important;
+}
+.filters__social .social {
+  width: clamp(20px, 1.6667vw, 48px) !important;
+  height: clamp(20px, 1.6667vw, 48px) !important;
+}
+.arch-footbar.footbar {
+  position: fixed !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  z-index: var(--z-ui);
+}
+.page__main { padding-bottom: 130px !important; }
 
