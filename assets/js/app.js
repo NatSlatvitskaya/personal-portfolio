@@ -1221,3 +1221,20 @@
     setTimeout(() => openModal(initialSlug, { push: true }), 60);
   }
 })();
+
+/* предзагрузка иконок соцкнопок (обычные и hover): без моргания при первом наведении */
+(function preloadSocialIcons() {
+  ['cv', 'dprofile', 'behance', 'telegram'].forEach((n) => {
+    ['', '-hover'].forEach((s) => {
+      const img = new Image();
+      img.src = 'assets/img/icons/ui/' + n + s + '.svg';
+      if (img.decode) img.decode().catch(() => {});
+    });
+  });
+  ['mail', 'mail-hover'].forEach((n) => {
+    const img = new Image();
+    img.src = 'assets/img/icons/ui/' + n + '.svg';
+    if (img.decode) img.decode().catch(() => {});
+  });
+})();
+
