@@ -85,7 +85,7 @@ const I18N = {
     /* терминал */
     'term.title': 'nnz://terminal',
     'term.hint': 'Введи help и нажми Enter',
-    'term.help': 'Доступно: projects · archive · cv · contact · theme · clear',
+    'term.help': 'Доступно: projects · archive · cv · contact · theme · stamp · clear',
     'term.secret': 'Скрытые: stamp · destruct · geek · exit',
     'term.unknown': 'команда не найдена'
   },
@@ -162,7 +162,7 @@ const I18N = {
 
     'term.title': 'nnz://terminal',
     'term.hint': 'Type help and press Enter',
-    'term.help': 'Available: projects · archive · cv · contact · theme · clear',
+    'term.help': 'Available: projects · archive · cv · contact · theme · stamp · clear',
     'term.secret': 'Hidden: stamp · destruct · geek · exit',
     'term.unknown': 'command not found'
   }
