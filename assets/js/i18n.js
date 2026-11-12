@@ -71,6 +71,8 @@ const I18N = {
     'e404.title': 'Страница в разработке',
     'e404.text': 'Этого раздела пока нет. Дизайн страницы «Обо мне» ещё в работе — совсем скоро она появится здесь.',
     'e404.code': '404',
+    'e404.h': '404 Not found',
+    'e404.sub': '{страница в разработке}',
 
     /* тема */
     'theme.light': 'Цветная',
@@ -148,6 +150,8 @@ const I18N = {
     'e404.title': 'Page in progress',
     'e404.text': 'This section doesn\u2019t exist yet. The About page is still in design — it will land here soon.',
     'e404.code': '404',
+    'e404.h': '404 Not found',
+    'e404.sub': '{page in progress}',
 
     'theme.light': 'Colour',
     'theme.dark': 'Night',
