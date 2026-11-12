@@ -1065,9 +1065,9 @@
   (function preloader() {
     const el = document.getElementById('nnzPreloader');
     if (!el) return;
+    const fill = el.querySelector('.nnz-preloader__fill');
 
     let done = false;
-
     function hide() {
       if (done) return;
       done = true;
@@ -1078,19 +1078,30 @@
 
     document.body.classList.add('is-preloading');
 
-    /* ждём телефон и щупальца — самые тяжёлые картинки */
     const heavy = [...document.querySelectorAll('.phone__img, .design-on')];
+    const MIN_MS = 900;
+    let loaded = 0;
+    const total = Math.max(heavy.length, 1);
+
+    const setProgress = (v) => {
+      if (fill) fill.style.clipPath = `inset(${(100 - v * 100).toFixed(2)}% 0 0 0)`;
+    };
+
+    const onLoaded = () => { loaded += 1; setProgress(loaded / total * 0.9); };
     const waits = heavy.map((img) => new Promise((res) => {
-      if (img.complete && img.naturalWidth > 0) return res();
-      img.addEventListener('load', res, { once: true });
-      img.addEventListener('error', res, { once: true });
+      if (img.complete && img.naturalWidth > 0) { onLoaded(); return res(); }
+      const done1 = () => { onLoaded(); res(); };
+      img.addEventListener('load', done1, { once: true });
+      img.addEventListener('error', done1, { once: true });
     }));
+    if (!heavy.length) setProgress(0.9);
 
     const ready = Promise.all(waits);
-    const minDelay = new Promise((res) => setTimeout(res, 900));   /* показать логотип */
-    const timeout = new Promise((res) => setTimeout(res, 6000));   /* страховка */
+    const minTime = new Promise((res) => setTimeout(res, MIN_MS));
+    const timeout = new Promise((res) => setTimeout(res, 6000));
 
-    Promise.race([Promise.all([ready, minDelay]), timeout]).then(() => {
+    Promise.race([Promise.all([ready, minTime]), timeout]).then(() => {
+      setProgress(1);
       requestAnimationFrame(() => requestAnimationFrame(hide));
     });
   })();
