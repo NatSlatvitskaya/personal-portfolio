@@ -475,8 +475,8 @@
       case 'cv':       window.open(CONTACTS.cv, '_blank', 'noopener'); termPrint('opening cv…', 'ok'); break;
       case 'contact':  location.href = `mailto:${CONTACTS.email}`; break;
       case 'theme':    applyTheme(theme === 'dark' ? 'light' : 'dark'); termPrint(theme, 'ok'); break;
-      case 'clear':    termOut.innerHTML = ''; rebuildAll(); break;
-      case 'hack_nat': hackRun(); break;
+      case 'stamp':    stampStart(); break;
+      case 'clear':    stampClear(); break;
       case 'destruct': destructRun(); break;
       case 'geek':     geekStart(); break;
       case 'exit':     geekExit(); break;
@@ -491,12 +491,11 @@
   });
 
   /* ============================================================
-     ИНТЕРАКТИВНЫЕ РЕЖИМЫ: hack_nat · destruct · geek
+     ИНТЕРАКТИВНЫЕ РЕЖИМЫ: stamp · destruct · geek
      ============================================================ */
 
   let geekState = null;
   let geekRain = null;
-  let hackRain = null;
   let countTimer = null;
 
 
@@ -594,228 +593,6 @@
         if (canvas.parentNode) canvas.remove();
       }
     };
-  }
-
-  /* ------------------------------------------------------------
-     1. hack_nat — пиксельное окно взлома
-     ------------------------------------------------------------ */
-
-  const HACK_LOGS = [
-    'Downloading project_1.svg... <b>100%</b>',
-    'Accessing archive databases... <b>OK</b>',
-    'Bypassing firewall... <b>Success</b>',
-    'Mapping nnz.studio nodes... <b>14</b>',
-    'Downloading project_2.svg... <b>100%</b>',
-    'Decrypting brand_assets.zip... <b>OK</b>',
-    'Injecting payload into /css/tune.css... <b>200</b>',
-    'Accessing archive databases... <i>retry</i>',
-    'Enumerating subdomains... <b>7</b>',
-    'Downloading project_3.svg... <b>100%</b>',
-    'Spoofing handshake token... <b>Success</b>',
-    'Reading /js/i18n.js ... <b>6 KB</b>',
-    'Bypassing firewall... <b>Success</b>',
-    'Downloading project_4.svg... <b>100%</b>',
-    'Escalating privileges... <i>root</i>',
-    'Traversing /assets/img ... <b>142 files</b>',
-    'Overwriting gravity.js ... <b>OK</b>',
-    'Downloading project_5.svg... <b>100%</b>',
-    'Compiling neon_shader.wasm ... <b>OK</b>',
-    'Accessing archive databases... <b>Success</b>',
-    'Downloading project_6.svg... <b>100%</b>',
-    'Disabling motion guards ... <b>OK</b>',
-    'Bypassing firewall... <b>Success</b>',
-    'Downloading project_7.svg... <b>100%</b>',
-    'Cloning repository nnz/portfolio ... <b>OK</b>',
-    'Downloading project_8.svg... <b>100%</b>',
-    'Rendering silhouette ... <b>blur(2px)</b>',
-    'Accessing archive databases... <b>Success</b>',
-    'Exfiltrating palette.json ... <b>OK</b>',
-    'Downloading design-word-on.svg... <b>100%</b>',
-    'Patching drop-shadow ... <b>#FAD9FF</b>',
-    'Downloading phone.png ... <b>100%</b>',
-    'Bypassing firewall... <b>Success</b>',
-    'Injecting terminal hook ... <b>OK</b>',
-    'Compiling finale ... <b>Done</b>'
-  ];
-
-  /* глифы для дождя — катакана, цифры, обрывки кода */
-  const RAIN_GLYPHS =
-    'アイウエオカキクケコサシスセソタチツテト' +
-    'ナニヌネノハヒフヘホマミムメモヤユヨラリ' +
-    '0123456789ABCDEF{}[]<>/*+-=$#';
-
-  /* ------------------------------------------------------------
-     ПИКСЕЛЬНЫЙ РАСПАД — элементы сайта рассыпаются на квадраты
-     и поднимаются вверх пылью. Без затемнения фона.
-     ------------------------------------------------------------ */
-  function pixelDecay(delay, span) {
-    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (reduce) return { restore() {} };
-
-    const DUST_PALETTE = ['#242424', '#11FFB0', '#FFFFFF', '#BA71FF', '#0B3A2C'];
-    const TARGETS = '.screen > .topbar, .screen > .footbar, .stage .card, .stage .phone, .stage .design-on';
-
-    let els = $$(TARGETS).filter((el) => el.getBoundingClientRect().width > 0);
-    for (let k = els.length - 1; k > 0; k -= 1) {          /* хаотичный порядок */
-      const j = (Math.random() * (k + 1)) | 0;
-      [els[k], els[j]] = [els[j], els[k]];
-    }
-    const rects = els.map((el) => el.getBoundingClientRect());
-    const area = rects.reduce((s, r) => s + r.width * r.height, 0);
-    const cell = Math.max(7, Math.round(Math.sqrt(area / 5000)));
-
-    const canvas = document.createElement('canvas');
-    canvas.className = 'nnz-dust';
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    canvas.width = Math.round(window.innerWidth * dpr);
-    canvas.height = Math.round(window.innerHeight * dpr);
-    document.body.appendChild(canvas);
-    const ctx = canvas.getContext('2d');
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-
-    const cells = [];
-    const timers = [];
-    els.forEach((el, idx) => {
-      const r = rects[idx];
-      const t0 = delay + (idx / els.length) * span;         /* волна по элементам */
-      timers.push(setTimeout(() => { el.style.visibility = 'hidden'; }, t0));
-      for (let y = r.top; y < r.bottom; y += cell) {
-        for (let x = r.left; x < r.right; x += cell) {
-          cells.push({
-            x, y, s: cell - 1,
-            t: t0 + Math.random() * 180,
-            life: 380 + Math.random() * 480,
-            c: DUST_PALETTE[(Math.random() * DUST_PALETTE.length) | 0],
-            drift: -(0.04 + Math.random() * 0.12),
-            sway: (Math.random() - 0.5) * 0.05
-          });
-        }
-      }
-    });
-
-    const begin = performance.now();
-    const finish = delay + span + 900;
-    let raf = 0;
-    let alive = true;
-
-    const frame = (now) => {
-      if (!alive) return;
-      const t = now - begin;
-      ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
-      for (let n = 0; n < cells.length; n += 1) {
-        const c = cells[n];
-        const age = t - c.t;
-        if (age < 0 || age > c.life) continue;
-        ctx.globalAlpha = 1 - age / c.life;
-        ctx.fillStyle = c.c;
-        ctx.fillRect(c.x + c.sway * age, c.y + c.drift * age, c.s, c.s);
-      }
-      ctx.globalAlpha = 1;
-      if (t < finish) raf = requestAnimationFrame(frame);
-    };
-    raf = requestAnimationFrame(frame);
-
-    return {
-      restore() {
-        alive = false;
-        cancelAnimationFrame(raf);
-        timers.forEach((id) => clearTimeout(id));
-        els.forEach((el) => { el.style.visibility = ''; });
-        canvas.remove();
-      }
-    };
-  }
-
-  function hackRun() {
-    if (!termOut || document.querySelector('.nnz-fx')) return;
-
-    /* --- 1. глитч-тряска сайта --- */
-    document.body.classList.add('is-hacking');
-    setTimeout(() => document.body.classList.remove('is-hacking'), 900);
-
-    /* --- 2. захват: код-дождь, логотип по центру, окно логов сбоку --- */
-    const fx = document.createElement('div');
-    fx.className = 'nnz-fx is-hack';
-    fx.innerHTML =
-      '<canvas class="nnz-rain" aria-hidden="true"></canvas>' +
-      '<div class="nnz-hacklogo"><img src="assets/img/logo-nat.png" alt="" aria-hidden="true"></div>' +
-      '<div class="nnz-win">' +
-        '<div class="nnz-win__bar">' +
-          '<span class="nnz-win__dots"><i></i><i></i><i></i></span>' +
-          '<span>CRITICAL ERROR: SYSTEM COMPROMISED</span>' +
-        '</div>' +
-        '<div class="nnz-win__body">' +
-          '<div class="nnz-log" id="nnzLog"></div>' +
-          '<div class="nnz-grant" id="nnzGrant">ACCESS GRANTED</div>' +
-        '</div>' +
-      '</div>';
-    document.body.appendChild(fx);
-    requestAnimationFrame(() => fx.classList.add('is-on'));
-
-    hackRain = createRain(fx.querySelector('.nnz-rain'), {
-      font: '"Silkscreen", "JetBrains Mono", monospace',
-      size: 16,
-      color: 'rgba(17, 255, 176, 0.85)',
-      head: '#D6FFEE',
-      fade: 0.075,
-      glyphs: RAIN_GLYPHS
-    });
-
-    /* --- 3. распад интерфейса в пиксели --- */
-    const decay = pixelDecay(1100, 1500);
-
-    /* --- 4. логотип дергается в такт строкам лога --- */
-    const logoWrap = fx.querySelector('.nnz-hacklogo');
-    const logoImg = logoWrap.querySelector('img');
-    const beat = (hard) => {
-      logoImg.classList.remove('is-beat', 'is-hard');
-      void logoImg.offsetWidth;
-      logoImg.classList.add(hard ? 'is-hard' : 'is-beat');
-
-      logoWrap.classList.remove('is-split');
-      void logoWrap.offsetWidth;
-      logoWrap.classList.add('is-split');
-      setTimeout(() => logoWrap.classList.remove('is-split'), 110);
-    };
-
-    const logEl = fx.querySelector('#nnzLog');
-    const grant = fx.querySelector('#nnzGrant');
-
-    let i = 0;
-    const logTimer = setInterval(() => {
-      if (i >= HACK_LOGS.length) { clearInterval(logTimer); return; }
-      const raw = HACK_LOGS[i];
-      const line = document.createElement('div');
-      line.innerHTML = '&gt; ' + raw;
-      logEl.appendChild(line);
-      logEl.scrollTop = logEl.scrollHeight;
-      beat(raw.includes('<i>'));                 /* <i> — красные строки «retry / root» */
-      i += 1;
-    }, 78);
-
-    /* --- 5. финал: вспышка логотипа, ACCESS GRANTED, перезагрузка --- */
-    setTimeout(() => logoWrap.classList.add('is-flare'), 3450);
-    setTimeout(() => grant.classList.add('is-on'), 3750);
-
-    setTimeout(() => {
-      clearInterval(logTimer);
-      fx.classList.add('is-out');
-
-      if (hackRain) { hackRain.stop(); hackRain = null; }
-
-      const flash = document.createElement('div');
-      flash.className = 'nnz-flash';
-      document.body.appendChild(flash);
-      requestAnimationFrame(() => flash.classList.add('is-on'));
-
-      document.body.classList.add('is-rebooting');
-      setTimeout(() => document.body.classList.remove('is-rebooting'), 1000);
-
-      setTimeout(() => flash.remove(), 1100);
-      setTimeout(() => fx.remove(), 420);
-      setTimeout(() => decay.restore(), 300);   /* элементы возвращаются под вспышкой */
-      termPrint('Done. Website optimized.', 'ok');
-    }, 5150);
   }
 
   /* ------------------------------------------------------------
@@ -1114,6 +891,79 @@
       if (geekRain) geekRain.burst(0.9);      /* живой отклик фона на каждую клавишу */
     }
   }, true);
+
+
+  /* ============================================================
+     STAMP — генератор стикеров NAT. Клик по экрану = стикер.
+     ============================================================ */
+  const STAMP_HUES = [
+    { hue: 90,  label: 'acid' },     /* зелёный */
+    { hue: 230, label: 'violet' },   /* фиолетовый */
+    { hue: 300, label: 'pink' },     /* розовый */
+    { hue: 170, label: 'cyan' }      /* голубой */
+  ];
+  let stampOn = false;
+  let stampCount = 0;
+
+  function stampStart() {
+    if (stampOn) return;
+    stampOn = true;
+    document.body.classList.add('is-stamp');
+    termPrint('Stamp mode ON. Click anywhere on the screen to drop NAT stickers. Type \'clear\' to clean up.', 'ok');
+  }
+
+  function stampDrop(x, y) {
+    const img = document.createElement('img');
+    img.className = 'nnz-sticker';
+    img.src = 'assets/img/logo-nat.png';
+    img.alt = '';
+    img.setAttribute('aria-hidden', 'true');
+    img.decoding = 'async';
+
+    const pick = STAMP_HUES[Math.floor(Math.random() * STAMP_HUES.length)];
+    const rot = (Math.random() * 70 - 35).toFixed(1);       /* −35…+35° */
+    const scale = (0.6 + Math.random() * 0.8).toFixed(2);   /* 0.6…1.4 */
+    const w = 150;                                          /* базовая ширина, px */
+
+    img.style.setProperty('--sx', x + 'px');
+    img.style.setProperty('--sy', y + 'px');
+    img.style.setProperty('--srot', rot + 'deg');
+    img.style.setProperty('--sscale', scale);
+    img.style.setProperty('--shue', pick.hue + 'deg');
+    img.style.width = w + 'px';
+
+    document.body.appendChild(img);
+    stampCount += 1;
+  }
+
+  function stampClear() {
+    const was = stampOn;
+    stampOn = false;
+    document.body.classList.remove('is-stamp');
+
+    const stickers = [...document.querySelectorAll('.nnz-sticker')];
+    stickers.forEach((s, i) => {
+      s.style.animationDelay = (i * 18) + 'ms';
+      s.classList.add('is-leaving');
+    });
+    const cleanup = () => { stickers.forEach((s) => s.remove()); };
+    setTimeout(cleanup, 420 + stickers.length * 18);
+
+    stampCount = 0;
+    if (termOut) {
+      termOut.innerHTML = '';
+      termOut.dataset.init = '';
+      rebuildAll();
+    }
+    if (was || stickers.length) termPrint('Stamps cleared. Stamp mode OFF.', 'ok');
+  }
+
+  /* клик по экрану в режиме stamp: не ставим стикер поверх терминала/модалки/кнопок-управления */
+  document.addEventListener('click', (e) => {
+    if (!stampOn) return;
+    if (e.target.closest('.terminal, .modal, [data-open-terminal], .footbar, .topbar, .lang__btn, .themetoggle')) return;
+    stampDrop(e.clientX, e.clientY);
+  }, false);
 
   /* ============================================================
      КЛАВИАТУРА
