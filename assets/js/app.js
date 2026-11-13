@@ -902,10 +902,8 @@
      STAMP — генератор стикеров NAT. Клик по экрану = стикер.
      ============================================================ */
   const STAMP_HUES = [
-    { hue: 90,  label: 'acid' },     /* зелёный */
-    { hue: 230, label: 'violet' },   /* фиолетовый */
-    { hue: 300, label: 'pink' },     /* розовый */
-    { hue: 170, label: 'cyan' }      /* голубой */
+    { hue: 0,   label: 'acid' },     /* исходный зелёный логотипа */
+    { hue: 175, label: 'violet' }    /* сдвиг в фиолетовый */
   ];
   let stampOn = false;
   let stampCount = 0;
