@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru" data-theme="light">
+<html lang="ru" data-theme="light" class="is-about">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -15,7 +15,7 @@
 <link rel="stylesheet" href="assets/css/base.css">
 <link rel="stylesheet" href="assets/css/layout.css">
 <link rel="stylesheet" href="assets/css/components.css">
-<link rel="stylesheet" href="assets/css/tune.css?v=2.8">
+<link rel="stylesheet" href="assets/css/tune.css?v=2.9">
 </head>
 <body class="is-about">
 
@@ -42,7 +42,9 @@
 
     <section class="about__hello">
       <span class="about__brace about__brace--l" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
-      <p class="about__say" data-i18n-html="true" data-i18n="about.hello">Привет, Я — Наташа,<br>мультидисциплинарный дизайнер</p>
+      <div class="about__slot" id="aboutSlot" aria-live="polite">
+        <p class="about__say" id="aboutSay">Привет, Я — Наташа, мультидисциплинарный дизайнер</p>
+      </div>
       <span class="about__brace about__brace--r" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
     </section>
   </main>
@@ -142,8 +144,8 @@
   </div>
 </div>
 
-<script src="assets/js/data.js?v=2.8"></script>
-<script src="assets/js/i18n.js?v=2.8"></script>
-<script src="assets/js/app.js?v=2.8"></script>
+<script src="assets/js/data.js?v=2.9"></script>
+<script src="assets/js/i18n.js?v=2.9"></script>
+<script src="assets/js/app.js?v=2.9"></script>
 </body>
 </html>
