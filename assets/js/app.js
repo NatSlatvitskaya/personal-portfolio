@@ -1103,3 +1103,166 @@
   });
 })();
 
+/* ============================================================
+   «6 ЛЕТ ОПЫТА» — скобки схлопывают фразу и раскрывают следующую
+   ============================================================ */
+(function aboutMarquee() {
+  const hello = document.querySelector('.about__hello');
+  const slot  = document.querySelector('.about__slot');
+  const say   = document.querySelector('.about__say');
+  if (!hello || !slot || !say) return;
+
+  /* фразы по языкам: добавляйте свои в массив */
+  const PHRASES = {
+    ru: [
+      'Привет, Я — Наташа, мультидисциплинарный дизайнер',
+      '6 лет создаю визуальные системы и айдентику',
+      'Соединяю Y2K-эстетику, пиксели и чистый функционал'
+      /* , 'четвёртая фраза' */
+    ],
+    en: [
+      'Hi, I’m Natasha, a multidisciplinary designer',
+      '6 years building visual systems and identity',
+      'Blending Y2K aesthetics, pixels and clean function'
+      /* , 'fourth phrase' */
+    ]
+  };
+
+  const HOLD = 2500;    /* сколько фраза стоит открытой */
+  const CLOSE = 520;    /* скобки сходятся */
+  const PAUSE = 200;    /* пауза в центре перед подменой */
+  const OPEN = 620;     /* скобки расходятся */
+
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+  let index = 0;
+  let runId = 0;
+
+  const langKey = () => (document.documentElement.lang === 'en' ? 'en' : 'ru');
+  const list = () => PHRASES[langKey()] || PHRASES.ru;
+
+  function braceWidth() {
+    const b = hello.querySelector('.about__brace');
+    return b ? b.getBoundingClientRect().width : 0;
+  }
+
+  /* зазор между скобкой и текстом: широкий на десктопе, узкий на телефоне */
+  function gapX() {
+    const w = hello.clientWidth;
+    if (w < 620) return Math.max(8, Math.min(w * 0.03, 16));     /* телефон: почти без зазора */
+    return Math.max(18, Math.min(w * 0.045, 62));                /* десктоп: плотно к тексту */
+  }
+
+  function measure(text) {
+    const bw = braceWidth();
+    const avail = Math.min(hello.clientWidth, window.innerWidth - 24);
+    const maxTotal = Math.max(120, avail - 2 * bw - 4);          /* скобки не выходят за экран */
+    const gx = gapX();
+    const maxText = Math.max(100, maxTotal - 2 * gx);
+
+    const probe = say.cloneNode(false);
+    probe.removeAttribute('id');
+    probe.className = 'about__say';
+    probe.style.cssText = 'position:absolute;left:0;top:0;visibility:hidden;' +
+                          'white-space:nowrap;width:auto;opacity:0;';
+    probe.textContent = text;
+    hello.appendChild(probe);
+
+    let textW = probe.getBoundingClientRect().width;
+    if (textW > maxText) {
+      probe.style.whiteSpace = 'normal';
+      probe.style.width = maxText + 'px';
+      textW = maxText;
+    }
+    const textH = probe.getBoundingClientRect().height;
+    probe.remove();
+
+    const slotW = Math.max(0, Math.min(maxTotal, Math.round(textW) + 2 * gx));
+    return { textW: Math.round(textW), slotW, textH: Math.ceil(textH) };
+  }
+
+  function paint(text, { animate = false } = {}) {
+    const m = measure(text);
+    say.textContent = text;
+    say.style.setProperty('--say-w', m.textW + 'px');
+    slot.style.setProperty('--slot-h', m.textH + 'px');
+    if (animate) {
+      slot.classList.add('is-open');
+      slot.style.setProperty('--slot-w', m.slotW + 'px');
+    } else {
+      slot.classList.remove('is-open');
+      slot.style.setProperty('--slot-w', '0px');
+      void slot.offsetWidth;
+      slot.style.setProperty('--slot-w', m.slotW + 'px');
+    }
+    return m;
+  }
+
+  async function cycle() {
+    const id = ++runId;
+
+    while (id === runId) {
+      if (!reduce.matches) await sleep(HOLD + OPEN);
+      else await sleep(HOLD);
+      if (id !== runId) return;
+
+      /* 1. скобки сходятся к центру, текст стирается */
+      slot.classList.remove('is-open');
+      slot.style.setProperty('--slot-w', '0px');
+      if (!reduce.matches) await sleep(CLOSE + PAUSE);
+      if (id !== runId) return;
+
+      /* 2. подмена фразы в сомкнутом состоянии */
+      index = (index + 1) % list().length;
+      say.textContent = list()[index];
+      const m = measure(list()[index]);
+      say.style.setProperty('--say-w', m.textW + 'px');
+      slot.style.setProperty('--slot-h', m.textH + 'px');
+      await sleep(30);
+      if (id !== runId) return;
+
+      /* 3. скобки расходятся под ширину новой фразы */
+      slot.classList.add('is-open');
+      slot.style.setProperty('--slot-w', m.slotW + 'px');
+    }
+  }
+
+  function restart() {
+    runId += 1;
+    index = 0;
+    slot.classList.remove('is-open');
+    slot.style.setProperty('--slot-w', '0px');
+    setTimeout(() => {
+      paint(list()[0], { animate: true });
+      cycle();
+    }, 40);
+  }
+
+  /* старт */
+  paint(list()[0], { animate: true });
+  cycle();
+
+  /* смена языка — начинаем список заново на новом языке */
+  let lastLang = document.documentElement.lang;
+  new MutationObserver(() => {
+    if (document.documentElement.lang === lastLang) return;
+    lastLang = document.documentElement.lang;
+    restart();
+  }).observe(document.documentElement, { attributes: true, attributeFilter: ['lang'] });
+
+  /* ресайз — пересчитываем ширину без анимации */
+  let raf = 0;
+  const onResize = () => {
+    cancelAnimationFrame(raf);
+    raf = requestAnimationFrame(() => {
+      const m = measure(say.textContent);
+      say.style.setProperty('--say-w', m.textW + 'px');
+      slot.style.setProperty('--slot-h', m.textH + 'px');
+      if (slot.classList.contains('is-open')) slot.style.setProperty('--slot-w', m.slotW + 'px');
+    });
+  };
+  if (window.ResizeObserver) new ResizeObserver(onResize).observe(hello);
+  else window.addEventListener('resize', onResize);
+})();
+
