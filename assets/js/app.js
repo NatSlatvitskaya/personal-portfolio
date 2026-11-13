@@ -901,9 +901,10 @@
   /* ============================================================
      STAMP — генератор стикеров NAT. Клик по экрану = стикер.
      ============================================================ */
-  const STAMP_HUES = [
-    { hue: 0,   label: 'acid' },     /* исходный зелёный логотипа */
-    { hue: 175, label: 'violet' }    /* сдвиг в фиолетовый */
+  const STAMP_SKINS = [
+    'assets/img/stamp-green.png',     /* #00ED83 */
+    'assets/img/stamp-violet.png',    /* #986AFF */
+    'assets/img/stamp-black.png'      /* #000000 */
   ];
   let stampOn = false;
   let stampCount = 0;
@@ -918,12 +919,12 @@
   function stampDrop(x, y) {
     const img = document.createElement('img');
     img.className = 'nnz-sticker';
-    img.src = 'assets/img/logo-nat.png';
     img.alt = '';
     img.setAttribute('aria-hidden', 'true');
     img.decoding = 'async';
 
-    const pick = STAMP_HUES[Math.floor(Math.random() * STAMP_HUES.length)];
+    const pick = STAMP_SKINS[Math.floor(Math.random() * STAMP_SKINS.length)];
+    img.src = pick;
     const rot = (Math.random() * 70 - 35).toFixed(1);       /* −35…+35° */
     const scale = (0.6 + Math.random() * 0.8).toFixed(2);   /* 0.6…1.4 */
     const w = 150;                                          /* базовая ширина, px */
@@ -932,7 +933,7 @@
     img.style.setProperty('--sy', y + 'px');
     img.style.setProperty('--srot', rot + 'deg');
     img.style.setProperty('--sscale', scale);
-    img.style.setProperty('--shue', pick.hue + 'deg');
+    img.style.setProperty('--shue', pick);
     img.style.width = w + 'px';
 
     document.body.appendChild(img);
