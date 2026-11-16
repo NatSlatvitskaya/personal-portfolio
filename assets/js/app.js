@@ -1127,9 +1127,9 @@
   };
 
   const HOLD  = 2500;   /* фраза стоит открытой */
-  const CLOSE = 520;    /* скобки сходятся */
+  const CLOSE = 700;    /* скобки сходятся — совпадает с CSS */
   const PAUSE = 200;    /* пауза в сомкнутом состоянии */
-  const OPEN  = 620;    /* скобки расходятся */
+  const OPEN  = 780;    /* скобки расходятся — совпадает с CSS */
 
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
   const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
