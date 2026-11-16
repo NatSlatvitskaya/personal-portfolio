@@ -1976,6 +1976,7 @@ body.is-about .about {
   justify-content: center;
   gap: 0;
   width: 100%;
+  container-type: inline-size;   /* 100cqw = ширина блока, не колонки */
 }
 
 /* колонка анимируется 0fr → 1fr: ширина всегда равна тексту, без JS-замеров */
@@ -1984,7 +1985,7 @@ body.is-about .about {
   grid-template-columns: 0fr;
   flex: 0 1 auto;
   min-width: 0;
-  max-width: calc(100vw - 2 * var(--brace-w) - 2 * var(--say-gap) - 2rem);
+  max-width: calc(100cqw - 2 * var(--brace-w) - 2 * var(--say-gap) - 1.5rem);
   transition: grid-template-columns 520ms cubic-bezier(0.55, 0, 1, 0.45);
 }
 .about__slot.is-open {
@@ -1998,14 +1999,16 @@ body.is-about .about {
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 100%;
   contain: paint;              /* текст не вылезает за обёртку при сжатии */
 }
 
 .about__say {
   margin: 0;
+  flex: 0 0 auto;                /* не сжимается вместе с колонкой */
   width: max-content;
-  max-width: 100%;
-  white-space: normal;
+  max-width: calc(100cqw - 2 * var(--brace-w) - 2 * var(--say-gap) - 1.5rem);
+  white-space: normal;           /* переносы постоянны → высота не меняется */
   padding-inline: var(--say-gap);
   box-sizing: content-box;
   text-align: center;
@@ -2015,18 +2018,11 @@ body.is-about .about {
   line-height: 1.28;
   letter-spacing: -0.02em;
   transition: opacity 140ms linear;
+  color: #FFFFFF;
 }
+.about__say { color: #FFFFFF; }
 /* в сомкнутом состоянии текст не переносится и не влияет на ширину:
    он стоит по центру обёртки и обрезается её overflow:hidden */
-.about__slot:not(.is-open) .about__say {
-  white-space: nowrap;
-  max-width: none;
-  width: max-content;
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
 /* пиксельные скобки */
 .about__brace {
   --sq: clamp(8px, 1.05vw, 20px);          /* одна клетка = ширина блока */
@@ -2042,11 +2038,11 @@ body.is-about .about {
   display: block;
 }
 /* пять блоков: сдвиг 1.5 → 1 → 0 → 1 → 1.5, высоты чередуются */
-.about__brace--l i:nth-child(1) { left: calc(var(--sq) * 1.5); top: 0;                     height: calc(var(--sq) * 1); }
-.about__brace--l i:nth-child(2) { left: calc(var(--sq) * 1);   top: calc(var(--sq) * 1);   height: calc(var(--sq) * 1.3462); }
-.about__brace--l i:nth-child(3) { left: 0;                      top: calc(var(--sq) * 2.3462); height: calc(var(--sq) * 1); }
-.about__brace--l i:nth-child(4) { left: calc(var(--sq) * 1);   top: calc(var(--sq) * 3.3462); height: calc(var(--sq) * 1.3462); }
-.about__brace--l i:nth-child(5) { left: calc(var(--sq) * 1.5); top: calc(var(--sq) * 4.6924); height: calc(var(--sq) * 1); }
+.about__brace i:nth-child(1) { left: calc(var(--sq) * 1.5); top: 0;                     height: calc(var(--sq) * 1); }
+.about__brace i:nth-child(2) { left: calc(var(--sq) * 1);   top: calc(var(--sq) * 1);   height: calc(var(--sq) * 1.3462); }
+.about__brace i:nth-child(3) { left: 0;                      top: calc(var(--sq) * 2.3462); height: calc(var(--sq) * 1); }
+.about__brace i:nth-child(4) { left: calc(var(--sq) * 1);   top: calc(var(--sq) * 3.3462); height: calc(var(--sq) * 1.3462); }
+.about__brace i:nth-child(5) { left: calc(var(--sq) * 1.5); top: calc(var(--sq) * 4.6924); height: calc(var(--sq) * 1); }
 .about__brace--r { transform: scaleX(-1); }
 
 .about__slot:not(.is-open) .about__say { opacity: 0.2; }
