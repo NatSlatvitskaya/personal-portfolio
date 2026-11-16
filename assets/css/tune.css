@@ -1961,8 +1961,8 @@ body.is-about .about {
 .about__photo {
   display: block;
   width: min(
-    clamp(600px, 68vw, 1560px),
-    calc((100dvh - 390px) * 1.7946),
+    calc(0.7 * clamp(600px, 68vw, 1560px)),
+    calc(0.7 * (100dvh - 390px) * 1.7946),
     92vw
   );
   max-width: 100%;
@@ -2024,12 +2024,10 @@ body.is-about .about {
   font-size: clamp(16px, 1.8vw, 34px);
   line-height: 1.28;
   letter-spacing: -0.02em;
-  transition: opacity 260ms ease;
+  /* раскрытие: текст проявляется с задержкой, вслед за скобками */
+  transition: opacity 720ms cubic-bezier(0.22, 1, 0.36, 1) 120ms;
   color: #FFFFFF;
 }
-.about__say { color: #FFFFFF; }
-/* в сомкнутом состоянии текст не переносится и не влияет на ширину:
-   он стоит по центру обёртки и обрезается её overflow:hidden */
 /* пиксельные скобки */
 .about__brace {
   --sq: clamp(8px, 1.05vw, 20px);          /* одна клетка = ширина блока */
@@ -2052,4 +2050,9 @@ body.is-about .about {
 .about__brace i:nth-child(5) { left: calc(var(--sq) * 1.5); top: calc(var(--sq) * 4.6924); height: calc(var(--sq) * 1); }
 .about__brace--r { transform: scaleX(-1); }
 
-.about__slot:not(.is-open) .about__say { opacity: 0.15; }
+/* закрытие: без задержки — текст уходит ровно со скобками */
+.about__slot:not(.is-open) .about__say {
+  opacity: 0;
+  transition: opacity 700ms cubic-bezier(0.65, 0, 0.35, 1) 0ms;
+}
+
