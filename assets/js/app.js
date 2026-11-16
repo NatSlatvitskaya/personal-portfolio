@@ -1130,6 +1130,7 @@
   const CLOSE = 700;    /* скобки сходятся — совпадает с CSS */
   const PAUSE = 200;    /* пауза в сомкнутом состоянии */
   const OPEN  = 780;    /* скобки расходятся — совпадает с CSS */
+  const FADE  = 120;    /* задержка появления текста после раскрытия */
 
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
   const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -1143,7 +1144,7 @@
   async function cycle() {
     const id = ++runId;
     while (id === runId) {
-      await sleep(reduce.matches ? HOLD : HOLD + OPEN);
+      await sleep(reduce.matches ? HOLD : HOLD + OPEN + FADE);
       if (id !== runId) return;
 
       /* 1. скобки сходятся, текст уезжает в ноль */
