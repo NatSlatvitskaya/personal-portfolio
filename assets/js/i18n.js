@@ -9,7 +9,7 @@ const I18N = {
 
     /* верхняя строка */
     'top.all': 'Все проекты',
-    'top.hello': 'Привет, Я — Наташа',
+    'top.hello': 'Привет, я — Наташа',
     'top.role': '{графический и бренд-дизайнер}',
     'top.exp': '6 лет опыта',
 
@@ -23,7 +23,7 @@ const I18N = {
 
     /* теги */
     'tag.branding': '{брендинг}',
-    'tag.web': '{вэб-дизайн}',
+    'tag.web': '{веб-дизайн}',
     'tag.comm': '{коммуникация}',
     'tag.illu': '{иллюстрация}',
 
@@ -31,7 +31,7 @@ const I18N = {
     'foot.rights': '© 2026 Наталья Слатвицкая',
     'foot.built': 'Собрано вручную · HTML / CSS / JS',
     'foot.console': 'v1.2 / console',
-    'about.hello': 'Привет, Я — Наташа,<br>мультидисциплинарный дизайнер',
+    'about.hello': 'Привет, я — Наташа,<br>мультидисциплинарный дизайнер',
     'foot.cv': 'CV',
     'foot.dprofile': 'Dprofile',
     'foot.behance': 'Behance',
@@ -52,7 +52,7 @@ const I18N = {
     'archive.all': 'Все',
     'archive.branding': 'Брендинг',
     'archive.illustration': 'Иллюстрация',
-    'archive.web': 'Вэб-дизайн',
+    'archive.web': 'Веб-дизайн',
     'archive.count': 'проектов',
     'archive.empty.t': 'Пусто',
     'archive.empty.d': 'В этом направлении пока нет проектов.',
@@ -81,7 +81,7 @@ const I18N = {
 
     'cat.branding': 'Брендинг',
     'cat.illustration': 'Иллюстрация',
-    'cat.web': 'Вэб-дизайн',
+    'cat.web': 'Веб-дизайн',
 
     /* терминал */
     'term.title': 'nnz://terminal',
