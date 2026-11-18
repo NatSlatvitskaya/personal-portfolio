@@ -15,12 +15,13 @@
 <link rel="apple-touch-icon" sizes="256x256" href="assets/img/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;700&family=Inter+Tight:wght@400;500;600&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/tokens.css">
 <link rel="stylesheet" href="assets/css/base.css">
 <link rel="stylesheet" href="assets/css/layout.css">
 <link rel="stylesheet" href="assets/css/components.css">
 <link rel="stylesheet" href="assets/css/tune.css?v=3.5">
+<link rel="stylesheet" href="assets/css/controls.css">
 </head>
 <body>
 
@@ -50,7 +51,7 @@
     </div>
 
     <div class="topbar__center">
-      <h1 class="topbar__title" data-i18n="top.hello">Привет, Я — Наташа</h1>
+      <h1 class="topbar__title" data-i18n="top.hello">Привет, я — Наташа</h1>
       <p class="topbar__sub" data-i18n="top.role">{графический и бренд-дизайнер}</p>
     </div>
 
@@ -89,11 +90,9 @@
 
                   <div class="switcher" role="group" data-i18n-attr="aria-label:foot.lang">
                     <button class="lang__btn is-active" type="button" data-lang="ru"
-                            aria-pressed="true" aria-label="Русский"
-                            style="position:absolute;left:0;top:0;width:50%;height:100%;opacity:0;cursor:pointer;border:0;background:none;"></button>
+                            aria-pressed="true" aria-label="Русский"></button>
                     <button class="lang__btn" type="button" data-lang="en"
-                            aria-pressed="false" aria-label="English"
-                            style="position:absolute;right:0;top:0;width:50%;height:100%;opacity:0;cursor:pointer;border:0;background:none;"></button>
+                            aria-pressed="false" aria-label="English"></button>
                   </div>
 
                                   <button class="tag" type="button" data-tag-filter="branding" data-i18n="tag.branding">{брендинг}</button>
@@ -107,7 +106,7 @@
 
             <a class="social" href="#" data-contact="cv" target="_blank" rel="noopener"
                data-i18n-attr="aria-label:foot.cv" aria-label="CV">
-              <span class="pixel">CV</span>
+              <span class="pixel" aria-hidden="true">CV</span>
               <span class="social__tip" data-i18n="foot.cv">CV</span>
             </a>
             <a class="social" href="#" data-contact="dprofile" target="_blank" rel="noopener"
@@ -119,7 +118,7 @@
             </a>
             <a class="social" href="#" data-contact="behance" target="_blank" rel="noopener"
                data-i18n-attr="aria-label:foot.behance" aria-label="Behance">
-              <span class="pixel" style="font-size:0.92em">Be</span>
+              <span class="pixel pixel--be" aria-hidden="true">Be</span>
               <span class="social__tip" data-i18n="foot.behance">Behance</span>
             </a>
             <a class="social" href="#" data-contact="telegram" target="_blank" rel="noopener"
@@ -140,10 +139,10 @@
             </a>
       </div>
 
-      <!-- ═══ КОЛОНКА 3: вэб-дизайн · иллюстрация · тумблер ═══ -->
+      <!-- ═══ КОЛОНКА 3: веб-дизайн · иллюстрация · тумблер ═══ -->
       <div class="footcol footcol--3">
 
-                                  <button class="tag" type="button" data-tag-filter="web" data-i18n="tag.web">{вэб-дизайн}</button>
+                                  <button class="tag" type="button" data-tag-filter="web" data-i18n="tag.web">{веб-дизайн}</button>
                   <button class="tag" type="button" data-tag-filter="illustration" data-i18n="tag.illu">{иллюстрация}</button>
 
                   <button class="themetoggle" type="button" data-theme-toggle aria-pressed="false" title="Сменить тему">
@@ -183,7 +182,7 @@
   <div class="terminal__box">
     <div class="terminal__bar">
       <span data-i18n="term.title">nnz://terminal</span>
-      <button class="wbtn wbtn--close" type="button" id="termClose" aria-label="Закрыть" style="margin-left:auto">×</button>
+      <button class="wbtn wbtn--close" type="button" id="termClose" aria-label="Закрыть">×</button>
     </div>
     <div class="terminal__out" id="termOut"></div>
     <div class="terminal__in">
