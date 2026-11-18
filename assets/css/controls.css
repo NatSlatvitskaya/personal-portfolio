@@ -1,0 +1,20 @@
+/* невидимые зоны переключения языка поверх иконки */
+.switcher .lang__btn {
+  position: absolute;
+  top: 0;
+  width: 50%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+  border: 0;
+  background: none;
+}
+.switcher .lang__btn[data-lang="ru"] { left: 0; }
+.switcher .lang__btn[data-lang="en"] { right: 0; }
+
+#termClose { margin-left: auto; }
+
+.pixel--be { font-size: 0.92em; }
+
+/* перенос строк как у прежнего p, а не как у заголовка */
+.about__say { text-wrap: wrap; }
