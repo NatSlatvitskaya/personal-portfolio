@@ -2056,3 +2056,16 @@ body.is-about .about {
   transition: opacity 700ms cubic-bezier(0.65, 0, 0.35, 1) 0ms;
 }
 
+/* десктоп от 1024px: фото 54% высоты окна, симметричные отступы центрируют блок между шапкой и футером */
+@media (min-width: 1024px) {
+  body.is-about .about {
+    padding: clamp(4px, 0.8vh, 12px) var(--pad-x);
+    gap: clamp(16px, 2vh, 24px);
+  }
+  .about__photo {
+    width: auto;
+    height: 54vh;
+    height: 54dvh;
+  }
+}
+
