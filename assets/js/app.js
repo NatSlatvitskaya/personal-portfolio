@@ -148,14 +148,6 @@
     });
   });
 
-  // теги-фильтры на главной
-  $$('[data-tag-filter]').forEach((tag) => {
-    tag.addEventListener('click', () => {
-      const f = tag.dataset.tagFilter;
-      location.href = `archive.html?filter=${encodeURIComponent(f)}`;
-    });
-  });
-
   /* ============================================================
      МОДАЛКА
      ============================================================ */
@@ -390,6 +382,10 @@
     $$('[data-i18n-title]').forEach((el) => { document.title = t(el.dataset.i18nTitle); });
     $$('[data-i18n-desc]').forEach((el) => { el.setAttribute('content', t(el.dataset.i18nDesc)); });
 
+    $$('[data-discuss]').forEach((a) => {
+      a.href = `mailto:${CONTACTS.email}?subject=${encodeURIComponent(t('foot.subject'))}`;
+    });
+
     $$('.lang__btn, button[data-lang]').forEach((b) => {
       if (!b.dataset.lang) return;
       const on = b.dataset.lang === lang;
@@ -418,6 +414,26 @@
     const k = a.dataset.contact;
     if (CONTACTS[k]) a.href = CONTACTS[k];
   });
+
+  const copyMail = $('[data-copy-email]');
+  if (copyMail) {
+    const tip = copyMail.querySelector('.social__tip');
+    let resetTimer = 0;
+    copyMail.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(CONTACTS.email);
+      } catch {
+        return;
+      }
+      tip.textContent = t('foot.copied');
+      copyMail.classList.add('is-copied');
+      clearTimeout(resetTimer);
+      resetTimer = setTimeout(() => {
+        copyMail.classList.remove('is-copied');
+        tip.textContent = t('foot.email');
+      }, 1600);
+    });
+  }
 
   /* ============================================================
      ТЕРМИНАЛ

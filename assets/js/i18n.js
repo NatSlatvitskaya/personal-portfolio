@@ -39,6 +39,13 @@ const I18N = {
     'foot.email': 'E-mail',
     'foot.theme': 'Сменить тему',
     'foot.lang': 'Язык',
+    'foot.cv.btn': '{Скачать CV}',
+    'foot.discuss': '{Обсудить проект}',
+    'foot.subject': 'Обсуждение проекта',
+    'foot.links': 'Контакты',
+    'foot.copied': 'Почта скопирована!',
+    'status.hot': 'открыта к проектам',
+    'status.rest': ' · СПб / удалённо · брендинг, коммуникация, веб, иллюстрация',
 
     /* карточки */
     'card.open': 'Открыть кейс',
@@ -123,6 +130,13 @@ const I18N = {
     'foot.email': 'E-mail',
     'foot.theme': 'Change theme',
     'foot.lang': 'Language',
+    'foot.cv.btn': '{Download CV}',
+    'foot.discuss': '{Discuss project}',
+    'foot.subject': 'Project discussion',
+    'foot.links': 'Contacts',
+    'foot.copied': 'Email copied!',
+    'status.hot': 'open for projects',
+    'status.rest': ' · SPb / remote · branding, communication, web, illustration',
 
     'card.open': 'Open case',
     'card.stub': 'soon',
