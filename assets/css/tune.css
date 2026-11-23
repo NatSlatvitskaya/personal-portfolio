@@ -668,7 +668,7 @@
    ============================================================ */
 
 @media (max-width: 1600px) {
-  .topbar__link, .topbar__exp, .topbar__title { font-size: 28px !important; }
+  .topbar__link, .topbar__exp, .topbar__title, .footbar--v2 .fbtn { font-size: 28px !important; }
   .topbar__sub { font-size: 21px !important; }
   .footbar__legal, .footbar__easter { font-size: 14px !important; }
   .card__label { font-size: 18px !important; }
@@ -678,7 +678,7 @@
 }
 
 @media (max-width: 1280px) {
-  .topbar__link, .topbar__exp, .topbar__title { font-size: 24px !important; }
+  .topbar__link, .topbar__exp, .topbar__title, .footbar--v2 .fbtn { font-size: 24px !important; }
   .topbar__sub { font-size: 18px !important; }
   .footbar__legal, .footbar__easter { font-size: 14px !important; }
   .card__label { font-size: 16px !important; }
@@ -695,7 +695,7 @@
 }
 
 @media (max-width: 1000px) {
-  .topbar__link, .topbar__exp, .topbar__title { font-size: 21px !important; }
+  .topbar__link, .topbar__exp, .topbar__title, .footbar--v2 .fbtn { font-size: 21px !important; }
   .topbar__sub { font-size: 16px !important; }
   .footbar__legal, .footbar__easter { font-size: 12px !important; }
   .card__label { font-size: 14px !important; }
@@ -708,7 +708,7 @@
   .footbar { padding: 14px 20px 14px !important; gap: 12px !important; }
   .socials { display: flex !important; }
   .phone { height: clamp(240px, 40dvh, 340px) !important; }
-  .topbar__link, .topbar__exp, .topbar__title { font-size: 18px !important; }
+  .topbar__link, .topbar__exp, .topbar__title, .footbar--v2 .fbtn { font-size: 18px !important; }
   .topbar__sub { font-size: 14px !important; }
   .card__label { font-size: 14px !important; }
   .card:hover .card__label { font-size: 15px !important; }
@@ -2018,14 +2018,14 @@ body.is-about .about {
 .footbar.footbar--v2 {
   --fb-gap: clamp(10px, 1.1vw, 18px);
   grid-template-rows: auto auto;
-  padding: 10px var(--pad-x) 10px !important;
+  padding: 10px var(--grid-margin) 10px !important;   /* 32px — как у сцены и топбара */
   gap: 8px !important;
 }
 
 .footbar--v2 .footbar__main {
   display: grid !important;
-  grid-template-columns: 1fr auto 1fr !important;
-  column-gap: 0 !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;   /* трети сцены: 32 + col + 28 */
+  column-gap: var(--grid-gutter) !important;                     /* 28px */
   align-items: center !important;
   width: 100% !important;
   min-height: 0 !important;
@@ -2034,11 +2034,13 @@ body.is-about .about {
 .footbar--v2 .footbar__side {
   display: flex;
   align-items: center;
+  justify-content: space-between;   /* CV — к правому краю 1-й колонки, «Обсудить» — к левому краю 3-й */
   gap: var(--fb-gap);
   min-width: 0;
+  justify-self: stretch;
 }
-.footbar--v2 .footbar__side--start { justify-self: start; }
-.footbar--v2 .footbar__side--end { justify-self: end; }
+.footbar--v2 .footbar__side--start { justify-self: stretch; }
+.footbar--v2 .footbar__side--end { justify-self: stretch; }
 
 .footbar--v2 .footbar__cluster {
   display: flex;
@@ -2067,29 +2069,37 @@ body.is-about .about {
 .footbar--v2 .fbtn {
   display: inline-flex;
   align-items: center;
-  height: var(--ctl-h);
-  padding: 0 0.75em;
-  border-radius: var(--radius-pill);
+  padding: 0;                     /* текст упирает в край колонки */
+  margin: 0;
   font-family: var(--font-display);
-  font-size: clamp(12px, 0.95vw, 17px);
+  font-size: 36px;                /* как .topbar__link / .topbar__exp */
   font-weight: 500;
-  letter-spacing: -0.04em;
-  line-height: 1;
+  letter-spacing: -0.06em;
+  line-height: 1.1;
   white-space: nowrap;
   color: var(--c-navy);
-  transition: background-color var(--dur-fast) var(--ease), box-shadow var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease);
+  text-decoration: none;
+  transition: color var(--dur-fast) var(--ease);
 }
 .footbar--v2 .fbtn:hover,
 .footbar--v2 .fbtn:focus-visible {
-  background-color: rgba(17, 255, 176, 0.26);
-  box-shadow: inset 0 0 0 1px rgba(17, 255, 176, 0.8);
+  color: var(--c-navy);           /* цвет не меняем */
+  background-color: transparent;  /* без зелёной подложки */
+  box-shadow: none;
+  text-decoration: underline !important;
+  text-decoration-color: currentColor !important;
+  text-underline-offset: 6px !important;
+  text-decoration-thickness: 2px !important;
   outline: none;
 }
 [data-theme="dark"] .footbar--v2 .fbtn { color: #FFFFFF; }
 [data-theme="dark"] .footbar--v2 .fbtn:hover,
-[data-theme="dark"] .footbar--v2 .fbtn:focus-visible { color: var(--c-teal); }
+[data-theme="dark"] .footbar--v2 .fbtn:focus-visible {
+  color: #FFFFFF;
+  text-decoration-color: #11FFB0 !important;
+}
 
-.footbar--v2 .footbar__legal { padding-inline: var(--pad-x) !important; }
+.footbar--v2 .footbar__legal { padding-inline: var(--grid-margin) !important; }
 .footbar--v2 .footbar__legal > :first-child { justify-self: start !important; }
 .footbar--v2 .footbar__legal > :nth-child(2) { justify-self: center !important; }
 .footbar--v2 .footbar__legal > :last-child { justify-self: end !important; }
@@ -2123,7 +2133,6 @@ body.is-about .about {
   .footbar--v2 .footbar__main .themetoggle { order: 3; }
   .footbar--v2 .fbtn--cv { order: 4; }
   .footbar--v2 .fbtn--discuss { order: 5; }
-  .footbar--v2 .fbtn { font-size: 12px; }
   .footbar--v2 .footbar__legal {
     grid-template-columns: 1fr !important;
     gap: 4px !important;
