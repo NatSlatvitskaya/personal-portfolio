@@ -125,44 +125,88 @@
   width: auto !important;
   max-height: 100% !important;
   max-width: 100% !important;
-  aspect-ratio: 1088 / 1429 !important;
+  aspect-ratio: 1102 / 1446 !important;
   flex: 0 0 auto !important;
   position: relative !important;
   z-index: 2 !important;
+  container-type: size;
+}
+
+.phone__frame {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: min(100cqw, 100cqh * 0.762103);
+  aspect-ratio: 1102 / 1446;
+  transform: translate(-50%, -50%);
+}
+
+.phone__frame .phone__img {
+  display: block;
+  width: 100%;
+  height: auto;
 }
 
 .phone__screen {
-  left: 24.36% !important;
-  top: 23.09% !important;
-  width: 40.17% !important;
-  height: 19.59% !important;
-  background: transparent !important;   /* зелёный уже в PNG */
+  position: absolute !important;
+  left: 24.14% !important;
+  top: 23.24% !important;
+  width: 40.11% !important;
+  height: 19.64% !important;
+  display: grid !important;
+  grid-template-rows: auto minmax(0, 1fr) !important;
+  justify-items: center !important;
+  align-items: center !important;
+  margin: 0 !important;
+  background: transparent !important;
   box-shadow: none !important;
   border: 0 !important;
   border-radius: 0 !important;
 }
 
-/* ============================================================
-   5. ТЕКСТ НА ЭКРАНЕ
-   ============================================================ */
+.phone__status {
+  grid-row: 1;
+  margin: 9cqh 0 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  font-family: "Silkscreen", "Pixelify Sans", ui-monospace, monospace;
+  font-size: 5.6cqw;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  color: #04311F;
+  white-space: nowrap;
+}
+
+.phone__dot {
+  flex: 0 0 auto;
+  width: 0.6em;
+  height: 0.6em;
+  background: currentColor;
+  animation: phone-dot-blink 1.2s steps(1) infinite;
+}
+
+@keyframes phone-dot-blink {
+  0%, 49%   { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .phone__dot { animation: none; }
+}
 
 .phone__screen { container-type: size; }
 
 .phone__text {
+  grid-row: 2;
   font-family: var(--font-screen) !important;
-  font-size: 13cqw !important;
+  font-size: 12.2cqw !important;
   letter-spacing: 0.01em !important;
   line-height: 1 !important;
   color: #04311F !important;          /* тёмный на зелёном из PNG */
-  padding: 0 4% !important;
+  padding: 0 3% !important;
+  white-space: nowrap !important;
   text-shadow: none !important;
-}
-
-/* центр экрана: текст по центру */
-.phone__screen {
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
 }
 
 /* ============================================================
