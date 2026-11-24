@@ -2112,7 +2112,7 @@ body.is-about .about {
   text-decoration-color: #11FFB0 !important;
 }
 
-.footbar--v2 .footbar__legal { padding-inline: var(--grid-margin) !important; }
+.footbar--v2 .footbar__legal { padding-inline: 0 !important; }
 .footbar--v2 .footbar__legal > :first-child { justify-self: start !important; }
 .footbar--v2 .footbar__legal > :nth-child(2) { justify-self: center !important; }
 .footbar--v2 .footbar__legal > :last-child { justify-self: end !important; }
