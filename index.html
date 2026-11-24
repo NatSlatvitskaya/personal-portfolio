@@ -15,12 +15,12 @@
 <link rel="apple-touch-icon" sizes="256x256" href="assets/img/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&family=Silkscreen:wght@400;700&family=Pixelify+Sans:wght@400..700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/tokens.css">
 <link rel="stylesheet" href="assets/css/base.css">
 <link rel="stylesheet" href="assets/css/layout.css">
 <link rel="stylesheet" href="assets/css/components.css">
-<link rel="stylesheet" href="assets/css/tune.css?v=3.9">
+<link rel="stylesheet" href="assets/css/tune.css?v=4.0">
 <link rel="stylesheet" href="assets/css/controls.css">
 </head>
 <body>
@@ -51,7 +51,6 @@
     </div>
 
     <div class="topbar__center">
-      <p class="topbar__status"><span class="topbar__status-dot" aria-hidden="true"></span><span class="topbar__status-hot" data-i18n="status.hot">открыта к проектам</span><span class="topbar__status-rest" data-i18n="status.rest"> · СПб / удалённо · брендинг, коммуникация, веб, иллюстрация</span></p>
       <h1 class="topbar__title" data-i18n="top.hello">Привет, я — Наташа</h1>
       <p class="topbar__sub" data-i18n="top.role">{графический и бренд-дизайнер}</p>
     </div>
@@ -71,10 +70,13 @@
       <img class="design-on design-on--on" src="assets/img/design-word-on.svg" alt="" aria-hidden="true" decoding="async">
 
       <div class="phone">
-        <img class="phone__img" src="assets/img/phone.png" alt="Ретро-телефон в зелёных щупальцах" fetchpriority="high" decoding="async">
+        <div class="phone__frame">
+          <img class="phone__img" src="assets/img/phone.png" alt="Ретро-телефон в зелёных щупальцах" fetchpriority="high" decoding="async">
         <!-- экран: HTML поверх картинки, координаты совпадают с PNG -->
-        <div class="phone__screen">
-          <span class="phone__text" id="phoneText">Connect...</span>
+          <div class="phone__screen">
+            <p class="phone__status"><span class="phone__dot" aria-hidden="true"></span><span data-i18n="status.hot">открыта к проектам</span></p>
+            <span class="phone__text" id="phoneText">Connect...</span>
+          </div>
         </div>
       </div>
     </div>
