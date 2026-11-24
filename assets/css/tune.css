@@ -1993,7 +1993,7 @@ body.is-about .about {
 .about__brace i {
   position: absolute;
   width: var(--sq);
-  background: #1FEAA8;
+  background: #3CFFBE;
   display: block;
 }
 /* пять блоков: сдвиг 1.5 → 1 → 0 → 1 → 1.5, высоты чередуются */
