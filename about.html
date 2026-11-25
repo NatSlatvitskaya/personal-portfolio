@@ -15,7 +15,7 @@
 <link rel="stylesheet" href="assets/css/base.css">
 <link rel="stylesheet" href="assets/css/layout.css">
 <link rel="stylesheet" href="assets/css/components.css">
-<link rel="stylesheet" href="assets/css/tune.css?v=4.4">
+<link rel="stylesheet" href="assets/css/tune.css?v=4.5">
 <link rel="stylesheet" href="assets/css/controls.css">
 </head>
 <body class="is-about">
@@ -275,13 +275,27 @@
   for (let i = 0; i < POOL; i++) {
     const el = document.createElement('span');
     el.className = 'pxf__px';
+    const clip = document.createElement('div');
+    clip.className = 'tile-title-clip';
+    const p = document.createElement('p');
+    const ru = document.createElement('span');
+    ru.className = 't-ru';
+    const en = document.createElement('span');
+    en.className = 't-en';
+    p.append(ru, en);
+    clip.append(p);
+    el.append(clip);
     stage.append(el);
-    tiles.push({ el, c: CENTER_C, r: CENTER_R, fill: 'dark' });
+    tiles.push({ el, clip, ru, en, c: CENTER_C, r: CENTER_R, fill: 'dark' });
   }
 
   const texts = [];
   states.forEach((st, si) => {
     st.texts.forEach((t) => {
+      if (t.kind === 'title') {
+        st.title = t;
+        return;
+      }
       const el = document.createElement('div');
       el.className = `pxf__tx pxf__tx--${t.kind} tone-${t.tone}${t.center ? ' is-center' : ''}`;
       el.style.setProperty('--c', t.c);
@@ -298,7 +312,7 @@
       p.append(ru, en);
       el.append(p);
       stage.append(el);
-      texts.push({ el, si, kind: t.kind });
+      texts.push({ el, si });
     });
   });
 
@@ -324,19 +338,6 @@
       stage.style.setProperty('--ph-x', `${(W - pw) / 2}px`);
       stage.style.setProperty('--ph-y', `${(H - ph) / 2}px`);
     }
-    fitTitles();
-  }
-
-  function fitTitles() {
-    texts.forEach(({ el, kind }) => {
-      if (kind !== 'title') return;
-      el.style.fontSize = '';
-      let fs = parseFloat(getComputedStyle(el).fontSize);
-      while (fs > 12 && el.offsetWidth > stage.clientWidth) {
-        fs -= 2;
-        el.style.fontSize = `${fs}px`;
-      }
-    });
   }
 
   function assign(cells) {
@@ -376,9 +377,12 @@
         t.el.style.setProperty('--d', `${Math.round((k * CASCADE) / (POOL - 1))}ms`);
         t.el.dataset.fill = g.fill;
         t.el.classList.toggle('is-on', g.on);
+        const title = g.on ? st.title : null;
+        t.clip.className = title ? `tile-title-clip tone-${title.tone}` : 'tile-title-clip';
+        t.ru.textContent = title ? title.ru : '';
+        t.en.textContent = title ? title.en : '';
       });
     texts.forEach(({ el, si }) => el.classList.toggle('is-on', si === i));
-    fitTitles();
   }
 
   let index = -1;
@@ -392,8 +396,6 @@
     cancelAnimationFrame(frame);
     frame = requestAnimationFrame(size);
   });
-  new MutationObserver(fitTitles).observe(document.documentElement, { attributes: true, attributeFilter: ['lang'] });
-
   size();
   void root.offsetWidth;
   next();
