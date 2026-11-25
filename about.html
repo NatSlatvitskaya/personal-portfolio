@@ -191,11 +191,11 @@
 <script src="assets/js/app.js?v=3.9"></script>
 <script>
 (function pixelFigure() {
-  const COLS = 8;
+  const COLS = 9;
   const ROWS = 4;
-  const POOL = 22;
+  const POOL = 24;
   const HOLD = 5000;
-  const CASCADE = 240;
+  const CASCADE = 100;
   const CENTER_C = (COLS - 1) / 2;
   const CENTER_R = (ROWS - 1) / 2;
 
@@ -203,75 +203,70 @@
   if (!root) return;
   const stage = root.querySelector('.pxf__stage');
 
-  const span = (r, from, to, fill) => {
-    const out = [];
-    for (let c = from; c <= to; c++) out.push([c, r, fill]);
-    return out;
-  };
-  const pick = (r, cols, fill) => cols.map((c) => [c, r, fill]);
-  const T = (at, w, h, kind, tone, ru, en) => ({ at, w, h, kind, tone, ru, en });
+  const fig = (rows, fill) => rows.flatMap((line, r) =>
+    [...line].flatMap((ch, c) => (ch === '■' ? [[c, r, fill]] : [])));
+  const T = (c, r, w, h, kind, tone, ru, en, center) => ({ c, r, w, h, kind, tone, ru, en, center: !!center });
 
   const states = [
     {
-      id: 'intro',
-      cells: [
-        ...pick(0, [3, 5], 'photo'),
-        ...span(1, 1, 6, 'photo'),
-        ...span(2, 2, 5, 'photo'),
-        ...span(3, 1, 3, 'photo'),
-      ],
+      id: 'intro', num: '01',
+      cells: fig([
+        '··■■·■■··',
+        '■■■■■■·■·',
+        '·■■■■■■··',
+        '■·■■■····',
+      ], 'photo'),
       texts: [
-        T([1, 0], 2, 1, 'body', 'light', 'Привет, я — Наташа, мультидисциплинарный дизайнер', 'Hi, I’m Natasha, a multidisciplinary designer'),
-        T([5, 1], 2, 1, 'body', 'light', '6 лет опыта', '6 years of experience'),
-        T([1, 2], 2, 1, 'count', 'soft', '01 / 04', '01 / 04'),
-        T([5, 3], 3, 1, 'body', 'light', 'Помогаю брендам и продуктам ломать шаблоны и запоминаться', 'I help brands and products break templates and be remembered'),
+        T(0, 0, 2, 1, 'body', 'light', 'Привет, я — Наташа, мультидисциплинарный дизайнер', 'Hi, I’m Natasha, a multidisciplinary designer'),
+        T(6, 1, 1, 1, 'body', 'light', '6 лет опыта', '6 years of experience', true),
+        T(0, 2, 1, 1, 'count', 'soft', '01 / 04', '01 / 04'),
+        T(5, 3, 3, 1, 'body', 'light', 'Помогаю брендам и продуктам ломать шаблоны и запоминаться', 'I help brands and products break templates and be remembered'),
       ],
     },
     {
-      id: 'focus',
-      cells: [
-        ...pick(0, [1, 4, 6], 'purple'),
-        ...span(1, 1, 6, 'purple'),
-        ...span(2, 1, 6, 'purple'),
-        ...pick(3, [1, 3, 5], 'purple'),
-      ],
+      id: 'focus', num: '02',
+      cells: fig([
+        '■··■■·■■·',
+        '■■■■■■·■·',
+        '■■■■■■■■·',
+        '■■■···■··',
+      ], 'purple'),
       texts: [
-        T([2, 0], 2, 1, 'body', 'light', 'Мультидисциплинарный дизайнер', 'Multidisciplinary designer'),
-        T([5, 0], 2, 1, 'body', 'light', '6 лет опыта', '6 years of experience'),
-        T([2, 1], 4, 2, 'title', 'dark', 'Фокус', 'Focus'),
-        T([5, 2], 2, 1, 'count', 'soft', '02 / 04', '02 / 04'),
-        T([3, 3], 3, 1, 'body', 'light', 'Проектирую визуальные системы: от айдентики и гайдлайнов до иллюстраций и веб-интерфейсов', 'I design visual systems: from identity and guidelines to illustrations and web interfaces'),
+        T(1, 0, 2, 1, 'body', 'light', 'Мультидисциплинарный дизайнер', 'Multidisciplinary designer'),
+        T(5, 0, 1, 1, 'body', 'light', '6 лет опыта', '6 years of experience'),
+        T(1, 1, 5, 2, 'title', 'dark', 'Фокус', 'Focus'),
+        T(6, 1, 1, 1, 'count', 'soft', '02 / 04', '02 / 04'),
+        T(3, 3, 3, 1, 'body', 'light', 'Проектирую визуальные системы: от айдентики и гайдлайнов до иллюстраций и веб-интерфейсов', 'I design visual systems: from identity and guidelines to illustrations and web interfaces'),
       ],
     },
     {
-      id: 'dimensions',
-      cells: [
-        ...pick(0, [2, 5], 'dark'),
-        ...span(1, 1, 6, 'dark'),
-        ...pick(2, [1, 2, 3, 4, 6, 7], 'dark'),
-        [5, 2, 'light'],
-        ...span(3, 1, 6, 'dark'),
-      ],
+      id: 'dimensions', num: '03',
+      cells: fig([
+        '■■····■··',
+        '■■■■■■■■·',
+        '■■■■·■■■·',
+        '■···■■■■·',
+      ], 'dark'),
       texts: [
-        T([1, 0], 2, 1, 'count', 'soft', '03 / 04', '03 / 04'),
-        T([3, 0], 2, 1, 'body', 'light', 'Системный подход к бренду', 'Systemic approach to the brand'),
-        T([1, 1], 6, 2, 'title', 'light', '4 измерения', '4 dimensions'),
-        T([2, 3], 3, 1, 'body', 'light', 'Работаю в четырёх измерениях бренда — даю продукту пользу, голос, характер и смысл', 'I work across four dimensions of a brand — giving the product utility, voice, character and meaning'),
+        T(2, 0, 4, 1, 'body', 'light', 'Системный подход к бренду', 'Systemic approach to the brand'),
+        T(7, 0, 1, 1, 'count', 'soft', '03 / 04', '03 / 04'),
+        T(1, 1, 7, 2, 'title', 'light', '4 измерения', '4 dimensions'),
+        T(1, 3, 3, 1, 'body', 'light', 'Работаю в четырёх измерениях бренда — даю продукту пользу, голос, характер и смысл', 'I work across four dimensions of a brand — giving the product utility, voice, character and meaning'),
       ],
     },
     {
-      id: 'meaning',
-      cells: [
-        ...pick(0, [1, 4, 6], 'green'),
-        ...span(1, 1, 6, 'green'),
-        ...span(2, 0, 7, 'green'),
-        ...pick(3, [1, 2, 4, 5, 6], 'green'),
-      ],
+      id: 'meaning', num: '04',
+      cells: fig([
+        '·■···■·■·',
+        '·■■■■■■··',
+        '■■■■■■■■■',
+        '··■··■■··',
+      ], 'green'),
       texts: [
-        T([2, 0], 2, 1, 'body', 'light', 'Соединяю системную логику с живой графикой, превращая смыслы в дизайн, который считывается с первого взгляда', 'I connect systemic logic with living graphics, turning meanings into design that reads at first glance'),
-        T([5, 1], 2, 1, 'count', 'soft', '04 / 04', '04 / 04'),
-        T([1, 2], 6, 1, 'title', 'dark', 'Смысл и форма', 'Meaning & form'),
-        T([3, 3], 2, 1, 'body', 'light', 'Дизайн, который звучит громко', 'Design that speaks loudly'),
+        T(2, 0, 3, 1, 'body', 'light', 'Соединяю системную логику с живой графикой, превращая смыслы в дизайн, который считывается с первого взгляда', 'I connect systemic logic with living graphics, turning meanings into design that reads at first glance'),
+        T(7, 1, 1, 1, 'count', 'soft', '04 / 04', '04 / 04'),
+        T(1, 2, 7, 1, 'title', 'dark', 'Смысл и форма', 'Meaning & form'),
+        T(3, 3, 2, 1, 'body', 'light', 'Дизайн, который звучит громко', 'Design that speaks loudly'),
       ],
     },
   ];
@@ -288,9 +283,9 @@
   states.forEach((st, si) => {
     st.texts.forEach((t) => {
       const el = document.createElement('div');
-      el.className = `pxf__tx pxf__tx--${t.kind} tone-${t.tone}`;
-      el.style.setProperty('--c', t.at[0]);
-      el.style.setProperty('--r', t.at[1]);
+      el.className = `pxf__tx pxf__tx--${t.kind} tone-${t.tone}${t.center ? ' is-center' : ''}`;
+      el.style.setProperty('--c', t.c);
+      el.style.setProperty('--r', t.r);
       el.style.setProperty('--w', t.w);
       el.style.setProperty('--h', t.h);
       const p = document.createElement('p');
@@ -351,20 +346,22 @@
   function show(i) {
     const st = states[i];
     root.dataset.state = st.id;
-    const order = [...assign(st.cells).entries()].sort((a, b) => distFromCenter(a[1]) - distFromCenter(b[1]));
-    order.forEach(([t, g], k) => {
-      t.c = g.c;
-      t.r = g.r;
-      t.fill = g.fill;
-      t.el.style.setProperty('--c', g.c);
-      t.el.style.setProperty('--r', g.r);
-      t.el.style.setProperty('--s', g.on ? 1 : 0.7);
-      t.el.style.setProperty('--bx', g.c);
-      t.el.style.setProperty('--by', g.r);
-      t.el.style.setProperty('--d', `${Math.round((k / (POOL - 1)) * CASCADE)}ms`);
-      t.el.dataset.fill = g.fill;
-      t.el.classList.toggle('is-on', g.on);
-    });
+    const plan = assign(st.cells);
+    [...plan.entries()]
+      .sort((a, b) => distFromCenter(a[1]) - distFromCenter(b[1]))
+      .forEach(([t, g], k) => {
+        t.c = g.c;
+        t.r = g.r;
+        t.fill = g.fill;
+        t.el.style.setProperty('--c', g.c);
+        t.el.style.setProperty('--r', g.r);
+        t.el.style.setProperty('--bx', g.c);
+        t.el.style.setProperty('--by', g.r);
+        t.el.style.setProperty('--s', g.on ? 1 : 0.4);
+        t.el.style.setProperty('--d', `${Math.round((k * CASCADE) / (POOL - 1))}ms`);
+        t.el.dataset.fill = g.fill;
+        t.el.classList.toggle('is-on', g.on);
+      });
     texts.forEach(({ el, si }) => el.classList.toggle('is-on', si === i));
     fitTitles();
   }
