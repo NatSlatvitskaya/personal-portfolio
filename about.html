@@ -191,7 +191,7 @@
 <script src="assets/js/app.js?v=3.9"></script>
 <script>
 (function pixelFigure() {
-  const COLS = 9;
+  const COLS = 8;
   const ROWS = 4;
   const POOL = 24;
   const HOLD = 5000;
@@ -211,10 +211,10 @@
     {
       id: 'intro', num: '01',
       cells: fig([
-        '··■■·■■··',
-        '■■■■■■·■·',
-        '·■■■■■■··',
-        '■·■■■····',
+        '··■■·■■·',
+        '■■■■■■·■',
+        '·■■■■■■·',
+        '■·■■■···',
       ], 'photo'),
       texts: [
         T(0, 0, 2, 1, 'body', 'light', 'Привет, я — Наташа, мультидисциплинарный дизайнер', 'Hi, I’m Natasha, a multidisciplinary designer'),
@@ -226,10 +226,10 @@
     {
       id: 'focus', num: '02',
       cells: fig([
-        '■··■■·■■·',
-        '■■■■■■·■·',
-        '■■■■■■■■·',
-        '■■■···■··',
+        '■··■■·■■',
+        '■■■■■■·■',
+        '■■■■■■■■',
+        '■■■···■·',
       ], 'purple'),
       texts: [
         T(1, 0, 2, 1, 'body', 'light', 'Мультидисциплинарный дизайнер', 'Multidisciplinary designer'),
@@ -242,10 +242,10 @@
     {
       id: 'dimensions', num: '03',
       cells: fig([
-        '■■····■··',
-        '■■■■■■■■·',
-        '■■■■·■■■·',
-        '■···■■■■·',
+        '■■····■·',
+        '■■■■■■■■',
+        '■■■■·■■■',
+        '■···■■■■',
       ], 'dark'),
       texts: [
         T(2, 0, 4, 1, 'body', 'light', 'Системный подход к бренду', 'Systemic approach to the brand'),
@@ -257,10 +257,10 @@
     {
       id: 'meaning', num: '04',
       cells: fig([
-        '·■···■·■·',
-        '·■■■■■■··',
-        '■■■■■■■■■',
-        '··■··■■··',
+        '·■···■·■',
+        '·■■■■■■·',
+        '■■■■■■■■',
+        '··■··■■·',
       ], 'green'),
       texts: [
         T(2, 0, 3, 1, 'body', 'light', 'Соединяю системную логику с живой графикой, превращая смыслы в дизайн, который считывается с первого взгляда', 'I connect systemic logic with living graphics, turning meanings into design that reads at first glance'),
@@ -302,6 +302,10 @@
     });
   });
 
+  const photo = new Image();
+  photo.onload = () => size();
+  photo.src = 'assets/img/about/photo.png';
+
   function size() {
     const cs = getComputedStyle(root);
     const w = root.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
@@ -309,6 +313,17 @@
     const gap = Math.min(48, Math.max(12, h * 0.06));
     const cell = Math.max(8, Math.floor(Math.min(w / COLS, (h - 2 * gap) / ROWS)));
     root.style.setProperty('--cell', `${cell}px`);
+    if (photo.naturalWidth) {
+      const W = cell * COLS;
+      const H = cell * ROWS;
+      const k = Math.max(W / photo.naturalWidth, H / photo.naturalHeight);
+      const pw = photo.naturalWidth * k;
+      const ph = photo.naturalHeight * k;
+      stage.style.setProperty('--ph-w', `${pw}px`);
+      stage.style.setProperty('--ph-h', `${ph}px`);
+      stage.style.setProperty('--ph-x', `${(W - pw) / 2}px`);
+      stage.style.setProperty('--ph-y', `${(H - ph) / 2}px`);
+    }
     fitTitles();
   }
 
@@ -317,7 +332,7 @@
       if (kind !== 'title') return;
       el.style.fontSize = '';
       let fs = parseFloat(getComputedStyle(el).fontSize);
-      while (fs > 12 && (el.scrollWidth > el.clientWidth + 1 || el.scrollHeight > el.clientHeight + 1)) {
+      while (fs > 12 && el.offsetWidth > stage.clientWidth) {
         fs -= 2;
         el.style.fontSize = `${fs}px`;
       }
