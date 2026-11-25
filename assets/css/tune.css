@@ -2301,7 +2301,7 @@ body.is-about .about {
   position: absolute;
   left: 50%;
   top: 50%;
-  width: calc(var(--cell) * 9);
+  width: calc(var(--cell) * 8);
   height: calc(var(--cell) * 4);
   transform: translate(-50%, -50%);
 }
@@ -2330,10 +2330,10 @@ body.is-about .about {
   background-color: #1D1D20;
   background-image: var(--photo);
   background-repeat: no-repeat;
-  background-size: calc(var(--cell) * 9) calc(var(--cell) * 4);
+  background-size: var(--ph-w, 0px) var(--ph-h, 0px);
   background-position:
-    calc(var(--bx, 0) * var(--cell) * -1)
-    calc(var(--by, 0) * var(--cell) * -1);
+    calc(var(--ph-x, 0px) - var(--bx, 0) * var(--cell))
+    calc(var(--ph-y, 0px) - var(--by, 0) * var(--cell));
 }
 
 .pxf__tx {
@@ -2354,13 +2354,15 @@ body.is-about .about {
 }
 .pxf__tx.is-on { opacity: 1; }
 .pxf__tx p { margin: 0; width: 100%; }
-.pxf__tx.is-center p { text-align: center; }
+.pxf__tx.is-center p,
+.pxf__tx--title p { text-align: center; }
 
 .pxf__tx--body {
-  font-size: clamp(13px, calc(var(--cell) * 0.2), 22px);
+  font-size: clamp(11px, 0.95vw, 13px);
   font-weight: 400;
-  line-height: 1.25;
+  line-height: 1.35;
   letter-spacing: -0.01em;
+  padding: calc(var(--cell) * 0.1);
 }
 .pxf__tx--count {
   font-size: clamp(16px, calc(var(--cell) * 0.4), 30px);
@@ -2369,6 +2371,13 @@ body.is-about .about {
   white-space: nowrap;
 }
 .pxf__tx--title {
+  left: 50%;
+  top: 50%;
+  width: max-content;
+  height: auto;
+  transform: translate(-50%, -50%);
+  white-space: nowrap;
+  text-align: center;
   font-size: calc(var(--cell) * 0.9);
   font-weight: 500;
   line-height: 0.9;
