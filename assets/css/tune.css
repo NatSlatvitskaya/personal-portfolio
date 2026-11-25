@@ -2317,17 +2317,17 @@ body.is-about .about {
   transform: translate(calc(var(--c, 3.5) * var(--cell)), calc(var(--r, 1.5) * var(--cell))) scale(var(--s, 0.4));
   opacity: 0;
   transition:
-    transform 0.4s var(--ease) var(--d, 0ms),
-    opacity 0.22s ease var(--d, 0ms),
-    background-color 0.22s ease;
+    transform 0.9s cubic-bezier(0.65, 0, 0.35, 1) var(--d, 0ms),
+    opacity 0.6s ease var(--d, 0ms),
+    background-color 0.6s ease;
 }
 .pxf__px.is-on { opacity: 1; }
 .pxf__px[data-fill="purple"] { background-color: #9366FF; }
 .pxf__px[data-fill="dark"]   { background-color: #1D1D20; }
 .pxf__px[data-fill="light"]  { background-color: #A78BFA; }
-.pxf__px[data-fill="green"]  { background-color: #00D68F; }
+.pxf__px[data-fill="green"]  { background-color: #3CFFBE; }
 .pxf__px[data-fill="photo"] {
-  background-color: #1D1D20;
+  background-color: transparent;
   background-image: var(--photo);
   background-repeat: no-repeat;
   background-size: var(--ph-w, 0px) var(--ph-h, 0px);
@@ -2358,7 +2358,7 @@ body.is-about .about {
 .pxf__tx--title p { text-align: center; }
 
 .pxf__tx--body {
-  font-size: clamp(11px, 0.95vw, 13px);
+  font-size: 16px;
   font-weight: 400;
   line-height: 1.35;
   letter-spacing: -0.01em;
