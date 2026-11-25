@@ -2267,3 +2267,87 @@ body.is-about .about__head .topbar__center { align-self: center !important; }
   .footbar__tags { display: none !important; }
   }
 }
+
+/* ============================================================
+   ПИКСЕЛЬНАЯ ФИГУРА — about.html
+   ============================================================ */
+.pxfig {
+  --cols: 8;
+  --rows: 4;
+  --fig-w: min(1280px, 90vw);
+  position: relative;
+  width: var(--fig-w);
+  aspect-ratio: 1280 / 612;
+  container-type: inline-size;
+  margin: 0 auto;
+  font-family: var(--font-display);
+  color: #FFFFFF;
+}
+
+.pxfig__layer {
+  position: absolute;
+  inset: 0;
+  visibility: hidden;
+}
+.pxfig__layer.is-on { visibility: visible; }
+.pxfig__layer[data-state="focus"]   { --fig: #9E6BFF; }
+.pxfig__layer[data-state="dims"]    { --fig: #1E1E1E; }
+.pxfig__layer[data-state="meaning"] { --fig: #00E6A3; }
+
+.pxfig__cell {
+  position: absolute;
+  width: calc(100% / var(--cols));
+  height: calc(100% / var(--rows));
+  left: calc(var(--c) * 100% / var(--cols));
+  top: calc(var(--r) * 100% / var(--rows));
+  overflow: hidden;
+  background: var(--fig, transparent);
+}
+
+.pxfig__img {
+  position: absolute;
+  width: calc(var(--cols) * 100%);
+  height: calc(var(--rows) * 100%);
+  left: calc(var(--c) * -100%);
+  top: calc(var(--r) * -100%);
+  object-fit: cover;
+  pointer-events: none;
+  user-select: none;
+}
+
+.pxfig__text,
+.pxfig__count {
+  position: absolute;
+  left: calc(var(--c) * 100% / var(--cols));
+  top: calc(var(--r) * 100% / var(--rows));
+  box-sizing: border-box;
+  margin: 0;
+  padding: 1.6cqw 1.4cqw;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  font-size: 1.7cqw;
+}
+.pxfig__text { width: calc(var(--w) * 100% / var(--cols)); }
+
+.pxfig__count {
+  width: calc(100% / var(--cols));
+  height: calc(100% / var(--rows));
+  display: flex;
+  align-items: center;
+  font-size: 3.2cqw;
+  font-weight: 500;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  white-space: nowrap;
+}
+.pxfig__count i { font-style: normal; opacity: 0.45; }
+
+html[lang="en"] .pxfig .t-ru,
+html:not([lang="en"]) .pxfig .t-en { display: none; }
+
+@media (max-width: 860px) {
+  .pxfig { --fig-w: min(360px, 88vw); aspect-ratio: 4 / 8; }
+  .pxfig__text { font-size: 3.9cqw; }
+  .pxfig__count { font-size: 7.5cqw; }
+}
