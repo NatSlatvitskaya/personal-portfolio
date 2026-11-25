@@ -2283,7 +2283,7 @@ body.is-about .about {
 }
 
 .pxf {
-  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
   --cell: 0px;
   --photo: url('../img/about/photo.png');
   position: relative;
@@ -2301,7 +2301,7 @@ body.is-about .about {
   position: absolute;
   left: 50%;
   top: 50%;
-  width: calc(var(--cell) * 8);
+  width: calc(var(--cell) * 9);
   height: calc(var(--cell) * 4);
   transform: translate(-50%, -50%);
 }
@@ -2314,12 +2314,12 @@ body.is-about .about {
   width: var(--cell);
   height: var(--cell);
   transform-origin: 50% 50%;
-  transform: translate(calc(var(--c, 3.5) * var(--cell)), calc(var(--r, 1.5) * var(--cell))) scale(var(--s, 0.7));
+  transform: translate(calc(var(--c, 3.5) * var(--cell)), calc(var(--r, 1.5) * var(--cell))) scale(var(--s, 0.4));
   opacity: 0;
   transition:
-    transform 0.85s var(--ease) var(--d, 0ms),
-    opacity 0.45s ease var(--d, 0ms),
-    background-color 0.6s ease;
+    transform 0.4s var(--ease) var(--d, 0ms),
+    opacity 0.22s ease var(--d, 0ms),
+    background-color 0.22s ease;
 }
 .pxf__px.is-on { opacity: 1; }
 .pxf__px[data-fill="purple"] { background-color: #9366FF; }
@@ -2330,7 +2330,7 @@ body.is-about .about {
   background-color: #1D1D20;
   background-image: var(--photo);
   background-repeat: no-repeat;
-  background-size: calc(var(--cell) * 8) calc(var(--cell) * 4);
+  background-size: calc(var(--cell) * 9) calc(var(--cell) * 4);
   background-position:
     calc(var(--bx, 0) * var(--cell) * -1)
     calc(var(--by, 0) * var(--cell) * -1);
@@ -2350,10 +2350,11 @@ body.is-about .about {
   opacity: 0;
   pointer-events: none;
   color: var(--tx-color);
-  transition: opacity 0.45s ease;
+  transition: opacity 0.22s ease;
 }
 .pxf__tx.is-on { opacity: 1; }
 .pxf__tx p { margin: 0; width: 100%; }
+.pxf__tx.is-center p { text-align: center; }
 
 .pxf__tx--body {
   font-size: clamp(13px, calc(var(--cell) * 0.2), 22px);
@@ -2374,9 +2375,9 @@ body.is-about .about {
   letter-spacing: -0.03em;
 }
 
-.tone-light { --tx-color: #FFFFFF; }
-.tone-dark  { --tx-color: #1E1E24; }
-.tone-soft  { --tx-color: rgba(255, 255, 255, 0.6); }
+.pxf .tone-light { --tx-color: #FFFFFF; }
+.pxf .tone-dark  { --tx-color: #1E1E24; }
+.pxf .tone-soft  { --tx-color: rgba(255, 255, 255, 0.6); }
 
 html[lang="en"] .pxf .t-ru,
 html:not([lang="en"]) .pxf .t-en { display: none; }
