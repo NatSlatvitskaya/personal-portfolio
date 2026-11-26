@@ -2366,9 +2366,9 @@ body.is-about .about {
   justify-content: center;
   color: var(--tx-color);
   font-size: calc(var(--cell) * 0.92);
-  font-weight: 700;
+  font-weight: 500;
   line-height: 1;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.04em;
   white-space: nowrap;
   pointer-events: none;
   transform: translate(calc(var(--tx, 0) * var(--cell)), calc(var(--ty, 0) * var(--cell))) scale(var(--k, 1));
@@ -2408,6 +2408,7 @@ body.is-about .about {
   line-height: 1;
   white-space: nowrap;
 }
+.pxf__tx--count p::first-letter { color: #FFFFFF; }
 .pxf .tone-light { --tx-color: #FFFFFF; }
 .pxf .tone-dark  { --tx-color: #111111; }
 .pxf .tone-soft  { --tx-color: rgba(255, 255, 255, 0.7); }
