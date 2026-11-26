@@ -429,7 +429,10 @@
   });
   size();
   void root.offsetWidth;
+  root.classList.add('pxf--instant');
   next();
+  void root.offsetWidth;
+  root.classList.remove('pxf--instant');
   setInterval(next, HOLD);
 })();
 </script>
