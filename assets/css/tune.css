@@ -36,7 +36,7 @@
   inset: 0;
   pointer-events: none;
   z-index: 0;
-  background-image: url("../img/bg-light.jpg");
+  background-image: url("../img/bg-light.webp");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -44,7 +44,7 @@
 }
 
 [data-theme="dark"] .fx {
-  background-image: url("../img/bg-dark.jpg");
+  background-image: url("../img/bg-dark.webp");
 }
 
 body.is-archive .fx {
@@ -1307,14 +1307,14 @@ html.is-404 body.page404 {
 }
 body.page404 {
   background-color: #B98FEB;
-  background-image: url('../img/404/bg-light.jpg');
+  background-image: url('../img/404/bg-light.webp');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
 }
 [data-theme="dark"] body.page404 {
   background-color: #1E1A33;
-  background-image: url('../img/404/bg-dark.jpg');
+  background-image: url('../img/404/bg-dark.webp');
 }
 body.page404 .fx { display: none; }
 body.page404 .page {
@@ -2261,6 +2261,7 @@ body.is-about .about {
   overflow: hidden;
   transform-origin: 50% 50%;
   transform: translate(calc(var(--c, 3.5) * var(--cell)), calc(var(--r, 1.5) * var(--cell))) scale(var(--s, 0.2));
+  will-change: transform;
   opacity: 0;
   pointer-events: none;
   transition:
