@@ -16,7 +16,7 @@
    ============================================================= */
 
 const IMG = (slug, n) =>
-  Array.from({ length: n }, (_, i) => `assets/img/projects/${slug}/${String(i).padStart(2, '0')}.jpg`);
+  Array.from({ length: n }, (_, i) => `assets/img/projects/${slug}/${String(i).padStart(2, '0')}.webp`);
 
 const PROJECTS = [
   /* ---------- кольцо на главной (порядок = порядок в кольце) ---------- */
@@ -32,7 +32,7 @@ const PROJECTS = [
       en: 'Identity for an experimental electronic label. Gothic lettering, a neon palette, and a cover system that stays recognisable on every surface.'
     },
     external: 'https://www.behance.net/nnzuzu5f5d',
-    cover: 'assets/img/projects/nocturne-label/00.jpg',
+    cover: 'assets/img/projects/nocturne-label/00.webp',
     images: IMG('nocturne-label', 6)
   },
   {
@@ -73,7 +73,7 @@ const PROJECTS = [
     external: 'https://www.behance.net/nnzuzu5f5d',
     role: { ru: 'Бренд-дизайнер', en: 'Brand designer' },
     tools: ['Ai', 'Ps'],
-    cover: 'assets/img/projects/midnight-door/01.jpg',
+    cover: 'assets/img/projects/midnight-door/01.webp',
     images: IMG('midnight-door', 6)
   },
   {
@@ -88,7 +88,7 @@ const PROJECTS = [
       en: 'An illustration set for a brand: objects with attitude. Light graphics with dense shadow and precise humour.'
     },
     external: 'https://dprofile.ru/nat_slatvitskaya',
-    cover: 'assets/img/projects/snor-miracle/00.jpg',
+    cover: 'assets/img/projects/snor-miracle/00.webp',
     images: IMG('snor-miracle', 6)
   },
   {
@@ -103,7 +103,7 @@ const PROJECTS = [
       en: 'Festival identity at the junction of chrome and violet glow. One module — dozens of surfaces, from billboard to stories.'
     },
     external: 'https://www.behance.net/nnzuzu5f5d',
-    cover: 'assets/img/projects/hyperline-fest/01.jpg',
+    cover: 'assets/img/projects/hyperline-fest/01.webp',
     images: IMG('hyperline-fest', 6)
   },
   {
@@ -144,7 +144,7 @@ const PROJECTS = [
       en: 'A study of glass surfaces in interfaces: how not to turn a tidy system into a blurry mess. 40+ components, states, tokens.'
     },
     external: 'https://dprofile.ru/nat_slatvitskaya',
-    cover: 'assets/img/projects/liquid-glass-ui/00.jpg',
+    cover: 'assets/img/projects/liquid-glass-ui/00.webp',
     images: IMG('liquid-glass-ui', 1)
   },
   {
@@ -159,7 +159,7 @@ const PROJECTS = [
       en: 'A promo site for a transport service: cold metal, a strict grid, and a single accent that guides you down the page.'
     },
     external: 'https://dprofile.ru/nat_slatvitskaya',
-    cover: 'assets/img/projects/atlas-mobility/00.jpg',
+    cover: 'assets/img/projects/atlas-mobility/00.webp',
     images: IMG('atlas-mobility', 1)
   },
   {
@@ -174,7 +174,7 @@ const PROJECTS = [
       en: 'Identity for a coffee roastery: deep green, dense typography, and packaging you want to hold.'
     },
     external: 'https://www.behance.net/nnzuzu5f5d',
-    cover: 'assets/img/projects/brunswick-coffee/00.jpg',
+    cover: 'assets/img/projects/brunswick-coffee/00.webp',
     images: IMG('brunswick-coffee', 1)
   },
   {
@@ -189,7 +189,7 @@ const PROJECTS = [
       en: 'A cold identity for a materials manufacturer: an ice scale, metallic gradients, and a strict grid for catalogues.'
     },
     external: 'https://dprofile.ru/nat_slatvitskaya',
-    cover: 'assets/img/projects/polar-materials/00.jpg',
+    cover: 'assets/img/projects/polar-materials/00.webp',
     images: IMG('polar-materials', 1)
   },
   {
@@ -204,7 +204,7 @@ const PROJECTS = [
       en: 'A cover series where liquid metal becomes the character. One material, different temperatures — from icy to molten.'
     },
     external: 'https://www.behance.net/nnzuzu5f5d',
-    cover: 'assets/img/projects/chrome-oracle/00.jpg',
+    cover: 'assets/img/projects/chrome-oracle/00.webp',
     images: IMG('chrome-oracle', 1)
   },
   {
@@ -219,7 +219,7 @@ const PROJECTS = [
       en: 'A personal archive of orbital forms: rings, spirals, and violet glow. A study of how simple geometry holds attention.'
     },
     external: 'https://dprofile.ru/nat_slatvitskaya',
-    cover: 'assets/img/projects/orbital-archive/00.jpg',
+    cover: 'assets/img/projects/orbital-archive/00.webp',
     images: IMG('orbital-archive', 1)
   },
   {
@@ -234,7 +234,7 @@ const PROJECTS = [
       en: 'A one-pager for a dev tool: terminal aesthetics, an acid accent, and near-zero weight.'
     },
     external: 'https://dprofile.ru/nat_slatvitskaya',
-    cover: 'assets/img/projects/syntax-zero/00.jpg',
+    cover: 'assets/img/projects/syntax-zero/00.webp',
     images: IMG('syntax-zero', 1)
   },
   {
@@ -249,7 +249,7 @@ const PROJECTS = [
       en: 'Plants that don\u2019t exist: metallic petals, pink glow, and symmetry pushed to the limit.'
     },
     external: 'https://www.behance.net/nnzuzu5f5d',
-    cover: 'assets/img/projects/neon-botany/00.jpg',
+    cover: 'assets/img/projects/neon-botany/00.webp',
     images: IMG('neon-botany', 1)
   },
   {
@@ -264,7 +264,7 @@ const PROJECTS = [
       en: 'A desktop concept in arcade-cabinet aesthetics: windows, tabs, and hard shadows as an interface language.'
     },
     external: 'https://dprofile.ru/nat_slatvitskaya',
-    cover: 'assets/img/projects/arcade-desk/00.jpg',
+    cover: 'assets/img/projects/arcade-desk/00.webp',
     images: IMG('arcade-desk', 1)
   },
   {
@@ -279,7 +279,7 @@ const PROJECTS = [
       en: 'Identity for a music collective: emerald neon, acid green, and deliberately rough forms.'
     },
     external: 'https://www.behance.net/nnzuzu5f5d',
-    cover: 'assets/img/projects/emerald-riot/00.jpg',
+    cover: 'assets/img/projects/emerald-riot/00.webp',
     images: IMG('emerald-riot', 1)
   },
   {
@@ -294,7 +294,7 @@ const PROJECTS = [
       en: 'An experimental digital piece about signal loss: glitches, form decay, and type that refuses to stay put.'
     },
     external: 'https://dprofile.ru/nat_slatvitskaya',
-    cover: 'assets/img/projects/signal-decay/00.jpg',
+    cover: 'assets/img/projects/signal-decay/00.webp',
     images: IMG('signal-decay', 1)
   },
   {
@@ -309,7 +309,7 @@ const PROJECTS = [
       en: 'A soft yet technological studio identity: burgundy with magenta, thin lines, and the feel of expensive plastic.'
     },
     external: 'https://www.behance.net/nnzuzu5f5d',
-    cover: 'assets/img/projects/velvet-circuit/00.jpg',
+    cover: 'assets/img/projects/velvet-circuit/00.webp',
     images: IMG('velvet-circuit', 1)
   },
   {
@@ -324,7 +324,7 @@ const PROJECTS = [
       en: 'A series of type posters: heavy forms, minimal colour, and maximum pressure on the letter.'
     },
     external: 'https://dprofile.ru/nat_slatvitskaya',
-    cover: 'assets/img/projects/monolith-type/00.jpg',
+    cover: 'assets/img/projects/monolith-type/00.webp',
     images: IMG('monolith-type', 1)
   }
 ];
