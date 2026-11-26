@@ -663,7 +663,7 @@
 
     const W = window.innerWidth;
     const H = window.innerHeight;
-    const targets = $$('.screen > .topbar, .screen > .footbar, .stage .card, .stage .phone, .stage .design-on');
+    const targets = $$('.screen > .topbar, .screen > .footbar, .stage .card, .stage .phone');
 
     /* у карточек и телефона CSS-свойство transform (центрирование).
        Оно применяется ПОСЛЕ translate и сбивает расчёт — снимаем на замер. */
@@ -714,14 +714,6 @@
      ------------------------------------------------------------ */
 
   const GEEK_SNIPPETS = [
-    '.design-on {\n' +
-    '  filter: blur(2px)\n' +
-    '          drop-shadow(0 0 8px #FAD9FF)\n' +
-    '          drop-shadow(0 0 16px rgba(250, 217, 255, .7));\n' +
-    '  mix-blend-mode: plus-lighter;\n' +
-    '  will-change: filter;\n' +
-    '}',
-
     "const messages = ['phone.msg1', 'phone.msg2',\n" +
     "                 'phone.msg3', 'phone.msg4', 'phone.msg5'];\n" +
     "let msgIndex = 0;\n" +
@@ -763,14 +755,6 @@
     '      if (done) setTimeout(done, 1700);\n' +
     '    }\n' +
     '  }, 118);\n' +
-    '}',
-
-    '.design-on--design {\n' +
-    '  --shift-x: calc(var(--col-w-vp) * -0.097);\n' +
-    '}\n' +
-    '\n' +
-    '.design-on--on {\n' +
-    '  --shift-y: calc(var(--col-w-vp) * 0.048);\n' +
     '}'
   ];
 
@@ -876,7 +860,7 @@
 
     document.body.classList.add('is-preloading');
 
-    const heavy = [...document.querySelectorAll('.phone__img, .design-on')];
+    const heavy = [...document.querySelectorAll('.phone__img')];
     const MIN_MS = 900;
     let loaded = 0;
     const total = Math.max(heavy.length, 1);
@@ -1020,19 +1004,6 @@
      Проверяем все четыре; если хотя бы один не найден —
      остаёмся на PNG, чтобы ничего не пропало.
      ============================================================ */
-  /* ============================================================
-     «design on» — если рядом с PNG появился SVG, берём его.
-     Вектор чётче при любом размере.
-     ============================================================ */
-  (function designOnSVG() {
-    return; // два слоя задаются в HTML
-    const svg = 'assets/img/design-on.svg';
-    const probe = new Image();
-    probe.onload = () => { img.src = svg; };
-    probe.onerror = () => {};
-    probe.src = svg;
-  })();
-
   (function svgUI() {
     const UI = 'assets/img/icons/ui/';
 
