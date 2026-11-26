@@ -1802,10 +1802,7 @@ body.is-about .fx { display: none; }
 /* светлая тема: только градиент */
 [data-theme="light"] body.is-about {
   background-color: #2C1F57;
-  background-image: linear-gradient(180deg,
-      #2C1F57 0%,
-      #A080E3 42%,
-      #F5DAF9 100%);
+  background-image: url("../img/bg-light-3.webp");
   background-repeat: no-repeat;
   background-size: cover;
   background-attachment: fixed;
@@ -1813,7 +1810,10 @@ body.is-about .fx { display: none; }
 /* тёмная тема: чисто чёрный */
 [data-theme="dark"] body.is-about {
   background-color: #000000;
-  background-image: none;
+  background-image: url("../img/bg-dark-3.webp");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
 }
 
 body.is-about .page { min-height: 100dvh; }
