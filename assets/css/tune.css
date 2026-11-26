@@ -2393,6 +2393,7 @@ body.is-about .about {
 }
 .pxf__tx.is-on { opacity: 1; }
 .pxf__tx p { margin: 0; width: 100%; }
+.pxf__tx--body p { white-space: pre-line; }
 .pxf__tx.is-center p { text-align: center; }
 
 .pxf__tx--body {
@@ -2409,10 +2410,11 @@ body.is-about .about {
   white-space: nowrap;
   padding: calc(var(--cell) * 0.1);
 }
-.pxf__tx--count p::first-letter { color: #FFFFFF; }
+.pxf__tx--count .pxf__cur { color: #FFFFFF; }
 .pxf .tone-light { --tx-color: #FFFFFF; }
 .pxf .tone-dark  { --tx-color: #111111; }
 .pxf .tone-soft  { --tx-color: rgba(255, 255, 255, 0.7); }
 
 html[lang="en"] .pxf .t-ru,
 html:not([lang="en"]) .pxf .t-en { display: none; }
+ml:not([lang="en"]) .pxf .t-en { display: none; }
