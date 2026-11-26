@@ -2285,7 +2285,7 @@ body.is-about .about {
 .pxf {
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
   --cell: 0px;
-  --photo: url('../img/about/photo.png');
+  --photo: url('../img/about/intro-mask.png');
   position: relative;
   flex: 1 1 0;
   min-height: 0;
@@ -2344,10 +2344,10 @@ body.is-about .about {
   background-color: transparent;
   background-image: var(--photo);
   background-repeat: no-repeat;
-  background-size: var(--ph-w, 0px) var(--ph-h, 0px);
+  background-size: calc(var(--cell) * 8) calc(var(--cell) * 4);
   background-position:
-    calc(var(--ph-x, 0px) - var(--bx, 0) * var(--cell))
-    calc(var(--ph-y, 0px) - var(--by, 0) * var(--cell));
+    calc(-1 * var(--bx, 0) * var(--cell))
+    calc(-1 * var(--by, 0) * var(--cell));
 }
 
 .tile-title-clip {
