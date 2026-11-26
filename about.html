@@ -370,8 +370,16 @@
         const delay = Math.round((k * CASCADE) / (POOL - 1));
         t.el.style.setProperty('--d', `${delay}ms`);
         const leaving = !g.on && t.el.classList.contains('is-on');
+        const recolor = g.on && t.el.classList.contains('is-on') && t.el.dataset.fill !== g.fill;
         t.el.classList.toggle('is-on', g.on);
-        if (g.on) {
+        if (recolor) {
+          clearTimeout(t.timer);
+          t.timer = setTimeout(() => {
+            t.timer = null;
+            t.el.dataset.fill = t.fill;
+            t.el.style.backgroundImage = '';
+          }, delay + 900);
+        } else if (g.on) {
           clearTimeout(t.timer);
           t.timer = null;
           t.el.dataset.fill = g.fill;
@@ -435,10 +443,7 @@
   });
   size();
   void root.offsetWidth;
-  root.classList.add('pxf--instant');
   next();
-  void root.offsetWidth;
-  root.classList.remove('pxf--instant');
   setInterval(next, HOLD);
 })();
 </script>
