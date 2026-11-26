@@ -2339,8 +2339,8 @@ body.is-about .about {
 .pxf__px[data-fill="light"]  { background-color: #A78BFA; }
 .pxf__px[data-fill="green"]  { background-color: #3CFFBE; }
 .pxf__px[data-fill="photo"] {
-  width: calc(var(--cell) + 0.5px);
-  height: calc(var(--cell) + 0.5px);
+  width: calc(var(--cell) + 1px);
+  height: calc(var(--cell) + 1px);
   background-color: transparent;
   background-image: var(--photo);
   background-repeat: no-repeat;
@@ -2403,10 +2403,9 @@ body.is-about .about {
   line-height: 1;
   white-space: nowrap;
 }
-.pxf__tx--count {
 .pxf .tone-light { --tx-color: #FFFFFF; }
-.pxf .tone-dark  { --tx-color: #1E1E24; }
-.pxf .tone-soft  { --tx-color: rgba(255, 255, 255, 0.6); }
+.pxf .tone-dark  { --tx-color: #111111; }
+.pxf .tone-soft  { --tx-color: rgba(255, 255, 255, 0.7); }
 
 html[lang="en"] .pxf .t-ru,
 html:not([lang="en"]) .pxf .t-en { display: none; }
