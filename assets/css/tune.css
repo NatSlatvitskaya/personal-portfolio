@@ -2350,11 +2350,6 @@ body.is-about .about {
     calc(-1 * var(--by, 0) * var(--cell));
 }
 
-.pxf--instant .pxf__px,
-.pxf--instant .pxf__px.is-on {
-  transition: none !important;
-}
-
 .tile-title-clip {
   position: absolute;
   left: 0;
