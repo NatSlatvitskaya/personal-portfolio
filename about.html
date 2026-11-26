@@ -331,12 +331,12 @@
       const W = cell * COLS;
       const H = cell * ROWS;
       const k = Math.max(W / photo.naturalWidth, H / photo.naturalHeight);
-      const pw = photo.naturalWidth * k;
-      const ph = photo.naturalHeight * k;
+      const pw = Math.round(photo.naturalWidth * k);
+      const ph = Math.round(photo.naturalHeight * k);
       stage.style.setProperty('--ph-w', `${pw}px`);
       stage.style.setProperty('--ph-h', `${ph}px`);
-      stage.style.setProperty('--ph-x', `${(W - pw) / 2}px`);
-      stage.style.setProperty('--ph-y', `${(H - ph) / 2}px`);
+      stage.style.setProperty('--ph-x', `${Math.round((W - pw) / 2)}px`);
+      stage.style.setProperty('--ph-y', `${Math.round((H - ph) / 2)}px`);
     }
   }
 
@@ -377,13 +377,47 @@
         t.el.style.setProperty('--d', `${Math.round((k * CASCADE) / (POOL - 1))}ms`);
         t.el.dataset.fill = g.fill;
         t.el.classList.toggle('is-on', g.on);
+        if (g.on) {
+          t.el.style.backgroundImage = '';
+        } else {
+          setTimeout(() => {
+            if (!t.el.classList.contains('is-on')) t.el.style.backgroundImage = 'none';
+          }, 1000);
+        }
         const title = g.on ? st.title : null;
         t.clip.className = title ? `tile-title-clip tone-${title.tone}` : 'tile-title-clip';
         t.ru.textContent = title ? title.ru : '';
         t.en.textContent = title ? title.en : '';
       });
     texts.forEach(({ el, si }) => el.classList.toggle('is-on', si === i));
+    startSync();
   }
+
+  let syncUntil = 0;
+  let syncing = false;
+  const syncClips = () => {
+    const cell = parseFloat(getComputedStyle(root).getPropertyValue('--cell')) || 1;
+    tiles.forEach((t) => {
+      const cs = getComputedStyle(t.el);
+      const m = cs.transform === 'none' ? new DOMMatrixReadOnly() : new DOMMatrixReadOnly(cs.transform);
+      const s = m.a;
+      const half = parseFloat(cs.width) / 2;
+      const ox = (m.e + half * (1 - s)) / cell;
+      const oy = (m.f + half * (1 - s)) / cell;
+      t.clip.style.setProperty('--tx', ((COLS / 2 - ox) / s - COLS / 2).toFixed(4));
+      t.clip.style.setProperty('--ty', ((ROWS / 2 - oy) / s - ROWS / 2).toFixed(4));
+      t.clip.style.setProperty('--k', (1 / s).toFixed(4));
+    });
+    if (performance.now() < syncUntil) requestAnimationFrame(syncClips);
+    else syncing = false;
+  };
+  const startSync = () => {
+    syncUntil = performance.now() + 2000;
+    if (!syncing) {
+      syncing = true;
+      requestAnimationFrame(syncClips);
+    }
+  };
 
   let index = -1;
   const next = () => {
