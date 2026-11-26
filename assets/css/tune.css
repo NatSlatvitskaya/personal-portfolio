@@ -2407,6 +2407,7 @@ body.is-about .about {
   font-weight: 500;
   line-height: 1;
   white-space: nowrap;
+  padding: calc(var(--cell) * 0.1);
 }
 .pxf__tx--count p::first-letter { color: #FFFFFF; }
 .pxf .tone-light { --tx-color: #FFFFFF; }
