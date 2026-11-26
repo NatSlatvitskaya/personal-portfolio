@@ -9,7 +9,8 @@
 <link rel="icon" href="assets/img/favicon.png" type="image/png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&family=Silkscreen:wght@400;700&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&family=Silkscreen:wght@400;700&display=swap"></noscript>
 <link rel="stylesheet" href="assets/css/tokens.css">
 <link rel="stylesheet" href="assets/css/base.css">
 <link rel="stylesheet" href="assets/css/layout.css">
@@ -98,7 +99,7 @@
   <div class="modal__scrim" id="modalScrim"></div>
   <div class="modal__window">
     <div class="modal__bar">
-      <img class="modal__bar-logo" src="assets/img/logo-nat.png" alt="" aria-hidden="true">
+      <img class="modal__bar-logo" src="assets/img/logo-nat.webp" alt="" aria-hidden="true" loading="lazy" decoding="async">
       <span class="modal__bar-title" id="modalBarTitle">case.case</span>
       <span class="modal__bar-actions">
         <button class="wbtn wbtn--close" type="button" data-close-modal aria-label="Закрыть"
@@ -123,8 +124,8 @@
   </div>
 </div>
 
-<script src="assets/js/data.js"></script>
+<script src="assets/js/data.js" defer></script>
 <script src="assets/js/i18n.js"></script>
-<script src="assets/js/app.js"></script>
+<script src="assets/js/app.js" defer></script>
 </body>
 </html>

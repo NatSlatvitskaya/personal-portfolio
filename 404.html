@@ -11,7 +11,8 @@
 <link rel="icon" type="image/png" sizes="256x256" href="assets/img/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&family=Silkscreen:wght@400;700&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&family=Silkscreen:wght@400;700&display=swap"></noscript>
 <link rel="stylesheet" href="assets/css/tokens.css">
 <link rel="stylesheet" href="assets/css/base.css">
 <link rel="stylesheet" href="assets/css/layout.css">
@@ -37,7 +38,7 @@
   </header>
 
   <main class="page404__main">
-    <img class="stub__logo" src="assets/img/logo-404.png" alt="404" decoding="async">
+    <img class="stub__logo" src="assets/img/logo-404.webp" alt="404" decoding="async">
   </main>
 
   <footer class="footbar arch-footbar">
@@ -63,8 +64,8 @@
   </div>
 </div>
 
-<script src="assets/js/data.js?v=3.5"></script>
+<script src="assets/js/data.js?v=3.5" defer></script>
 <script src="assets/js/i18n.js?v=3.5"></script>
-<script src="assets/js/app.js?v=3.5"></script>
+<script src="assets/js/app.js?v=3.5" defer></script>
 </body>
 </html>

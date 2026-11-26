@@ -10,7 +10,8 @@
 <link rel="icon" type="image/png" sizes="256x256" href="assets/img/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&family=Silkscreen:wght@400;700&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&family=Silkscreen:wght@400;700&display=swap"></noscript>
 <link rel="stylesheet" href="assets/css/tokens.css">
 <link rel="stylesheet" href="assets/css/base.css">
 <link rel="stylesheet" href="assets/css/layout.css">
@@ -186,9 +187,9 @@
   </div>
 </div>
 
-<script src="assets/js/data.js?v=3.5"></script>
+<script src="assets/js/data.js?v=3.5" defer></script>
 <script src="assets/js/i18n.js?v=3.9"></script>
-<script src="assets/js/app.js?v=3.9"></script>
+<script src="assets/js/app.js?v=3.9" defer></script>
 <script>
 (function pixelFigure() {
   const COLS = 8;
@@ -288,7 +289,7 @@
     clip.append(p);
     el.append(photo, clip);
     stage.append(el);
-    tiles.push({ el, clip, ru, en, c: CENTER_C, r: CENTER_R, fill: 'dark' });
+    tiles.push({ el, clip, ru, en, c: CENTER_C, r: CENTER_R, s: 0.2, fill: 'dark' });
   }
 
   const texts = [];
@@ -324,12 +325,13 @@
     });
   });
 
+  let cell = 1;
   function size() {
     const cs = getComputedStyle(root);
     const w = root.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
     const h = root.clientHeight;
     const gap = Math.min(48, Math.max(12, h * 0.06));
-    const cell = Math.max(8, Math.floor(Math.min(w / COLS, (h - 2 * gap) / ROWS)));
+    cell = Math.max(8, Math.floor(Math.min(w / COLS, (h - 2 * gap) / ROWS)));
     root.style.setProperty('--cell', `${cell}px`);
   }
 
@@ -361,8 +363,11 @@
     [...plan.entries()]
       .sort((a, b) => distFromCenter(a[1]) - distFromCenter(b[1]))
       .forEach(([t, g], k) => {
+        const from = { c: t.c, r: t.r, s: t.s };
+        const to = { c: g.c, r: g.r, s: g.on ? 1 : 0.2 };
         t.c = g.c;
         t.r = g.r;
+        t.s = to.s;
         t.fill = g.fill;
         t.el.style.setProperty('--c', g.c);
         t.el.style.setProperty('--r', g.r);
@@ -370,9 +375,10 @@
           t.el.style.setProperty('--bx', g.c);
           t.el.style.setProperty('--by', g.r);
         }
-        t.el.style.setProperty('--s', g.on ? 1 : 0.2);
+        t.el.style.setProperty('--s', to.s);
         const delay = Math.round((k * CASCADE) / (POOL - 1));
         t.el.style.setProperty('--d', `${delay}ms`);
+        animateClip(t, from, to, delay);
         t.el.classList.toggle('is-on', g.on);
         t.el.classList.toggle('show-photo', g.on && st.id === 'intro');
         t.el.dataset.fill = g.fill;
@@ -382,33 +388,49 @@
         t.en.textContent = title ? title.en : '';
       });
     texts.forEach(({ el, si }) => el.classList.toggle('is-on', si === i));
-    startSync();
   }
 
-  let syncUntil = 0;
-  let syncing = false;
-  const syncClips = () => {
-    const cell = parseFloat(getComputedStyle(root).getPropertyValue('--cell')) || 1;
-    tiles.forEach((t) => {
-      const cs = getComputedStyle(t.el);
-      const m = cs.transform === 'none' ? new DOMMatrixReadOnly() : new DOMMatrixReadOnly(cs.transform);
-      const s = m.a;
-      const half = parseFloat(cs.width) / 2;
-      const ox = (m.e + half * (1 - s)) / cell;
-      const oy = (m.f + half * (1 - s)) / cell;
-      t.clip.style.setProperty('--tx', ((COLS / 2 - ox) / s - COLS / 2).toFixed(4));
-      t.clip.style.setProperty('--ty', ((ROWS / 2 - oy) / s - ROWS / 2).toFixed(4));
-      t.clip.style.setProperty('--k', (1 / s).toFixed(4));
-    });
-    if (performance.now() < syncUntil) requestAnimationFrame(syncClips);
-    else syncing = false;
-  };
-  const startSync = () => {
-    syncUntil = performance.now() + 2000;
-    if (!syncing) {
-      syncing = true;
-      requestAnimationFrame(syncClips);
+  const bezier = (x1, y1, x2, y2) => (x) => {
+    const cx = 3 * x1, bx = 3 * (x2 - x1) - cx, ax = 1 - cx - bx;
+    const cy = 3 * y1, by = 3 * (y2 - y1) - cy, ay = 1 - cy - by;
+    let lo = 0, hi = 1, u = x;
+    for (let i = 0; i < 40; i++) {
+      const xu = ((ax * u + bx) * u + cx) * u;
+      if (Math.abs(xu - x) < 1e-6) break;
+      if (xu < x) lo = u; else hi = u;
+      u = (lo + hi) / 2;
     }
+    return ((ay * u + by) * u + cy) * u;
+  };
+  const EASE = bezier(0.65, 0, 0.35, 1);
+  const FRAMES = 48;
+
+  const clipOf = (c, r, s) => {
+    const ox = c + (1 - s) / 2;
+    const oy = r + (1 - s) / 2;
+    return { tx: (COLS / 2 - ox) / s - COLS / 2, ty: (ROWS / 2 - oy) / s - ROWS / 2, k: 1 / s };
+  };
+
+  const animateClip = (t, from, to, delay) => {
+    const end = clipOf(to.c, to.r, to.s);
+    t.clip.style.setProperty('--tx', end.tx.toFixed(4));
+    t.clip.style.setProperty('--ty', end.ty.toFixed(4));
+    t.clip.style.setProperty('--k', end.k.toFixed(4));
+    t.clip.getAnimations().forEach((a) => a.cancel());
+    const keys = [];
+    for (let i = 0; i <= FRAMES; i++) {
+      const e = EASE(i / FRAMES);
+      const q = clipOf(
+        from.c + (to.c - from.c) * e,
+        from.r + (to.r - from.r) * e,
+        from.s + (to.s - from.s) * e,
+      );
+      keys.push({
+        offset: i / FRAMES,
+        transform: `translate(${(q.tx * cell).toFixed(2)}px, ${(q.ty * cell).toFixed(2)}px) scale(${q.k.toFixed(4)})`,
+      });
+    }
+    t.clip.animate(keys, { duration: 900, delay, easing: 'linear', fill: 'backwards' });
   };
 
   let index = -1;
@@ -425,7 +447,18 @@
   size();
   void root.offsetWidth;
   next();
-  setInterval(next, HOLD);
+
+  let timer = 0;
+  let inView = false;
+  const syncTimer = () => {
+    clearInterval(timer);
+    timer = !document.hidden && inView ? setInterval(next, HOLD) : 0;
+  };
+  document.addEventListener('visibilitychange', syncTimer);
+  new IntersectionObserver((entries) => {
+    inView = entries[0].isIntersecting;
+    syncTimer();
+  }).observe(root);
 })();
 </script>
 </body>
