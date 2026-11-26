@@ -316,10 +316,6 @@
     });
   });
 
-  const photo = new Image();
-  photo.onload = () => size();
-  photo.src = 'assets/img/about/photo.png';
-
   function size() {
     const cs = getComputedStyle(root);
     const w = root.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
@@ -327,17 +323,6 @@
     const gap = Math.min(48, Math.max(12, h * 0.06));
     const cell = Math.max(8, Math.floor(Math.min(w / COLS, (h - 2 * gap) / ROWS)));
     root.style.setProperty('--cell', `${cell}px`);
-    if (photo.naturalWidth) {
-      const W = cell * COLS;
-      const H = cell * ROWS;
-      const k = Math.max(W / photo.naturalWidth, H / photo.naturalHeight);
-      const pw = Math.round(photo.naturalWidth * k);
-      const ph = Math.round(photo.naturalHeight * k);
-      stage.style.setProperty('--ph-w', `${pw}px`);
-      stage.style.setProperty('--ph-h', `${ph}px`);
-      stage.style.setProperty('--ph-x', `${Math.round((W - pw) / 2)}px`);
-      stage.style.setProperty('--ph-y', `${Math.round((H - ph) / 2)}px`);
-    }
   }
 
   function assign(cells) {
@@ -371,18 +356,30 @@
         t.fill = g.fill;
         t.el.style.setProperty('--c', g.c);
         t.el.style.setProperty('--r', g.r);
-        t.el.style.setProperty('--bx', g.c);
-        t.el.style.setProperty('--by', g.r);
+        if (g.on) {
+          t.el.style.setProperty('--bx', g.c);
+          t.el.style.setProperty('--by', g.r);
+        }
         t.el.style.setProperty('--s', g.on ? 1 : 0.4);
-        t.el.style.setProperty('--d', `${Math.round((k * CASCADE) / (POOL - 1))}ms`);
-        t.el.dataset.fill = g.fill;
+        const delay = Math.round((k * CASCADE) / (POOL - 1));
+        t.el.style.setProperty('--d', `${delay}ms`);
+        const leaving = !g.on && t.el.classList.contains('is-on');
         t.el.classList.toggle('is-on', g.on);
         if (g.on) {
+          clearTimeout(t.timer);
+          t.timer = null;
+          t.el.dataset.fill = g.fill;
           t.el.style.backgroundImage = '';
-        } else {
-          setTimeout(() => {
-            if (!t.el.classList.contains('is-on')) t.el.style.backgroundImage = 'none';
-          }, 1000);
+        } else if (leaving) {
+          clearTimeout(t.timer);
+          t.timer = setTimeout(() => {
+            t.timer = null;
+            t.el.dataset.fill = t.fill;
+            t.el.style.backgroundImage = 'none';
+          }, delay + 900);
+        } else if (!t.timer) {
+          t.el.dataset.fill = g.fill;
+          t.el.style.backgroundImage = 'none';
         }
         const title = g.on ? st.title : null;
         t.clip.className = title ? `tile-title-clip tone-${title.tone}` : 'tile-title-clip';
