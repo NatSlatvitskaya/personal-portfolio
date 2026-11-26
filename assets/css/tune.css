@@ -47,6 +47,14 @@
   background-image: url("../img/bg-dark.jpg");
 }
 
+body.is-archive .fx {
+  background-image: url("../img/bg-light-2.jpg");
+}
+
+[data-theme="dark"] body.is-archive .fx {
+  background-image: url("../img/bg-dark-2.jpg");
+}
+
 /* текстура отдельным слоем больше не нужна */
 .fx__texture { display: none !important; }
 
@@ -267,12 +275,6 @@
   transform: translate(-50%, -50%) !important;
 }
 
-/* «design on» — над телефоном, по центру */
-.design-on {
-  top: 50% !important;
-  left: 50% !important;
-}
-
 /* ============================================================
    6. КАРТОЧКИ
    ============================================================ */
@@ -305,61 +307,6 @@
 .card:hover .card__label,
 .card:focus-visible .card__label {
   font-size: 23px !important;
-}
-
-/* ============================================================
-   7. «design on» — неоновое свечение чистого SVG
-   SVG: чистые белые контуры (#FFFFFF), без blur и без blend внутри файла.
-   Свечение собирается в браузере: plus-lighter + два drop-shadow.
-   ============================================================ */
-
-.design-on {
-  position: absolute !important;
-  top: 50% !important;
-  left: 50% !important;
-  transform: translate(-50%, -50%) !important;
-  /* 1.13 колонки = 680px на экране 1920.
-     Файл квадратный (917×901), поэтому высота равна ширине. */
-  width: calc(var(--col-w-vp) * 1.13) !important;
-  max-width: none !important;
-  height: auto !important;
-  pointer-events: none !important;
-  user-select: none !important;
-  z-index: 4 !important;               /* поверх телефона (z-index: 2) */
-
-  /* Y2K-неон: размытие 2px + лиловый ореол #FAD9FF (8px и 16px) */
-  filter: blur(2px)
-          drop-shadow(0 0 8px #FAD9FF)
-          drop-shadow(0 0 16px rgba(250, 217, 255, 0.7)) !important;
-  mix-blend-mode: plus-lighter !important;
-  opacity: 1 !important;
-  will-change: filter;
-  /* сдвиг композиции — задаётся на каждом слове отдельно */
-  --shift-x: 0px;
-  --shift-y: 0px;
-  translate: var(--shift-x) var(--shift-y);
-}
-
-/* «design» — левее (58px при колонке 600px) */
-.design-on--design {
-  --shift-x: calc(var(--col-w-vp) * -0.097);
-}
-
-/* «on» — ниже (29px при колонке 600px) */
-.design-on--on {
-  --shift-y: calc(var(--col-w-vp) * 0.048);
-}
-
-[data-theme="dark"] .design-on {
-  filter: blur(2px)
-          drop-shadow(0 0 8px #F1E4DA)
-          drop-shadow(0 0 16px rgba(241, 228, 218, 0.7)) !important;
-  mix-blend-mode: plus-lighter !important;
-  opacity: 1 !important;
-}
-
-@media (max-width: 1199px) {
-  .design-on { display: none !important; }
 }
 
 /* ============================================================
@@ -830,8 +777,7 @@ body.is-alarm .terminal__box {
 body.is-destroying .screen > .topbar,
 body.is-destroying .screen > .footbar,
 body.is-destroying .stage .card,
-body.is-destroying .stage .phone,
-body.is-destroying .stage .design-on {
+body.is-destroying .stage .phone {
   /* падение без «плавучести»: короткий обвал с жёстким ускорением.
      длительность приходит из JS (--fall-dur), чтобы куски падали не синхронно */
   animation: nnzFall var(--fall-dur, 560ms) cubic-bezier(0.55, 0, 1, 0.45) var(--fall-delay, 0ms) forwards;
@@ -879,8 +825,7 @@ body.is-destroying .stage .design-on {
   body.is-destroying .screen > .topbar,
   body.is-destroying .screen > .footbar,
   body.is-destroying .stage .card,
-  body.is-destroying .stage .phone,
-  body.is-destroying .stage .design-on { animation-duration: 1ms !important; }
+  body.is-destroying .stage .phone { animation-duration: 1ms !important; }
 }
 
 /* ============================================================
