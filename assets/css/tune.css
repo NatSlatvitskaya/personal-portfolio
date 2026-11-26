@@ -2315,39 +2315,43 @@ body.is-about .about {
   height: var(--cell);
   overflow: hidden;
   transform-origin: 50% 50%;
-  transform: translate(calc(var(--c, 3.5) * var(--cell)), calc(var(--r, 1.5) * var(--cell))) scale(var(--s, 0.4));
+  transform: translate(calc(var(--c, 3.5) * var(--cell)), calc(var(--r, 1.5) * var(--cell))) scale(var(--s, 0.2));
   opacity: 0;
-  visibility: hidden;
   pointer-events: none;
   transition:
     transform 0.9s cubic-bezier(0.65, 0, 0.35, 1) var(--d, 0ms),
     opacity 0.6s ease var(--d, 0ms),
-    visibility 0s linear calc(var(--d, 0ms) + 0.6s),
     background-color 0.6s ease;
 }
 .pxf__px.is-on {
   opacity: 1;
-  visibility: visible;
-  transition:
-    transform 0.9s cubic-bezier(0.65, 0, 0.35, 1) var(--d, 0ms),
-    opacity 0.6s ease var(--d, 0ms),
-    visibility 0s,
-    background-color 0.6s ease;
 }
 .pxf__px[data-fill="purple"] { background-color: #9366FF; }
 .pxf__px[data-fill="dark"]   { background-color: #1D1D20; }
 .pxf__px[data-fill="light"]  { background-color: #A78BFA; }
 .pxf__px[data-fill="green"]  { background-color: #3CFFBE; }
-.pxf__px[data-fill="photo"] {
-  width: calc(var(--cell) + 1px);
-  height: calc(var(--cell) + 1px);
-  background-color: transparent;
+
+.pxf__px .tile-photo {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
   background-image: var(--photo);
   background-repeat: no-repeat;
   background-size: calc(var(--cell) * 8) calc(var(--cell) * 4);
   background-position:
     calc(-1 * var(--bx, 0) * var(--cell))
     calc(-1 * var(--by, 0) * var(--cell));
+  transition: opacity 0.35s ease 0.1s;
+}
+.pxf__px.show-photo .tile-photo {
+  opacity: 1;
+  transition: opacity 0.35s ease calc(var(--d, 0ms) + 400ms);
+}
+.pxf__px[data-fill="photo"] {
+  width: calc(var(--cell) + 1px);
+  height: calc(var(--cell) + 1px);
+  background-color: #9366FF;
 }
 
 .tile-title-clip {
